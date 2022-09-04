@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Fluent Tic-tac-toe (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Fluent Tic-tac-toe (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
