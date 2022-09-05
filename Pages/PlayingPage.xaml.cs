@@ -22,6 +22,8 @@ namespace Fluent_Tic_tac_toe.Pages;
 /// </summary>
 public sealed partial class PlayingPage : Page
 {   
+    Game game;
+
     public PlayingPage()
     {
         this.InitializeComponent();
@@ -36,10 +38,12 @@ public sealed partial class PlayingPage : Page
             {
                 var index = (r * 3) + c;
                 var button = new Button();
-                button.Height = 100;
-                button.Width = 100;
+                button.Height = 80;
+                button.Width = 80;
                 button.Content = "";
                 button.Name = "square" + index;
+                button.FontSize = 24;
+                button.Click += OnGridPressed;
 
                 Grid.SetRow(button, r % 3);
                 Grid.SetColumn(button, c % 3);
@@ -48,8 +52,17 @@ public sealed partial class PlayingPage : Page
         }
     }
 
-    private void PlacePiece()
+    private async void OnGridPressed(object sender, RoutedEventArgs e)
     {
-        
+        Button button = (Button)sender;
+        button.Content = button.Content.Equals("x") ? "o":"x";
+    }
+
+    public void PlacePiece(string piece, int row, int col)
+    {
+        if (Board.Children.Contains(Board))
+        {
+
+        }
     }
 }

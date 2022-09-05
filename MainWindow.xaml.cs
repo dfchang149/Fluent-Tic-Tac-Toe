@@ -44,7 +44,7 @@ public sealed partial class MainWindow : Window
 
     private void SettingsButtonClick(object sender, RoutedEventArgs e)
     {
-
+        
     }
 
     private void WindowActivated(object sender, WindowActivatedEventArgs e)

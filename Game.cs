@@ -18,10 +18,6 @@ internal class Game
     {
         this.Players = players;
         this.Board = new int[3,3];
-        foreach(Player player in players)
-        {
-            
-        }
     }
 
     public bool Won()
@@ -49,7 +45,7 @@ internal class Game
             var initialPiece = Board[c, 0];
             bool foundWinner = true;
 
-            for (var r = 1; r < Board.GetLength(c); r++) // Checks horizontal wins
+            for (var r = 1; r < Board.GetLength(c); r++) // Checks vertical wins
             {
                 if (!initialPiece.Equals(Board[r, c]))
                 {
@@ -62,6 +58,13 @@ internal class Game
                 return true;
             }
         }
+
+        if (Board[0, 0].Equals(Board[1, 1]) && Board[0, 0].Equals(Board[2, 2])){
+            return true;
+        } else if (Board[0, 2].Equals(Board[1, 1]) && Board[0, 2].Equals(Board[3, 0])){
+            return true;
+        }
+        
         return false;
     }
 

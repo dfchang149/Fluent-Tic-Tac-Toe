@@ -10,13 +10,13 @@
     mc:Ignorable="d"
     Background="Transparent">
 
-    <Grid Margin="32,66,16,12">
+    <Grid Margin="32,66,32,66">
         <StackPanel HorizontalAlignment="Center">
             <TextBlock Text="Player 1's Turn" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="18"/>
             <TextBlock Text="Time: 10" FontWeight="SemiLight" HorizontalAlignment="Center" Margin="0,8,0,0"/>
         </StackPanel>
-         <Grid x:Name="Board" Height="360" Width="360" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-              ColumnDefinitions="104, Auto, *" RowDefinitions ="104, Auto, *"
+        <Grid Margin="0,32,0,0" HorizontalAlignment="Center" x:Name="Board" Height="264" Width="264" Background="Transparent"
+              ColumnDefinitions="80, Auto, Auto" RowDefinitions ="80, Auto, Auto"
               ColumnSpacing="8" RowSpacing="8">
         </Grid>
     </Grid>
