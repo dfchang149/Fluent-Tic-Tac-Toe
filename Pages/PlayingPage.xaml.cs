@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Resources;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -21,7 +24,7 @@ namespace Fluent_Tic_tac_toe.Pages;
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
 public sealed partial class PlayingPage : Page
-{   
+{
     Game game;
 
     public PlayingPage()
@@ -54,7 +57,11 @@ public sealed partial class PlayingPage : Page
 
     private async void OnGridPressed(object sender, RoutedEventArgs e)
     {
-        Button button = (Button)sender;
+        Button button = (Button)sender; 
+        Brush brush = new SolidColorBrush(Colors.AliceBlue);
+        //button.Background = brush;
+        //Style style = new Style();
+        //button.Style =  "{StaticResource AccentButtonStyle}";
         button.Content = button.Content.Equals("x") ? "o":"x";
     }
 
@@ -62,7 +69,7 @@ public sealed partial class PlayingPage : Page
     {
         if (Board.Children.Contains(Board))
         {
-
+            
         }
     }
 }
