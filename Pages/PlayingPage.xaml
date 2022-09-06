@@ -13,7 +13,14 @@
     <Grid Margin="0,44,0,0" VerticalAlignment="Center">
         <StackPanel Margin="0,0,0,64" HorizontalAlignment="Center">
             <TextBlock x:Name="TurnTextBlock" Text="Player 1's Turn" HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}"/>
-            <TextBlock x:Name="TimeTextBlock" Text="Time: 10" HorizontalAlignment="Center" Margin="0,12,0,16" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,24,0,32">
+                <SymbolIcon Symbol="Clock" Margin="0,0,4,0" />
+                <TextBlock x:Name="TimeTextBlock" Text="10" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                <SymbolIcon Symbol="Flag" Margin="24,0,4,0" />
+                <TextBlock x:Name="TurnsTextBlock" Text="0" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                <SymbolIcon Symbol="People" Margin="24,0,4,0" />
+                <TextBlock x:Name="PlayersTextBlock" Text="1" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+            </StackPanel>
             <Grid x:Name="Board" HorizontalAlignment="Center" VerticalAlignment="Top" Height="264" Width="264" Background="Transparent"
               ColumnDefinitions="80, 80, 80" RowDefinitions ="80, 80, 80"
               ColumnSpacing="8" RowSpacing="8">

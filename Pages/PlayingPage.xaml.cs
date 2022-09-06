@@ -87,7 +87,7 @@ public sealed partial class PlayingPage : Page
 
         game.PlacePiece(game.players[0], row,col);
 
-        TimeTextBlock.Text = "Row: " + row + ", Col: " + col;
+        //TimeTextBlock.Text = "Row: " + row + ", Col: " + col;
 
         // Check if won
         if(game.Won())
