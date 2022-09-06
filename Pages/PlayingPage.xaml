@@ -10,15 +10,14 @@
     mc:Ignorable="d"
     Background="Transparent">
 
-    <Grid Margin="32,66,32,66">
-        <StackPanel Margin="0,0,0,32" HorizontalAlignment="Center">
-            <TextBlock Text="Player 1's Turn" HorizontalAlignment="Center" FontWeight="SemiBold" FontSize="28"/>
-            <TextBlock Text="Time: 10" HorizontalAlignment="Center" Margin="0,12,0,0" FontSize="18"/>
-        </StackPanel>
-        <Grid x:Name="Board"
-              Margin="0,32,0,0" HorizontalAlignment="Center" Height="264" Width="264" Background="Transparent"
+    <Grid Margin="0,44,0,0" VerticalAlignment="Center">
+        <StackPanel Margin="0,0,0,64" HorizontalAlignment="Center">
+            <TextBlock x:Name="TurnTextBlock" Text="Player 1's Turn" HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}"/>
+            <TextBlock x:Name="TimeTextBlock" Text="Time: 10" HorizontalAlignment="Center" Margin="0,12,0,16" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+            <Grid x:Name="Board" HorizontalAlignment="Center" VerticalAlignment="Top" Height="264" Width="264" Background="Transparent"
               ColumnDefinitions="80, 80, 80" RowDefinitions ="80, 80, 80"
               ColumnSpacing="8" RowSpacing="8">
-        </Grid>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Page>

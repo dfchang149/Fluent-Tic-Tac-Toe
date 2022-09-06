@@ -1,0 +1,44 @@
+﻿<Page
+    x:Class="Fluent_Tic_tac_toe.Pages.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Fluent_Tic_tac_toe.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="Transparent">
+
+    <Grid Background="Transparent" Margin="0,44,0,0" >
+        <StackPanel x:Name="PageContent" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Fluent" HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,8" FontWeight="SemiBold" />
+            <TextBlock Text="Tic-Tac-Toe" HorizontalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}" />
+            <Button Margin="0,32,0,0" Name="PlayButton" HorizontalAlignment="Center">
+                <StackPanel Padding="4,0,4,0" Orientation="Horizontal">
+                    <SymbolIcon Symbol="Play" Margin="0,0,8,0" />
+                    <TextBlock Text="Play"/>
+                </StackPanel>
+                <Button.Flyout>
+                    <MenuFlyout Placement="RightEdgeAlignedTop">
+                        <MenuFlyoutItem Click="PlaySingleplayerClick" Text="Singleplayer" ToolTipService.ToolTip="Play against a bot"></MenuFlyoutItem>
+                        <MenuFlyoutItem Click="PlayMultiplayerClick" Text="Multiplayer" ToolTipService.ToolTip="Play against someone else on the same device"></MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+
+            </Button>
+            <Button Margin="0,8,0,0" Name="SettingsButton" HorizontalAlignment="Center" Click="SettingsButtonClick" >
+                <StackPanel Padding="4,0,4,0" Orientation="Horizontal">
+                    <SymbolIcon Symbol="Setting" Margin="0,0,8,0" />
+                    <TextBlock Text="Settings"/>
+                </StackPanel>
+            </Button>
+
+        </StackPanel>
+        <Frame x:Name="ContentFrame">
+            <Frame.ContentTransitions>
+                <TransitionCollection>
+                    <NavigationThemeTransition  />
+                </TransitionCollection>
+            </Frame.ContentTransitions>
+        </Frame>
+    </Grid>
+</Page>

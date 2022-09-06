@@ -4,21 +4,21 @@ using WinRT;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Windows.UI.ViewManagement;
-using Fluent_Tic_tac_toe;
+using Windows.Storage;
 
-namespace Fluent_Tic_tac_toe;
+namespace Fluent_Tic_tac_toe.Helpers;
 
-public class AcrylicWindow : Window
+class MicaWindow : Window
 {
-    WindowsSystemDispatcherQueueHelper? m_wsdqHelper; // See separate sample below for implementation
-    DesktopAcrylicController? acrylicControler;
-    SystemBackdropConfiguration? m_configurationSource;
+    WindowsSystemDispatcherQueueHelper m_wsdqHelper; // See separate sample below for implementation
+    MicaController m_micaController;
+    SystemBackdropConfiguration m_configurationSource;
 
-    public AcrylicWindow()
+    public MicaWindow()
     {
-        TrySetAcrylicBackdrop();
+        TrySetMicaBackdrop();
     }
-    bool TrySetAcrylicBackdrop()
+    bool TrySetMicaBackdrop()
     {
         if (MicaController.IsSupported())
         {
@@ -33,12 +33,12 @@ public class AcrylicWindow : Window
             // Initial configuration state.
             m_configurationSource.IsInputActive = true;
 
-            acrylicControler = new DesktopAcrylicController();
+            m_micaController = new MicaController();
 
             // Enable the system backdrop.
             // Note: Be sure to have "using WinRT;" to support the Window.As<...>() call.
-            acrylicControler.AddSystemBackdropTarget(this.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>());
-            acrylicControler.SetSystemBackdropConfiguration(m_configurationSource);
+            m_micaController.AddSystemBackdropTarget(this.As<Microsoft.UI.Composition.ICompositionSupportsSystemBackdrop>());
+            m_micaController.SetSystemBackdropConfiguration(m_configurationSource);
             return true; // succeeded
         }
 
@@ -48,7 +48,7 @@ public class AcrylicWindow : Window
     private void Window_Activated(object sender, WindowActivatedEventArgs args)
     {
         if (m_configurationSource == null) return;
-        bool IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
+        var IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
         if (IsInputActive)
             m_configurationSource.IsInputActive = true;
         else if (!Settings.IsMicaInfinite)
@@ -59,12 +59,12 @@ public class AcrylicWindow : Window
     {
         // Make sure any Mica/Acrylic controller is disposed so it doesn't try to
         // use this closed window.
-        if (acrylicControler != null)
+        if (m_micaController != null)
         {
-            acrylicControler.Dispose();
-            acrylicControler = null;
+            m_micaController.Dispose();
+            m_micaController = null;
         }
-        this.Activated -= Window_Activated;
+        Activated -= Window_Activated;
         m_configurationSource = null;
     }
 
@@ -79,9 +79,9 @@ public class AcrylicWindow : Window
         }
 
         [DllImport("CoreMessaging.dll")]
-        private static extern int CreateDispatcherQueueController([In] DispatcherQueueOptions options, [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object? dispatcherQueueController);
+        private static extern int CreateDispatcherQueueController([In] DispatcherQueueOptions options, [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object dispatcherQueueController);
 
-        object? m_dispatcherQueueController = null;
+        object m_dispatcherQueueController = null;
         public void EnsureWindowsSystemDispatcherQueueController()
         {
             if (Windows.System.DispatcherQueue.GetForCurrentThread() != null)
@@ -99,4 +99,20 @@ public class AcrylicWindow : Window
             }
         }
     }
+}
+
+public static class Settings
+{
+    static ApplicationDataContainer ApplicationSetting = ApplicationData.Current.LocalSettings;
+    public static bool IsMicaInfinite
+    {
+        get => (bool)(ApplicationSetting.Values[nameof(IsMicaInfinite)] ?? false);
+        set => ApplicationSetting.Values[nameof(IsMicaInfinite)] = value;
+    }
+    public static bool IsSoundEnabled
+    {
+        get => (bool)(ApplicationSetting.Values[nameof(IsSoundEnabled)] ?? false);
+        set => ApplicationSetting.Values[nameof(IsSoundEnabled)] = value;
+    }
+
 }

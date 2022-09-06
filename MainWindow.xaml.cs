@@ -9,10 +9,10 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using WinUIEx;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -28,26 +28,7 @@ public sealed partial class MainWindow : WinUIEx.WindowEx
         this.InitializeComponent();
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
-        //ExtendsContentIntoTitleBar = true;
-        //SetTitleBar(AppTitleBar);
-    }
-
-    private void PlaySingleplayerClick(object sender, RoutedEventArgs e)
-    {
-        
-        ContentFrame.Navigate(typeof(Pages.PlayingPage));
-        PlayButton.Visibility = Visibility.Collapsed;
-        SettingsButton.Visibility = Visibility.Collapsed;
-    }
-
-    private void PlayMultiplayerClick(object sender, RoutedEventArgs e)
-    {
-        ContentFrame.Navigate(typeof(Pages.PlayingPage));
-    }
-
-    private void SettingsButtonClick(object sender, RoutedEventArgs e)
-    {
-        
+        ContentFrame.Navigate(typeof(Pages.MainPage));
     }
 
     private void WindowActivated(object sender, WindowActivatedEventArgs e)
@@ -60,6 +41,11 @@ public sealed partial class MainWindow : WinUIEx.WindowEx
         {
             TitleBarFill.Visibility = Visibility.Visible;
         }
+    }
+
+    public void Navigate()
+    {
+        ContentFrame.Navigate(typeof(Pages.MainPage));
     }
 }
 
