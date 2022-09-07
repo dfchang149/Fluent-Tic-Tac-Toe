@@ -35,12 +35,14 @@ namespace Fluent_Tic_tac_toe.Pages;
 public sealed partial class PlayingPage : Page
 {
     Game game;
+    DispatcherTimer timer;
 
     public PlayingPage()
     {
         this.InitializeComponent();
         this.CreateBoard();
         this.SetUpGame();
+        this.InitializeTimer();
     }
 
     private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -99,10 +101,10 @@ public sealed partial class PlayingPage : Page
         TurnsTextBlock.Text = game.time.ToString();
     }
 
-    private void ActivateTimer()
+    private void InitializeTimer()
     {
-        DispatcherTimer dispatcherTimer = new DispatcherTimer();
-        dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+        timer = new DispatcherTimer();
+        timer.Interval = TimeSpan.FromSeconds(1);
         EventHandler<Object> handler = new EventHandler<object>((s, e) =>
         {
             if (game.winner == null)
@@ -115,15 +117,13 @@ public sealed partial class PlayingPage : Page
                 //}
 
                 TimeTextBlock.Text = game.time.ToString();
-                
             }
             else
             {
-                dispatcherTimer.Stop();
+                timer.Stop();
             }
         });
-        dispatcherTimer.Tick += handler;
-        dispatcherTimer.Start();
+        timer.Tick += handler;
     }
 
     private void OnGridEntered(object sender, RoutedEventArgs e)
@@ -160,7 +160,7 @@ public sealed partial class PlayingPage : Page
         if(!game.started)
         {
             game.Start();
-            ActivateTimer();
+            timer.Start();
         }
 
         if(game.winner == null)
@@ -178,10 +178,11 @@ public sealed partial class PlayingPage : Page
             {
                 TurnsTextBlock.Text = game.turns.ToString();
                 button.IsEnabled = false;
-                button.Content = button.Content.Equals("x") ? "o" : "x";
+                button.Content = button.Content.Equals("x") ? "o" : "x"; // remove this
                 // Check if won
                 if (game.Won())
                 {
+                    timer.Stop();
                     AgainButton.Visibility = Visibility.Visible;
                     TurnTextBlock.Text = "WINNER";
                     foreach (Piece piece in game.winningPieces)
@@ -216,6 +217,7 @@ public sealed partial class PlayingPage : Page
     private void PlayAgainButtonPressed(object sender, RoutedEventArgs e)
     {
         AgainButton.Visibility = Visibility.Collapsed;
+        timer.Stop();
         game.Restart();
         TimeTextBlock.Text = game.time.ToString();
         TurnsTextBlock.Text = game.turns.ToString();
