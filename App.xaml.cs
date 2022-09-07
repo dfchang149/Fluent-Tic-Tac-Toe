@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Fluent_Tic_tac_toe.Helpers;
+using Fluent_Tic_tac_toe.Pages;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -13,8 +16,10 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ViewManagement;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -29,6 +34,8 @@ public partial class App : Application
     /// Initializes the singleton application object.  This is the first line of authored code
     /// executed, and as such is the logical equivalent of main() or WinMain().
     /// </summary>
+    /// 
+
     public App()
     {
         this.InitializeComponent();
@@ -43,6 +50,18 @@ public partial class App : Application
     {
         m_window = new MainWindow();
         m_window.Activate();
+        m_window.CenterOnScreen();
+    }
+
+    public static bool TryGoBack()
+    {
+        Frame rootFrame = Window.Current.Content as Frame;
+        if (rootFrame.CanGoBack)
+        {
+            rootFrame.GoBack();
+            return true;
+        }
+        return false;
     }
 
     private Window m_window;

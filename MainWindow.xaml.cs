@@ -28,7 +28,7 @@ public sealed partial class MainWindow : WinUIEx.WindowEx
         this.InitializeComponent();
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
-        ContentFrame.Navigate(typeof(Pages.MainPage));
+        Navigate();
     }
 
     private void WindowActivated(object sender, WindowActivatedEventArgs e)

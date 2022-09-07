@@ -15,8 +15,11 @@ internal class Game
     public List<Player> players { get; }
     public Player currentTurn { get; set; }
     public List<Piece> winningPieces { get; set; }
-    public Piece[,] board { get; }
+    public Piece[,] board { get; set; }
     public Player winner { get; set; }
+    public int turns { get; set; }
+    public int time { get; set; }
+    public bool started { get; set; }
     private bool timed { get; set; }
 
     public Game(List<Player> players,int gamemode )
@@ -25,21 +28,36 @@ internal class Game
         this.board = new Piece[3,3];
         this.gamemode = gamemode;
         this.winningPieces = new List<Piece>();
+        this.time = 0;
+        this.started = false;
     }
 
     public void Start()
     {
         this.players[0].symbol = "X";
         this.players[1].symbol = "O";
+        this.turns = 0;
         this.currentTurn = this.players[0];
         this.winner = null;
+        this.time = 0;
+        this.started = true;
+    }
+
+    public void Restart()
+    {
+        this.winner = null;
+        this.winningPieces = new List<Piece>();
+        this.turns = 0;
+        this.board = new Piece[3, 3];
+        this.time = 0;
+        this.started = false;
     }
 
     public bool Won()
     {
-        winningPieces.Clear();
         for (var r = 0; r < board.Rank+1; r++)
         {
+            winningPieces.Clear();
             Piece initialPiece = board[r, 0];
             var foundWinner = true;
             if(initialPiece != null)
@@ -59,13 +77,14 @@ internal class Game
                 }
                 if (foundWinner)
                 {
+                    winner = initialPiece.player;
                     return true;
                 }
             }
         }
-        winningPieces.Clear();
         for (var c = 0; c < board.GetLength(0); c++)
         {
+            winningPieces.Clear();
             Piece initialPiece = board[0, c];
             var foundWinner = true;
             if (initialPiece != null)
@@ -85,6 +104,7 @@ internal class Game
                 }
                 if (foundWinner)
                 {
+                    winner = initialPiece.player;
                     return true;
                 }
             }
@@ -115,6 +135,7 @@ internal class Game
             }
             if (foundWinner)
             {
+                winner = initialPiece.player;
                 return true;
             }
             initialPiece = null;
@@ -133,25 +154,21 @@ internal class Game
                 else
                 {
                     if (!initialPiece.Matches(piece))
-                {
-                    foundWinner = false;
-                    break;
-                }
+                    {
+                        foundWinner = false;
+                        break;
+                    }
                 }
                 
             }
             if (foundWinner)
             {
+                winner = initialPiece.player;
                 return true;
             }
         }
         
         return false;
-    }
-
-    public void TakeTurn()
-    {
-    
     }
 
     public bool PlacePiece(Player player,int row, int col)
@@ -160,6 +177,7 @@ internal class Game
         {
             Piece piece = new Piece(player, row, col);
             board[row, col] = piece;
+            this.turns++;
             return true;
         }
         return false;

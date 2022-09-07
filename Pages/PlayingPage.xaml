@@ -10,21 +10,54 @@
     mc:Ignorable="d"
     Background="Transparent">
 
-    <Grid Margin="0,44,0,0" VerticalAlignment="Center">
-        <StackPanel Margin="0,0,0,64" HorizontalAlignment="Center">
+    <Grid >
+        <CommandBar>
+            <CommandBar.Content>
+                <Button x:Name="BackButton" Click="BackButton_Click"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}"
+                        IsEnabled="{x:Bind Frame.CanGoBack, Mode=OneWay}" 
+                        ToolTipService.ToolTip="Back" 
+                        VerticalAlignment="Top"/>
+            </CommandBar.Content>
+        </CommandBar>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition FromHorizontalOffset="0" FromVerticalOffset="48" />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
             <TextBlock x:Name="TurnTextBlock" Text="Player 1's Turn" HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,24,0,32">
-                <SymbolIcon Symbol="Clock" Margin="0,0,4,0" />
-                <TextBlock x:Name="TimeTextBlock" Text="10" Style="{StaticResource BodyStrongTextBlockStyle}"/>
-                <SymbolIcon Symbol="Flag" Margin="24,0,4,0" />
-                <TextBlock x:Name="TurnsTextBlock" Text="0" Style="{StaticResource BodyStrongTextBlockStyle}"/>
-                <SymbolIcon Symbol="People" Margin="24,0,4,0" />
-                <TextBlock x:Name="PlayersTextBlock" Text="1" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition FromHorizontalOffset="0" FromVerticalOffset="32" />
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                    <SymbolIcon Symbol="Clock" Margin="0,0,6,0" />
+                    <TextBlock x:Name="TimeTextBlock" Text="10" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" > <!--Glyph: Ea60, Ea48-->
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xf5ed;" Margin="24,0,6,0"/>
+                    <TextBlock x:Name="TurnsTextBlock" Text="0" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                    <SymbolIcon Symbol="People" Margin="24,0,6,0" />
+                    <TextBlock x:Name="PlayersTextBlock" Text="1" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                </StackPanel>
             </StackPanel>
             <Grid x:Name="Board" HorizontalAlignment="Center" VerticalAlignment="Top" Height="264" Width="264" Background="Transparent"
               ColumnDefinitions="80, 80, 80" RowDefinitions ="80, 80, 80"
               ColumnSpacing="8" RowSpacing="8">
             </Grid>
+            <!--="{ThemeResource AccentButtonStyle}"-->
+            <Button Name="AgainButton" Margin="0,16,0,0"
+                    Height="48" HorizontalAlignment="Center" Click="PlayAgainButtonPressed" Visibility="Collapsed" >
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Symbol="Refresh" Margin="0,0,8,0" />
+                    <TextBlock Text="Play again"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
     </Grid>
 </Page>
