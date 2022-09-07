@@ -13,7 +13,7 @@
 
   <Properties>
     <DisplayName>Fluent Tic-tac-toe</DisplayName>
-    <PublisherDisplayName>chang_srwjolk</PublisherDisplayName>
+    <PublisherDisplayName>Leffrost</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -32,12 +32,15 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="Fluent Tic-tac-toe"
-        Description="Fluent Tic-tac-toe"
+        Description="An attempt to bring Fluent UI to a simple game of tic tac toe."
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"  Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badge"/>
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/></uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>
