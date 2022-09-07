@@ -173,12 +173,14 @@ public sealed partial class PlayingPage : Page
             var row = number / game.board.GetLength(0);
             var col = number % game.board.GetLength(0);
 
-            var wasPlaced = game.PlacePiece(game.players[0], row, col);
+            Player currPlayer = game.GetCurrentPlayerTurn();
+            var wasPlaced = game.PlacePiece(row, col);
+
             if (wasPlaced)
             {
                 TurnsTextBlock.Text = game.turns.ToString();
                 button.IsEnabled = false;
-                button.Content = button.Content.Equals("x") ? "o" : "x"; // remove this
+                button.Content = currPlayer.symbol; // remove this
                 // Check if won
                 if (game.Won())
                 {
@@ -233,14 +235,4 @@ public sealed partial class PlayingPage : Page
             }
         }
     }
-
-    private void PlacePiece(string piece, int row, int col)
-    {
-        if (Board.Children.Contains(Board))
-        {
-            
-        }
-    }
-
-
 }

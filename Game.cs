@@ -7,6 +7,7 @@ using System.Numerics;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using ABI.System.Numerics;
 
 namespace Fluent_Tic_tac_toe;
 internal class Game
@@ -34,8 +35,8 @@ internal class Game
 
     public void Start()
     {
-        this.players[0].symbol = "X";
-        this.players[1].symbol = "O";
+        this.players[0].symbol = "x";
+        this.players[1].symbol = "o";
         this.turns = 0;
         this.currentTurn = this.players[0];
         this.winner = null;
@@ -171,7 +172,7 @@ internal class Game
         return false;
     }
 
-    public bool PlacePiece(Player player,int row, int col)
+    private bool PlacePiece(Player player,int row, int col)
     {
         if (board[row, col] == null)
         {
@@ -181,6 +182,23 @@ internal class Game
             return true;
         }
         return false;
+    }
+
+    public bool PlacePiece(int row, int col)
+    {
+        if (board[row, col] == null)
+        {
+            Piece piece = new Piece(GetCurrentPlayerTurn(), row, col);
+            board[row, col] = piece;
+            this.turns++;
+            return true;
+        }
+        return false;
+    }
+
+    public Player GetCurrentPlayerTurn()
+    {
+        return players[turns % players.Count];
     }
 
     public string GetGridName(int row,int col)
