@@ -8,8 +8,13 @@
     mc:Ignorable="d"
     Background="Transparent">
 
-    <Grid Background="Transparent" Margin="0,44,0,0" >
+    <Grid Background="Transparent" >
         <StackPanel x:Name="PageContent" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition FromHorizontalOffset="0" FromVerticalOffset="32" />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
             <TextBlock Text="Fluent" HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,8" FontWeight="SemiBold" />
             <TextBlock Text="Tic-Tac-Toe" HorizontalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}" />
             <Button Margin="0,32,0,0" Name="PlayButton" HorizontalAlignment="Center">

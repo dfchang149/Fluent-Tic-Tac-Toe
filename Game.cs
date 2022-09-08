@@ -217,7 +217,7 @@ internal class Game
         if (spaces.Count > 0)
         {
             Vector2 selectedSpace = spaces[new Random().Next(spaces.Count)];
-            return PlacePiece((int)selectedSpace.X, (int)selectedSpace.Y);
+            return PlacePiece((int)selectedSpace.Y, (int)selectedSpace.X);
         }
         return false;
     }
@@ -236,7 +236,7 @@ internal class Game
             {
                 if (board[r,c] == null)
                 {
-                    spaces.Add(new Vector2(r,c));
+                    spaces.Add(new Vector2(c,r));
                 }
             }
         }
@@ -256,6 +256,19 @@ internal class Game
     public string GetGamemode()
     {
         return Gamemode;
+    }
+
+    public int GetNumberOfRealPlayers() // amount of players that aren't a computer
+    {
+        var result = 0;
+        foreach(Player player in this.players)
+        {
+            if(player.isComputer == false)
+            {
+                result++;
+            }
+        }
+        return result;
     }
 
     public void SetGamemode(string gamemode)

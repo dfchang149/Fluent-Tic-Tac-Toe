@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
@@ -45,7 +46,7 @@ public sealed partial class MainWindow : WinUIEx.WindowEx
 
     public void Navigate()
     {
-        ContentFrame.Navigate(typeof(Pages.MainPage));
+        ContentFrame.Navigate(typeof(Pages.MainPage),null, new SuppressNavigationTransitionInfo());
     }
 }
 

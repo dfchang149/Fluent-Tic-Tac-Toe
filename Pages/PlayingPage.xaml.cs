@@ -28,6 +28,8 @@ using Windows.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using System.Runtime.CompilerServices;
 using Microsoft.UI.Xaml.Documents;
+using Microsoft.UI.Composition;
+using ABI.Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -47,6 +49,7 @@ public sealed partial class PlayingPage : Page
         this.CreateBoard();
         this.SetUpGame();
         this.InitializeTimer();
+        PageStackPanel.Children.Remove(AgainButton);
     }
 
     private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -98,23 +101,28 @@ public sealed partial class PlayingPage : Page
     private void SetUpGame()
     {
         // Add players to game
-        List<Player> playerList = new List<Player>();
-        Player player1 = new Player("Player 1");
-        Player player2 = new Player("Player 2");
+        Player player1;
+        Player player2;
 
         if (Game.Gamemode.Equals(Game.gamemodes[0]))
         {
-            player1.name = "You";
+            player1 = new Player("You");
             player2 = new Player("Computer", true);
+            PlayersIcon.Symbol = Symbol.Contact;
+        }
+        else
+        {
+            player1 = new Player("Player 1");
+            player2 = new Player("Player 2");
+            PlayersIcon.Symbol = Symbol.People;
         }
 
-        playerList.Add(player1);
-        playerList.Add(player2);
+        List<Player> playerList = new List<Player> {player1,player2};
         game = new Game(playerList);
 
         // Update Textblocks
         UpdateTurnText();
-        PlayersTextBlock.Text = game.players.Count.ToString();
+        PlayersTextBlock.Text = game.GetNumberOfRealPlayers().ToString();
         TimeTextBlock.Text = game.time.ToString();
         TurnsTextBlock.Text = game.time.ToString();
     }
@@ -128,12 +136,6 @@ public sealed partial class PlayingPage : Page
             if (game.winner == null)
             {
                 game.time++;
-                //TimeSpan time = TimeSpan.FromSeconds(game.time);
-                //string displayTime = time.ToString(@"h\:m\:s");
-                //while (displayTime.StartsWith("0:")){
-                //    displayTime = displayTime.Substring(2);
-                //}
-
                 TimeTextBlock.Text = game.time.ToString();
             }
             else
@@ -161,30 +163,19 @@ public sealed partial class PlayingPage : Page
             Button button = sender as Button;
             if (button.Content.Equals(""))
             {
-                button.Scale = new Vector3((float)0.9);
+                button.Scale = new Vector3(0.9f);
             }
         }
-        
-        //button.Height = 70;
-        //button.Width = 70;
-        //button.Opacity = 0.5;
     }
+
     private void OnGridLeft(object sender, RoutedEventArgs e)
     {
         Button button = sender as Button;
         button.Scale = new Vector3(1);
-        //button.Height = 80;
-        //button.Width = 80;
-        //button.Opacity = 1;
     }
 
     private void OnGridPressed(object sender, RoutedEventArgs e)
     {
-        //var uiSettings = new UISettings();
-        //var accentColor = uiSettings.GetColorValue(UIColorType.Accent);
-        //Brush brush = new SolidColorBrush(accentColor);
-        //button.Background = brush;
-
         if(!game.started)
         {
             game.Start();
@@ -207,7 +198,6 @@ public sealed partial class PlayingPage : Page
             var row = number / game.board.GetLength(0);
             var col = number % game.board.GetLength(0);
 
-            Player currPlayer = game.GetCurrentPlayerTurn();
             var wasPlaced = game.PlacePiece(row, col);
 
             if (wasPlaced)
@@ -228,7 +218,6 @@ public sealed partial class PlayingPage : Page
         Piece recentPiece = game.pieces.Last();
         var index = (recentPiece.row * 3) + recentPiece.col;
         Button button = (Button) Board.FindName("square" + index);
-
         TurnsTextBlock.Text = game.turns.ToString();
         button.IsEnabled = false;
         button.Content = recentPiece.player.symbol;
@@ -236,7 +225,16 @@ public sealed partial class PlayingPage : Page
         // Check if won
         if (game.Won())
         {
-            TurnTextBlock.Text = String.Concat(game.winner.name, " won!");
+            if (Game.Gamemode.Equals(Game.gamemodes[0]) && game.winner != game.players.First())
+            {
+                TurnTextBlock.Text = "You lost!";
+                AgainButtonText.Text = "Try again";
+            }
+            else
+            {
+                TurnTextBlock.Text = String.Concat(game.winner.name, " won!");
+                AgainButtonText.Text = "Play again";
+            }
             OnGameEnded();
         }
         else if (game.IsDraw())
@@ -258,7 +256,6 @@ public sealed partial class PlayingPage : Page
     private void OnGameEnded()
     {
         timer.Stop();
-        AgainButton.Visibility = Visibility.Visible;
         if (game.winner != null)
         {
             foreach (Piece piece in game.winningPieces)
@@ -267,40 +264,53 @@ public sealed partial class PlayingPage : Page
                 
                 grid.IsEnabled = true;
                 grid.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
+
+
+
+                //var uiSettings = new UISettings();
+                var accentColor = new UISettings().GetColorValue(UIColorType.Accent);
+                Brush brush = new SolidColorBrush(accentColor);
+                //button.Background = brush;
+
+                ColorAnimation colorAnim = new ColorAnimation()
+                {
+                    To = accentColor,
+                    Duration = TimeSpan.FromSeconds(1),
+                    AutoReverse = true,
+                };
+
+                //DoubleAnimation widthAnimation = new DoubleAnimation();
+                //120, 300, TimeSpan.FromSeconds(5));
+                //widthAnimation.RepeatBehavior = RepeatBehavior.Forever;
+                //widthAnimation.AutoReverse = true;
+                //grid.BeginAnimation(Button.WidthProperty, widthAnimation);
                 OnGridLeft(grid, null);
             }
         }
-    }
-
-    private void CreatePlayAgainButton()
-    {
-        Button button = new Button();
-        button.Name = "AgainButton";
-
+        PageStackPanel.Children.Add(AgainButton);
     }
 
     private void PlayAgainButtonPressed(object sender, RoutedEventArgs e)
     {
-        AgainButton.Visibility = Visibility.Collapsed;
+        PageStackPanel.Children.Remove(AgainButton);
         timer.Stop();
-        game.Restart();
-        TimeTextBlock.Text = game.time.ToString();
-        TurnsTextBlock.Text = game.turns.ToString();
-        UpdateTurnText();
-        for (var i = 0; i < game.board.Length; i++) // Maybe only reset game.pieces
+
+        foreach (Piece piece in game.pieces)
         {
-            Button grid = (Button)Board.FindName("square" + i);
-            //DoubleAnimation widthAnimation = new DoubleAnimation();
-            //120, 300, TimeSpan.FromSeconds(5));
-            //widthAnimation.RepeatBehavior = RepeatBehavior.Forever;
-            //widthAnimation.AutoReverse = true;
-            //grid.BeginAnimation(Button.WidthProperty, widthAnimation);
+            var index = (piece.row * 3) + piece.col;
+            Button grid = (Button)Board.FindName("square" + index);
             if (grid != null)
             {
                 grid.Content = "";
                 grid.IsEnabled = true;
                 grid.Style = Application.Current.Resources["DefaultButtonStyle"] as Style;
             }
+
         }
+
+        game.Restart();
+        TimeTextBlock.Text = game.time.ToString();
+        TurnsTextBlock.Text = game.turns.ToString();
+        UpdateTurnText();
     }
 }

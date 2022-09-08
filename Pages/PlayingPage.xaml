@@ -12,6 +12,11 @@
 
     <Grid >
         <CommandBar>
+            <CommandBar.Transitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition FromHorizontalOffset="16" FromVerticalOffset="-8" />
+                </TransitionCollection>
+            </CommandBar.Transitions>
             <CommandBar.Content>
                 <Button x:Name="BackButton" Click="BackButton_Click"
                         Style="{StaticResource NavigationBackButtonNormalStyle}"
@@ -20,7 +25,7 @@
                         VerticalAlignment="Top"/>
             </CommandBar.Content>
         </CommandBar>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel x:Name="PageStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel.ChildrenTransitions>
                 <TransitionCollection>
                     <EntranceThemeTransition FromHorizontalOffset="0" FromVerticalOffset="48" />
@@ -33,29 +38,30 @@
                         <EntranceThemeTransition FromHorizontalOffset="0" FromVerticalOffset="32" />
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" ToolTipService.ToolTip="Match time" >
                     <SymbolIcon Symbol="Clock" Margin="0,0,6,0" />
-                    <TextBlock x:Name="TimeTextBlock" Text="10" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                    <TextBlock x:Name="TimeTextBlock" Text="10" Style="{StaticResource BodyStrongTextBlockStyle}" />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" > <!--Glyph: Ea60, Ea48-->
-                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xf5ed;" Margin="24,0,6,0"/>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" ToolTipService.ToolTip="Squares taken" > <!--Glyph: Ea60, Ea48-->
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xf5ed;" Margin="24,0,6,0" />
                     <TextBlock x:Name="TurnsTextBlock" Text="0" Style="{StaticResource BodyStrongTextBlockStyle}"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
-                    <SymbolIcon Symbol="People" Margin="24,0,6,0" />
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" ToolTipService.ToolTip="Number of players" >
+                    <SymbolIcon x:Name="PlayersIcon" Symbol="People" Margin="24,0,6,0"  />
                     <TextBlock x:Name="PlayersTextBlock" Text="1" Style="{StaticResource BodyStrongTextBlockStyle}"/>
                 </StackPanel>
             </StackPanel>
-            <Grid x:Name="Board" HorizontalAlignment="Center" VerticalAlignment="Top" Height="264" Width="264" Background="Transparent"
-              ColumnDefinitions="80, 80, 80" RowDefinitions ="80, 80, 80"
-              ColumnSpacing="8" RowSpacing="8">
+            <Grid x:Name="Board" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" Height="264" Width="264" Background="Transparent"
+                ColumnDefinitions="80, 80, 80" RowDefinitions ="80, 80, 80"
+                ColumnSpacing="8" RowSpacing="8">
             </Grid>
             <!--="{ThemeResource AccentButtonStyle}"-->
-            <Button Name="AgainButton" Margin="0,16,0,0"
-                    Height="48" HorizontalAlignment="Center" Click="PlayAgainButtonPressed" Visibility="Collapsed" >
+            <Button Name="AgainButton" Margin="0,16,0,0" 
+                    Height="48" HorizontalAlignment="Center" Click="PlayAgainButtonPressed" >
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Symbol="Refresh" Margin="0,0,8,0" />
-                    <TextBlock Text="Play again"/>
+                    <TextBlock x:Name="AgainButtonText" Text="Play again"/>
                 </StackPanel>
             </Button>
         </StackPanel>
