@@ -20,7 +20,7 @@
             <Rectangle x:Name="TitleBarFill" Fill="{ThemeResource AccentAAFillColorDefaultBrush}" Opacity="0.05" />
             <TextBlock Text="Fluent Tic-Tac-Toe" Margin="24,16,0,0" FontSize="12" />
         </Grid>
-        <Frame x:Name="ContentFrame" />
+        <Frame x:Name="ContentFrame" Margin="0,48,0,0" />
     </Grid>
 
     <winex:WindowEx.Backdrop>

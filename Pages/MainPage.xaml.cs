@@ -31,13 +31,14 @@ public sealed partial class MainPage : Page
     public void PlaySingleplayerClick(object sender, RoutedEventArgs e)
     {
         PageContent.Visibility = Visibility.Collapsed;
-        ContentFrame.Navigate(typeof(Pages.PlayingPage), null, new DrillInNavigationTransitionInfo());
+
+        this.Frame.Navigate(typeof(Pages.PlayingPage), null, new DrillInNavigationTransitionInfo());
     }
 
     private void PlayMultiplayerClick(object sender, RoutedEventArgs e)
     {
         PageContent.Visibility = Visibility.Collapsed;
-        ContentFrame.Navigate(typeof(Pages.PlayingPage), null, new DrillInNavigationTransitionInfo());
+        this.Frame.Navigate(typeof(Pages.PlayingPage), null, new DrillInNavigationTransitionInfo());
     }
 
     private void SettingsButtonClick(object sender, RoutedEventArgs e)

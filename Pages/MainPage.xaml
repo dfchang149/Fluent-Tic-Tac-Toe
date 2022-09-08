@@ -31,14 +31,6 @@
                     <TextBlock Text="Settings"/>
                 </StackPanel>
             </Button>
-
         </StackPanel>
-        <Frame x:Name="ContentFrame">
-            <Frame.ContentTransitions>
-                <TransitionCollection>
-                    <NavigationThemeTransition  />
-                </TransitionCollection>
-            </Frame.ContentTransitions>
-        </Frame>
     </Grid>
 </Page>

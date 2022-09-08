@@ -24,6 +24,9 @@ using Windows.Foundation.Collections;
 using Windows.UI.ViewManagement;
 using System.Diagnostics;
 using System.Timers;
+using Windows.Media;
+using Microsoft.UI.Xaml.Media.Animation;
+using System.Runtime.CompilerServices;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -47,7 +50,10 @@ public sealed partial class PlayingPage : Page
 
     private void BackButton_Click(object sender, RoutedEventArgs e)
     {
-        App.TryGoBack();
+        if (this.Frame.CanGoBack)
+        {
+            this.Frame.GoBack();
+        }
     }
 
     private void CreateBoard()
@@ -217,6 +223,7 @@ public sealed partial class PlayingPage : Page
             foreach (Piece piece in game.winningPieces)
             {
                 Button grid = (Button)Board.FindName("square" + piece.GetIndex());
+                
                 grid.IsEnabled = true;
                 grid.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
                 OnGridLeft(grid, null);
@@ -242,7 +249,11 @@ public sealed partial class PlayingPage : Page
         for (var i = 0; i < game.board.Length; i++)
         {
             Button grid = (Button)Board.FindName("square" + i);
-
+            DoubleAnimation widthAnimation = new DoubleAnimation();
+            //120, 300, TimeSpan.FromSeconds(5));
+            //widthAnimation.RepeatBehavior = RepeatBehavior.Forever;
+            //widthAnimation.AutoReverse = true;
+            //grid.BeginAnimation(Button.WidthProperty, widthAnimation);
             if (grid != null)
             {
                 grid.Content = "";

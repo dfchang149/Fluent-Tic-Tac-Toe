@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Fluent_Tic_tac_toe.Helpers;
 using Fluent_Tic_tac_toe.Pages;
@@ -51,17 +52,6 @@ public partial class App : Application
         m_window = new MainWindow();
         m_window.Activate();
         m_window.CenterOnScreen();
-    }
-
-    public static bool TryGoBack()
-    {
-        Frame rootFrame = Window.Current.Content as Frame;
-        if (rootFrame.CanGoBack)
-        {
-            rootFrame.GoBack();
-            return true;
-        }
-        return false;
     }
 
     private Window m_window;
