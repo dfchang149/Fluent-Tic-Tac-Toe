@@ -28,17 +28,29 @@ public sealed partial class MainPage : Page
         this.InitializeComponent();
     }
 
+    bool buttonsEnabled = true;
+
     public void PlaySingleplayerClick(object sender, RoutedEventArgs e)
     {
-        PageContent.Visibility = Visibility.Collapsed;
-
-        this.Frame.Navigate(typeof(Pages.PlayingPage), null, new DrillInNavigationTransitionInfo());
+        if (buttonsEnabled)
+        {
+            buttonsEnabled = false;
+            PageContent.Visibility = Visibility.Collapsed;
+            Game.Gamemode = (Game.gamemodes[0]);
+            this.Frame.Navigate(typeof(Pages.PlayingPage), null, new DrillInNavigationTransitionInfo());
+        }
     }
 
     private void PlayMultiplayerClick(object sender, RoutedEventArgs e)
     {
-        PageContent.Visibility = Visibility.Collapsed;
-        this.Frame.Navigate(typeof(Pages.PlayingPage), null, new DrillInNavigationTransitionInfo());
+        if (buttonsEnabled)
+        {
+            buttonsEnabled = false;
+            PageContent.Visibility = Visibility.Collapsed;
+            PlayButton.IsEnabled = false;
+            Game.Gamemode = (Game.gamemodes[1]);
+            this.Frame.Navigate(typeof(Pages.PlayingPage), null, new DrillInNavigationTransitionInfo());
+        }
     }
 
     private void SettingsButtonClick(object sender, RoutedEventArgs e)

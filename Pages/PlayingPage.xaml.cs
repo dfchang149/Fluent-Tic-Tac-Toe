@@ -27,6 +27,7 @@ using System.Timers;
 using Windows.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using System.Runtime.CompilerServices;
+using Microsoft.UI.Xaml.Documents;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -96,15 +97,24 @@ public sealed partial class PlayingPage : Page
 
     private void SetUpGame()
     {
-        // Initiate game
-        Player player1 = new Player(false);
-        Player player2 = new Player(false);
+        // Add players to game
         List<Player> playerList = new List<Player>();
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+
+        if (Game.Gamemode.Equals(Game.gamemodes[0]))
+        {
+            player1.name = "You";
+            player2 = new Player("Computer", true);
+        }
+
         playerList.Add(player1);
         playerList.Add(player2);
-        game = new Game(playerList, 0);
+        game = new Game(playerList);
+
+        // Update Textblocks
+        UpdateTurnText();
         PlayersTextBlock.Text = game.players.Count.ToString();
-        TurnTextBlock.Text = game.GetCurrentPlayerTurn().name+"'s Turn";
         TimeTextBlock.Text = game.time.ToString();
         TurnsTextBlock.Text = game.time.ToString();
     }
@@ -132,6 +142,16 @@ public sealed partial class PlayingPage : Page
             }
         });
         timer.Tick += handler;
+    }
+
+    private void UpdateTurnText()
+    {
+        if (Game.Gamemode.Equals(Game.gamemodes[0]) && game.GetCurrentPlayerTurn().Equals(game.players[0]))
+        {
+            TurnTextBlock.Text = "Your Turn";
+        } else {
+            TurnTextBlock.Text = game.GetCurrentPlayerTurn().name + "'s Turn";
+        }
     }
 
     private void OnGridEntered(object sender, RoutedEventArgs e)
@@ -173,6 +193,12 @@ public sealed partial class PlayingPage : Page
 
         if(game.winner == null)
         {
+            if (Game.Gamemode.Equals(Game.gamemodes[0]) && !game.GetCurrentPlayerTurn().Equals(game.players[0]))
+            {
+                // if it's singleplayer and its not the client's turn
+                return;
+            }
+
             Button button = sender as Button;
             // Add piece to board
             var name = button.Name.ToString().ToLower();
@@ -202,7 +228,7 @@ public sealed partial class PlayingPage : Page
                 }
                 else
                 {
-                    TurnTextBlock.Text = game.GetCurrentPlayerTurn().name + "'s Turn";
+                    UpdateTurnText();
                 }
             }
             else
@@ -249,7 +275,7 @@ public sealed partial class PlayingPage : Page
         for (var i = 0; i < game.board.Length; i++)
         {
             Button grid = (Button)Board.FindName("square" + i);
-            DoubleAnimation widthAnimation = new DoubleAnimation();
+            //DoubleAnimation widthAnimation = new DoubleAnimation();
             //120, 300, TimeSpan.FromSeconds(5));
             //widthAnimation.RepeatBehavior = RepeatBehavior.Forever;
             //widthAnimation.AutoReverse = true;

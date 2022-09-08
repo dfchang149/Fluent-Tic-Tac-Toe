@@ -12,7 +12,8 @@ using ABI.System.Numerics;
 namespace Fluent_Tic_tac_toe;
 internal class Game
 {
-    private int gamemode { get; }
+    public static string[] gamemodes = { "singleplayer", "multiplayer" };
+    public static string Gamemode = gamemodes[0];
     public List<Player> players { get; }
     public List<Piece> winningPieces { get; set; }
     public Piece[,] board { get; set; }
@@ -22,11 +23,22 @@ internal class Game
     public bool started { get; set; }
     private bool timed { get; set; }
 
-    public Game(List<Player> players,int gamemode )
+    public Game(){}
+
+    public Game(List<Player> players,string gamemode )
     {
         this.players = players;
         this.board = new Piece[3,3];
-        this.gamemode = gamemode;
+        this.winningPieces = new List<Piece>();
+        this.time = 0;
+        this.started = false;
+        SetGamemode(gamemode);
+    }
+
+    public Game(List<Player> players)
+    {
+        this.players = players;
+        this.board = new Piece[3, 3];
         this.winningPieces = new List<Piece>();
         this.time = 0;
         this.started = false;
@@ -208,6 +220,19 @@ internal class Game
     {
         return "square"+((row * 3) + col);
     }
+
+    public string GetGamemode()
+    {
+        return Gamemode;
+    }
+
+    public void SetGamemode(string gamemode)
+    {
+        if (gamemodes.Contains(gamemode))
+        {
+            Gamemode = gamemode;
+        }
+    }
 }
 
 public class Player
@@ -240,21 +265,6 @@ public class Player
         this.number = playerNumber;
         this.isComputer = false;
         playerNumber++;
-    }
-
-    public void Turn()
-    {
-    
-    }
-
-    public string getName()
-    {
-        return this.name;
-    }
-
-    public bool PlacePiece()
-    {
-        return false;
     }
 }
 
