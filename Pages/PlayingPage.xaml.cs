@@ -193,7 +193,7 @@ public sealed partial class PlayingPage : Page
 
         if(game.winner == null)
         {
-            if (Game.Gamemode.Equals(Game.gamemodes[0]) && !game.GetCurrentPlayerTurn().Equals(game.players[0]))
+            if (Game.Gamemode.Equals(Game.gamemodes[0]) && !game.GetCurrentPlayerTurn().Equals(game.players.First()))
             {
                 // if it's singleplayer and its not the client's turn
                 return;
@@ -212,24 +212,7 @@ public sealed partial class PlayingPage : Page
 
             if (wasPlaced)
             {
-                TurnsTextBlock.Text = game.turns.ToString();
-                button.IsEnabled = false;
-                button.Content = currPlayer.symbol; // remove this
-                // Check if won
-                if (game.Won())
-                {
-                    TurnTextBlock.Text = String.Concat(game.winner.name," won!");
-                    OnGameEnded();
-                }
-                else if (game.IsDraw())
-                {
-                    TurnTextBlock.Text = "DRAW";
-                    OnGameEnded();
-                }
-                else
-                {
-                    UpdateTurnText();
-                }
+                OnBoardUpdated();
             }
             else
             {
@@ -238,6 +221,38 @@ public sealed partial class PlayingPage : Page
             }
         }
         //TimeTextBlock.Text = "Row: " + row + ", Col: " + col;
+    }
+
+    private void OnBoardUpdated()
+    {
+        Piece recentPiece = game.pieces.Last();
+        var index = (recentPiece.row * 3) + recentPiece.col;
+        Button button = (Button) Board.FindName("square" + index);
+
+        TurnsTextBlock.Text = game.turns.ToString();
+        button.IsEnabled = false;
+        button.Content = recentPiece.player.symbol;
+
+        // Check if won
+        if (game.Won())
+        {
+            TurnTextBlock.Text = String.Concat(game.winner.name, " won!");
+            OnGameEnded();
+        }
+        else if (game.IsDraw())
+        {
+            TurnTextBlock.Text = "DRAW";
+            OnGameEnded();
+        }
+        else
+        {
+            UpdateTurnText();
+            if (game.GetCurrentPlayerTurn().isComputer)
+            {
+                game.ComputerTurn();
+                OnBoardUpdated();
+            }
+        }
     }
 
     private void OnGameEnded()
@@ -271,8 +286,8 @@ public sealed partial class PlayingPage : Page
         game.Restart();
         TimeTextBlock.Text = game.time.ToString();
         TurnsTextBlock.Text = game.turns.ToString();
-        TurnTextBlock.Text = game.GetCurrentPlayerTurn().name + "'s Turn";
-        for (var i = 0; i < game.board.Length; i++)
+        UpdateTurnText();
+        for (var i = 0; i < game.board.Length; i++) // Maybe only reset game.pieces
         {
             Button grid = (Button)Board.FindName("square" + i);
             //DoubleAnimation widthAnimation = new DoubleAnimation();

@@ -7,7 +7,6 @@ using System.Numerics;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using ABI.System.Numerics;
 
 namespace Fluent_Tic_tac_toe;
 internal class Game
@@ -15,6 +14,7 @@ internal class Game
     public static string[] gamemodes = { "singleplayer", "multiplayer" };
     public static string Gamemode = gamemodes[0];
     public List<Player> players { get; }
+    public List<Piece> pieces { get; set; }
     public List<Piece> winningPieces { get; set; }
     public Piece[,] board { get; set; }
     public Player winner { get; set; }
@@ -30,6 +30,7 @@ internal class Game
         this.players = players;
         this.board = new Piece[3,3];
         this.winningPieces = new List<Piece>();
+        this.pieces = new List<Piece>();
         this.time = 0;
         this.started = false;
         SetGamemode(gamemode);
@@ -40,6 +41,7 @@ internal class Game
         this.players = players;
         this.board = new Piece[3, 3];
         this.winningPieces = new List<Piece>();
+        this.pieces = new List<Piece>();
         this.time = 0;
         this.started = false;
     }
@@ -58,6 +60,7 @@ internal class Game
     {
         this.winner = null;
         this.winningPieces = new List<Piece>();
+        this.pieces = new List<Piece>();
         this.turns = 0;
         this.board = new Piece[3, 3];
         this.time = 0;
@@ -188,6 +191,7 @@ internal class Game
         {
             Piece piece = new Piece(player, row, col);
             board[row, col] = piece;
+            this.pieces.Add(piece);
             this.turns++;
             return true;
         }
@@ -200,8 +204,20 @@ internal class Game
         {
             Piece piece = new Piece(GetCurrentPlayerTurn(), row, col);
             board[row, col] = piece;
+            this.pieces.Add(piece);
             this.turns++;
             return true;
+        }
+        return false;
+    }
+
+    public bool ComputerTurn()
+    {
+        List<Vector2> spaces = GetEmptySpaces();
+        if (spaces.Count > 0)
+        {
+            Vector2 selectedSpace = spaces[new Random().Next(spaces.Count)];
+            return PlacePiece((int)selectedSpace.X, (int)selectedSpace.Y);
         }
         return false;
     }
@@ -209,6 +225,22 @@ internal class Game
     public bool IsDraw()
     {
         return this.winner == null && this.board.Length == this.turns;
+    }
+
+    public List<Vector2> GetEmptySpaces()
+    {
+        List<Vector2> spaces = new List<Vector2>();
+        for (int r = 0; r < this.board.Rank+1; r++)
+        {
+            for (int c = 0; c < this.board.GetLength(0); c++)
+            {
+                if (board[r,c] == null)
+                {
+                    spaces.Add(new Vector2(r,c));
+                }
+            }
+        }
+        return spaces;
     }
 
     public Player GetCurrentPlayerTurn()
