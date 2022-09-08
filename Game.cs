@@ -196,6 +196,11 @@ internal class Game
         return false;
     }
 
+    public bool IsDraw()
+    {
+        return this.winner == null && this.board.Length == this.turns;
+    }
+
     public Player GetCurrentPlayerTurn()
     {
         return players[turns % players.Count];

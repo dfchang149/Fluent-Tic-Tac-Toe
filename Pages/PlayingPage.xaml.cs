@@ -184,16 +184,12 @@ public sealed partial class PlayingPage : Page
                 // Check if won
                 if (game.Won())
                 {
-                    timer.Stop();
-                    AgainButton.Visibility = Visibility.Visible;
                     TurnTextBlock.Text = "WINNER";
-                    foreach (Piece piece in game.winningPieces)
-                    {
-                        Button grid = (Button)Board.FindName("square" + piece.GetIndex());
-                        grid.IsEnabled = true;
-                        grid.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
-                        OnGridLeft(grid, null);
-                    }
+                    OnGameEnded();
+                }
+                else 
+                {
+                    CheckDrawed();
                 }
             }
             else
@@ -207,6 +203,31 @@ public sealed partial class PlayingPage : Page
         //TimeTextBlock.Text = "Row: " + row + ", Col: " + col;
 
 
+    }
+
+    private void OnGameEnded()
+    {
+        timer.Stop();
+        AgainButton.Visibility = Visibility.Visible;
+        if (game.winner != null)
+        {
+            foreach (Piece piece in game.winningPieces)
+            {
+                Button grid = (Button)Board.FindName("square" + piece.GetIndex());
+                grid.IsEnabled = true;
+                grid.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
+                OnGridLeft(grid, null);
+            }
+        }
+    }
+
+    private void CheckDrawed()
+    {
+        if (game.IsDraw()) 
+        {
+            TurnTextBlock.Text = "DRAW";
+            OnGameEnded();
+        }
     }
 
     private void CreatePlayAgainButton()
