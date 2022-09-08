@@ -12,6 +12,6 @@ This app is a minor project for me to learn xaml and C# to build Window applicat
 ## Screenshots
 
 <p align="center">
-	<img height="256" align="center" src="Images\screenshot1.png" />
-	<img height="256" align="center" src="Images\screenshot2.png" />
+	<img height="512" align="center" src="Images\screenshot1.png" />
+	<img height="512" align="center" src="Images\screenshot2.png" />
 <p>
