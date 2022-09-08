@@ -97,6 +97,8 @@ public sealed partial class PlayingPage : Page
         playerList.Add(player1);
         playerList.Add(player2);
         game = new Game(playerList, 0);
+        PlayersTextBlock.Text = game.players.Count.ToString();
+        TurnTextBlock.Text = game.GetCurrentPlayerTurn().name+"'s Turn";
         TimeTextBlock.Text = game.time.ToString();
         TurnsTextBlock.Text = game.time.ToString();
     }
@@ -184,12 +186,17 @@ public sealed partial class PlayingPage : Page
                 // Check if won
                 if (game.Won())
                 {
-                    TurnTextBlock.Text = "WINNER";
+                    TurnTextBlock.Text = String.Concat(game.winner.name," won!");
                     OnGameEnded();
                 }
-                else 
+                else if (game.IsDraw())
                 {
-                    CheckDrawed();
+                    TurnTextBlock.Text = "DRAW";
+                    OnGameEnded();
+                }
+                else
+                {
+                    TurnTextBlock.Text = game.GetCurrentPlayerTurn().name + "'s Turn";
                 }
             }
             else
@@ -198,11 +205,7 @@ public sealed partial class PlayingPage : Page
                 button.IsEnabled = true;
             }
         }
-
-
         //TimeTextBlock.Text = "Row: " + row + ", Col: " + col;
-
-
     }
 
     private void OnGameEnded()
@@ -221,15 +224,6 @@ public sealed partial class PlayingPage : Page
         }
     }
 
-    private void CheckDrawed()
-    {
-        if (game.IsDraw()) 
-        {
-            TurnTextBlock.Text = "DRAW";
-            OnGameEnded();
-        }
-    }
-
     private void CreatePlayAgainButton()
     {
         Button button = new Button();
@@ -244,6 +238,7 @@ public sealed partial class PlayingPage : Page
         game.Restart();
         TimeTextBlock.Text = game.time.ToString();
         TurnsTextBlock.Text = game.turns.ToString();
+        TurnTextBlock.Text = game.GetCurrentPlayerTurn().name + "'s Turn";
         for (var i = 0; i < game.board.Length; i++)
         {
             Button grid = (Button)Board.FindName("square" + i);

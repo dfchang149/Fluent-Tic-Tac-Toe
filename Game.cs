@@ -14,7 +14,6 @@ internal class Game
 {
     private int gamemode { get; }
     public List<Player> players { get; }
-    public Player currentTurn { get; set; }
     public List<Piece> winningPieces { get; set; }
     public Piece[,] board { get; set; }
     public Player winner { get; set; }
@@ -38,7 +37,6 @@ internal class Game
         this.players[0].symbol = "x";
         this.players[1].symbol = "o";
         this.turns = 0;
-        this.currentTurn = this.players[0];
         this.winner = null;
         this.time = 0;
         this.started = true;
@@ -218,7 +216,7 @@ public class Player
     public int number { get; }
     public bool isComputer { get; }
     public string symbol { get; set;}
-    private static int playerNumber = 0;
+    private static int playerNumber = 1;
 
     public Player(string name,bool isComputer)
     {
@@ -230,7 +228,7 @@ public class Player
 
     public Player(bool isComputer)
     {
-        this.name = "Player"+playerNumber;
+        this.name = "Player "+playerNumber;
         this.number = playerNumber;
         this.isComputer = isComputer;
         playerNumber++;
