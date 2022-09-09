@@ -17,7 +17,7 @@
             </StackPanel.ChildrenTransitions>
             <TextBlock Text="Fluent" HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,8" FontWeight="SemiBold" />
             <TextBlock Text="Tic-Tac-Toe" HorizontalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}" />
-            <Button Margin="0,32,0,0" Name="PlayButton" HorizontalAlignment="Center">
+            <Button Margin="0,32,0,0" Name="PlayButton" HorizontalAlignment="Center" Click="MoveToGameSelection" Width="{Binding Path=ActualWidth, ElementName=SettingsButton}">
                 <StackPanel Padding="4,0,4,0" Orientation="Horizontal">
                     <SymbolIcon Symbol="Play" Margin="0,0,8,0" />
                     <TextBlock Text="Play"/>

@@ -46,9 +46,13 @@
                     <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xf5ed;" Margin="24,0,6,0" />
                     <TextBlock x:Name="TurnsTextBlock" Text="0" Style="{StaticResource BodyStrongTextBlockStyle}"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" ToolTipService.ToolTip="Number of players" >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" ToolTipService.ToolTip="Number of real players" >
                     <SymbolIcon x:Name="PlayersIcon" Symbol="People" Margin="24,0,6,0"  />
                     <TextBlock x:Name="PlayersTextBlock" Text="1" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                </StackPanel>
+                <StackPanel x:Name="BotsInfo" Orientation="Horizontal" VerticalAlignment="Center" ToolTipService.ToolTip="Number of bots" >
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe99a;" Margin="24,0,6,0" />
+                    <TextBlock x:Name="BotsTextBlock" Text="0" Style="{StaticResource BodyStrongTextBlockStyle}"/>
                 </StackPanel>
             </StackPanel>
             <Grid x:Name="Board" 

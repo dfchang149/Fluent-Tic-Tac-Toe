@@ -86,6 +86,7 @@
     <None Remove="Assets\StoreLogo.scale-150.png" />
     <None Remove="Assets\StoreLogo.scale-200.png" />
     <None Remove="Assets\StoreLogo.scale-400.png" />
+    <None Remove="Pages\GameSelectionPage.xaml" />
     <None Remove="Pages\MainPage.xaml" />
     <None Remove="Pages\PlayingPage.xaml" />
   </ItemGroup>
@@ -113,6 +114,11 @@
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\GameSelectionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\MainPage.xaml">

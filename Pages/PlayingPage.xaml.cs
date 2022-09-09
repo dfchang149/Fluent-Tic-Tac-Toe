@@ -103,6 +103,17 @@ public sealed partial class PlayingPage : Page
         PlayersTextBlock.Text = game.GetNumberOfRealPlayers().ToString();
         TimeTextBlock.Text = game.time.ToString();
         TurnsTextBlock.Text = game.time.ToString();
+
+        int botPlayers = (game.players.Count - game.GetNumberOfRealPlayers());
+
+        if (botPlayers > 0)
+        {
+            BotsTextBlock.Text = botPlayers.ToString();
+        }
+        else
+        {
+            BotsInfo.Visibility = Visibility.Collapsed;
+        }
     }
 
     private void InitializeTimer()
