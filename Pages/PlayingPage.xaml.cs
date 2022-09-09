@@ -234,17 +234,20 @@ public sealed partial class PlayingPage : Page
             UpdateTurnText();
             if (game.GetCurrentPlayerTurn().isComputer)
             {
-                if(game.ComputerTurn())
+                if(game.ComputerTurn()) // Computer's Turn
                 {
+                    // Simulate button pressing
                     canPress = false;
                     Button buttonPressed = GetButtonFromPiece(game.pieces.Last());
                     OnGridEntered(buttonPressed, null);
+                    buttonPressed.BorderThickness = new Microsoft.UI.Xaml.Thickness(2,2,2,2);
 
                     DispatcherTimer timer = new DispatcherTimer();
                     timer.Interval = TimeSpan.FromSeconds(0.25);
                     EventHandler<Object> timerHandler = new EventHandler<object>((s2, e2) =>
                     {
                         timer.Stop();
+                        buttonPressed.BorderThickness = new Microsoft.UI.Xaml.Thickness(1,1,1,1);
                         buttonPressed.Scale = new Vector3(1);
                         OnBoardUpdated();
                         canPress = true;
