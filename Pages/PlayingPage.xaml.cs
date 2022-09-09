@@ -239,7 +239,7 @@ public sealed partial class PlayingPage : Page
         }
         else if (game.IsDraw())
         {
-            TurnTextBlock.Text = "DRAW";
+            TurnTextBlock.Text = "Draw!";
             OnGameEnded();
         }
         else
@@ -258,15 +258,48 @@ public sealed partial class PlayingPage : Page
         timer.Stop();
         if (game.winner != null)
         {
+            int num = 0;
             foreach (Piece piece in game.winningPieces)
             {
+                num++;
                 Button grid = (Button)Board.FindName("square" + piece.GetIndex());
-                
+
                 grid.IsEnabled = true;
                 grid.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
 
+                // Animate button size
+                TimeSpan savedDuration = grid.ScaleTransition.Duration;
+                grid.ScaleTransition.Duration = savedDuration.Multiply(3);
+                grid.Scale = new Vector3(0.95f);
+
+                // shrink first
+                DispatcherTimer shrinkTimer = new DispatcherTimer();
+                shrinkTimer.Interval = savedDuration + TimeSpan.FromMilliseconds(50 * num);
+                EventHandler<Object> shrinkHandler = new EventHandler<object>((s1, e1) =>
+                {
+                    shrinkTimer.Stop();
+                    OnGridLeft(grid, null);
+                    // grow back and reset ScaleTransition
+                    DispatcherTimer growTimer = new DispatcherTimer();
+                    growTimer.Interval = savedDuration.Divide(2) + TimeSpan.FromMilliseconds(100 * num);
+                    EventHandler<Object> growHandler = new EventHandler<object>((s2, e2) =>
+                    {
+                        grid.ScaleTransition.Duration = savedDuration;
+                        growTimer.Stop();
+
+                        if (piece.Equals(game.winningPieces.Last()))
+                        {
+                            PageStackPanel.Children.Add(AgainButton);
+                        }
+                    });
+                    growTimer.Tick += growHandler;
+                    growTimer.Start();
+                });
+                shrinkTimer.Tick += shrinkHandler;
+                shrinkTimer.Start();
 
 
+                // Hopefully animate background color
                 //var uiSettings = new UISettings();
                 var accentColor = new UISettings().GetColorValue(UIColorType.Accent);
                 Brush brush = new SolidColorBrush(accentColor);
@@ -284,10 +317,13 @@ public sealed partial class PlayingPage : Page
                 //widthAnimation.RepeatBehavior = RepeatBehavior.Forever;
                 //widthAnimation.AutoReverse = true;
                 //grid.BeginAnimation(Button.WidthProperty, widthAnimation);
-                OnGridLeft(grid, null);
+                //OnGridLeft(grid, null);
             }
+        } 
+        else
+        {
+            PageStackPanel.Children.Add(AgainButton);
         }
-        PageStackPanel.Children.Add(AgainButton);
     }
 
     private void PlayAgainButtonPressed(object sender, RoutedEventArgs e)
