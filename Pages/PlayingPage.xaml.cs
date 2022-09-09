@@ -18,7 +18,8 @@ namespace Fluent_Tic_tac_toe.Pages;
 public sealed partial class PlayingPage : Page
 {
     Game game;
-    DispatcherTimer timer;
+    DispatcherTimer matchTimer;
+    bool canPress = true;
 
     public PlayingPage()
     {
@@ -106,8 +107,8 @@ public sealed partial class PlayingPage : Page
 
     private void InitializeTimer()
     {
-        timer = new DispatcherTimer();
-        timer.Interval = TimeSpan.FromSeconds(1);
+        matchTimer = new DispatcherTimer();
+        matchTimer.Interval = TimeSpan.FromSeconds(1);
         EventHandler<Object> handler = new EventHandler<object>((s, e) =>
         {
             if (game.winner == null)
@@ -117,10 +118,10 @@ public sealed partial class PlayingPage : Page
             }
             else
             {
-                timer.Stop();
+                matchTimer.Stop();
             }
         });
-        timer.Tick += handler;
+        matchTimer.Tick += handler;
     }
 
     private void UpdateTurnText()
@@ -158,10 +159,15 @@ public sealed partial class PlayingPage : Page
 
     private void OnGridPressed(object sender, RoutedEventArgs e)
     {
+        if (!canPress)
+        {
+            return;
+        }
+
         if (!game.started)
         {
             game.Start();
-            timer.Start();
+            matchTimer.Start();
         }
 
         if (game.winner == null)
@@ -198,8 +204,7 @@ public sealed partial class PlayingPage : Page
     private void OnBoardUpdated()
     {
         Piece recentPiece = game.pieces.Last();
-        var index = (recentPiece.row * 3) + recentPiece.col;
-        Button button = (Button)Board.FindName("square" + index);
+        Button button = GetButtonFromPiece(recentPiece);
         TurnsTextBlock.Text = game.turns.ToString();
         button.IsEnabled = false;
         button.Content = recentPiece.player.symbol;
@@ -229,15 +234,31 @@ public sealed partial class PlayingPage : Page
             UpdateTurnText();
             if (game.GetCurrentPlayerTurn().isComputer)
             {
-                game.ComputerTurn();
-                OnBoardUpdated();
+                if(game.ComputerTurn())
+                {
+                    canPress = false;
+                    Button buttonPressed = GetButtonFromPiece(game.pieces.Last());
+                    OnGridEntered(buttonPressed, null);
+
+                    DispatcherTimer timer = new DispatcherTimer();
+                    timer.Interval = TimeSpan.FromSeconds(0.25);
+                    EventHandler<Object> timerHandler = new EventHandler<object>((s2, e2) =>
+                    {
+                        timer.Stop();
+                        buttonPressed.Scale = new Vector3(1);
+                        OnBoardUpdated();
+                        canPress = true;
+                    });
+                    timer.Tick += timerHandler;
+                    timer.Start();
+                }
             }
         }
     }
 
     private void OnGameEnded()
     {
-        timer.Stop();
+        matchTimer.Stop();
         if (game.winner != null)
         {
             var num = 0;
@@ -271,7 +292,10 @@ public sealed partial class PlayingPage : Page
 
                         if (piece.Equals(game.winningPieces.Last()))
                         {
-                            PageStackPanel.Children.Add(AgainButton);
+                            if (AgainButton.Parent != PageStackPanel)
+                            {
+                                PageStackPanel.Children.Add(AgainButton);
+                            }
                         }
                     });
                     growTimer.Tick += growHandler;
@@ -304,14 +328,17 @@ public sealed partial class PlayingPage : Page
         }
         else
         {
-            PageStackPanel.Children.Add(AgainButton);
+            if (AgainButton.Parent != PageStackPanel)
+            {
+                PageStackPanel.Children.Add(AgainButton);
+            }
         }
     }
 
     private void PlayAgainButtonPressed(object sender, RoutedEventArgs e)
     {
         PageStackPanel.Children.Remove(AgainButton);
-        timer.Stop();
+        matchTimer.Stop();
 
         foreach (Piece piece in game.pieces)
         {
@@ -330,5 +357,11 @@ public sealed partial class PlayingPage : Page
         TimeTextBlock.Text = game.time.ToString();
         TurnsTextBlock.Text = game.turns.ToString();
         UpdateTurnText();
+    }
+
+    private Button GetButtonFromPiece(Piece piece)
+    {
+        var index = (piece.row * 3) + piece.col;
+        return (Button) Board.FindName("square" + index);
     }
 }
