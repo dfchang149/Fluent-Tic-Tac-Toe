@@ -170,8 +170,11 @@ public sealed partial class PlayingPage : Page
 
     private void OnGridLeft(object sender, RoutedEventArgs e)
     {
-        Button button = sender as Button;
-        button.Scale = new Vector3(1);
+        if (game.winner == null)
+        {
+            Button button = sender as Button;
+            button.Scale = new Vector3(1);
+        }
     }
 
     private void OnGridPressed(object sender, RoutedEventArgs e)
@@ -278,7 +281,7 @@ public sealed partial class PlayingPage : Page
                 EventHandler<Object> shrinkHandler = new EventHandler<object>((s1, e1) =>
                 {
                     shrinkTimer.Stop();
-                    OnGridLeft(grid, null);
+                    grid.Scale = new Vector3(1);
                     // grow back and reset ScaleTransition
                     DispatcherTimer growTimer = new DispatcherTimer();
                     growTimer.Interval = savedDuration.Divide(2) + TimeSpan.FromMilliseconds(100 * num);
