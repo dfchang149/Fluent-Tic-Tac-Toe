@@ -1,35 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Windows;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Numerics;
-using Microsoft.UI;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Shapes;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Resources;
-using Microsoft.UI.Xaml.XamlTypeInfo;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.ViewManagement;
-using System.Diagnostics;
-using System.Timers;
-using Windows.Media;
 using Microsoft.UI.Xaml.Media.Animation;
-using System.Runtime.CompilerServices;
-using Microsoft.UI.Xaml.Documents;
-using Microsoft.UI.Composition;
-using ABI.Windows.UI;
+using Windows.UI.ViewManagement;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -65,7 +42,7 @@ public sealed partial class PlayingPage : Page
         // Create grid
         for (var r = 0; r < 3; r++)
         {
-            for(var c = 0; c < 3; c++)
+            for (var c = 0; c < 3; c++)
             {
                 var index = (r * 3) + c;
 
@@ -77,7 +54,7 @@ public sealed partial class PlayingPage : Page
                 button.FontSize = 24;
                 button.VerticalAlignment = VerticalAlignment.Center;
                 button.HorizontalAlignment = HorizontalAlignment.Center;
-                button.CenterPoint = new Vector3((float)button.Height/2);
+                button.CenterPoint = new Vector3((float)button.Height / 2);
 
                 // Add transitions
                 Vector3Transition vector3Transition = new Vector3Transition();
@@ -117,7 +94,7 @@ public sealed partial class PlayingPage : Page
             PlayersIcon.Symbol = Symbol.People;
         }
 
-        List<Player> playerList = new List<Player> {player1,player2};
+        List<Player> playerList = new List<Player> { player1, player2 };
         game = new Game(playerList);
 
         // Update Textblocks
@@ -151,7 +128,9 @@ public sealed partial class PlayingPage : Page
         if (Game.Gamemode.Equals(Game.gamemodes[0]) && game.GetCurrentPlayerTurn().Equals(game.players[0]))
         {
             TurnTextBlock.Text = "Your Turn";
-        } else {
+        }
+        else
+        {
             TurnTextBlock.Text = game.GetCurrentPlayerTurn().name + "'s Turn";
         }
     }
@@ -179,13 +158,13 @@ public sealed partial class PlayingPage : Page
 
     private void OnGridPressed(object sender, RoutedEventArgs e)
     {
-        if(!game.started)
+        if (!game.started)
         {
             game.Start();
             timer.Start();
         }
 
-        if(game.winner == null)
+        if (game.winner == null)
         {
             if (Game.Gamemode.Equals(Game.gamemodes[0]) && !game.GetCurrentPlayerTurn().Equals(game.players.First()))
             {
@@ -220,7 +199,7 @@ public sealed partial class PlayingPage : Page
     {
         Piece recentPiece = game.pieces.Last();
         var index = (recentPiece.row * 3) + recentPiece.col;
-        Button button = (Button) Board.FindName("square" + index);
+        Button button = (Button)Board.FindName("square" + index);
         TurnsTextBlock.Text = game.turns.ToString();
         button.IsEnabled = false;
         button.Content = recentPiece.player.symbol;
@@ -261,7 +240,7 @@ public sealed partial class PlayingPage : Page
         timer.Stop();
         if (game.winner != null)
         {
-            int num = 0;
+            var num = 0;
             foreach (Piece piece in game.winningPieces)
             {
                 num++;
@@ -322,7 +301,7 @@ public sealed partial class PlayingPage : Page
                 //grid.BeginAnimation(Button.WidthProperty, widthAnimation);
                 //OnGridLeft(grid, null);
             }
-        } 
+        }
         else
         {
             PageStackPanel.Children.Add(AgainButton);

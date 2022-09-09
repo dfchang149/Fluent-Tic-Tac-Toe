@@ -1,34 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Numerics;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Fluent_Tic_tac_toe;
 internal class Game
 {
     public static string[] gamemodes = { "singleplayer", "multiplayer" };
     public static string Gamemode = gamemodes[0];
-    public List<Player> players { get; }
-    public List<Piece> pieces { get; set; }
-    public List<Piece> winningPieces { get; set; }
-    public Piece[,] board { get; set; }
-    public Player winner { get; set; }
-    public int turns { get; set; }
-    public int time { get; set; }
-    public bool started { get; set; }
-    private bool timed { get; set; }
+    public List<Player> players
+    {
+        get;
+    }
+    public List<Piece> pieces
+    {
+        get; set;
+    }
+    public List<Piece> winningPieces
+    {
+        get; set;
+    }
+    public Piece[,] board
+    {
+        get; set;
+    }
+    public Player winner
+    {
+        get; set;
+    }
+    public int turns
+    {
+        get; set;
+    }
+    public int time
+    {
+        get; set;
+    }
+    public bool started
+    {
+        get; set;
+    }
+    private bool timed
+    {
+        get; set;
+    }
 
-    public Game(){}
+    public Game()
+    {
+    }
 
-    public Game(List<Player> players,string gamemode )
+    public Game(List<Player> players, string gamemode)
     {
         this.players = players;
-        this.board = new Piece[3,3];
+        this.board = new Piece[3, 3];
         this.winningPieces = new List<Piece>();
         this.pieces = new List<Piece>();
         this.time = 0;
@@ -69,12 +93,12 @@ internal class Game
 
     public bool Won()
     {
-        for (var r = 0; r < board.Rank+1; r++)
+        for (var r = 0; r < board.Rank + 1; r++)
         {
             winningPieces.Clear();
             Piece initialPiece = board[r, 0];
             var foundWinner = true;
-            if(initialPiece != null)
+            if (initialPiece != null)
             {
                 winningPieces.Add(initialPiece);
 
@@ -105,7 +129,7 @@ internal class Game
             {
                 winningPieces.Add(initialPiece);
 
-                for (var r = 1; r < board.Rank+1; r++) // Checks vertical wins
+                for (var r = 1; r < board.Rank + 1; r++) // Checks vertical wins
                 {
                     Piece piece = board[r, c];
                     if (piece == null) { foundWinner = false; break; }
@@ -130,34 +154,9 @@ internal class Game
         {
             Piece initialPiece = null;
             var foundWinner = true;
-            for (var i = 0; i < board.Rank+1 && i < board.GetLength(0); i++)
+            for (var i = 0; i < board.Rank + 1 && i < board.GetLength(0); i++)
             {
                 Piece piece = board[i, i];
-                if (piece == null) { foundWinner = false; break; }
-                winningPieces.Add(piece);
-
-                if (initialPiece == null)
-                {
-                    initialPiece = piece;
-                } else {
-                    if (!initialPiece.Matches(piece))
-                    {
-                        foundWinner = false;
-                        break;
-                    }
-                }
-            }
-            if (foundWinner)
-            {
-                winner = initialPiece.player;
-                return true;
-            }
-            initialPiece = null;
-            winningPieces.Clear();
-            foundWinner = true;
-            for (var i = 0; i < board.Rank+1 && i < board.GetLength(0); i++)
-            {
-                Piece piece = board[i, (board.GetLength(0)-1)-i];
                 if (piece == null) { foundWinner = false; break; }
                 winningPieces.Add(piece);
 
@@ -173,7 +172,34 @@ internal class Game
                         break;
                     }
                 }
-                
+            }
+            if (foundWinner)
+            {
+                winner = initialPiece.player;
+                return true;
+            }
+            initialPiece = null;
+            winningPieces.Clear();
+            foundWinner = true;
+            for (var i = 0; i < board.Rank + 1 && i < board.GetLength(0); i++)
+            {
+                Piece piece = board[i, (board.GetLength(0) - 1) - i];
+                if (piece == null) { foundWinner = false; break; }
+                winningPieces.Add(piece);
+
+                if (initialPiece == null)
+                {
+                    initialPiece = piece;
+                }
+                else
+                {
+                    if (!initialPiece.Matches(piece))
+                    {
+                        foundWinner = false;
+                        break;
+                    }
+                }
+
             }
             if (foundWinner)
             {
@@ -181,11 +207,11 @@ internal class Game
                 return true;
             }
         }
-        
+
         return false;
     }
 
-    private bool PlacePiece(Player player,int row, int col)
+    private bool PlacePiece(Player player, int row, int col)
     {
         if (board[row, col] == null)
         {
@@ -230,13 +256,13 @@ internal class Game
     public List<Vector2> GetEmptySpaces()
     {
         List<Vector2> spaces = new List<Vector2>();
-        for (int r = 0; r < this.board.Rank+1; r++)
+        for (int r = 0; r < this.board.Rank + 1; r++)
         {
             for (int c = 0; c < this.board.GetLength(0); c++)
             {
-                if (board[r,c] == null)
+                if (board[r, c] == null)
                 {
-                    spaces.Add(new Vector2(c,r));
+                    spaces.Add(new Vector2(c, r));
                 }
             }
         }
@@ -248,9 +274,9 @@ internal class Game
         return players[turns % players.Count];
     }
 
-    public string GetGridName(int row,int col)
+    public string GetGridName(int row, int col)
     {
-        return "square"+((row * 3) + col);
+        return "square" + ((row * 3) + col);
     }
 
     public string GetGamemode()
@@ -261,9 +287,9 @@ internal class Game
     public int GetNumberOfRealPlayers() // amount of players that aren't a computer
     {
         var result = 0;
-        foreach(Player player in this.players)
+        foreach (Player player in this.players)
         {
-            if(player.isComputer == false)
+            if (player.isComputer == false)
             {
                 result++;
             }
@@ -282,13 +308,25 @@ internal class Game
 
 public class Player
 {
-    public string name { get; set; }
-    public int number { get; }
-    public bool isComputer { get; }
-    public string symbol { get; set;}
+    public string name
+    {
+        get; set;
+    }
+    public int number
+    {
+        get;
+    }
+    public bool isComputer
+    {
+        get;
+    }
+    public string symbol
+    {
+        get; set;
+    }
     private static int playerNumber = 1;
 
-    public Player(string name,bool isComputer)
+    public Player(string name, bool isComputer)
     {
         this.name = name;
         this.number = playerNumber;
@@ -298,7 +336,7 @@ public class Player
 
     public Player(bool isComputer)
     {
-        this.name = "Player "+playerNumber;
+        this.name = "Player " + playerNumber;
         this.number = playerNumber;
         this.isComputer = isComputer;
         playerNumber++;
@@ -315,11 +353,20 @@ public class Player
 
 public class Piece
 {
-    public Player player { get; }
-    public int row { get; }
-    public int col { get; }
+    public Player player
+    {
+        get;
+    }
+    public int row
+    {
+        get;
+    }
+    public int col
+    {
+        get;
+    }
 
-    public Piece(Player player,int row, int col)
+    public Piece(Player player, int row, int col)
     {
         this.player = player;
         this.row = row;
