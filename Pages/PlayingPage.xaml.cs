@@ -267,8 +267,6 @@ public sealed partial class PlayingPage : Page
                 num++;
                 Button grid = (Button)Board.FindName("square" + piece.GetIndex());
 
-                grid.IsEnabled = true;
-                grid.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
 
                 // Animate button size
                 TimeSpan savedDuration = grid.ScaleTransition.Duration;
@@ -281,6 +279,8 @@ public sealed partial class PlayingPage : Page
                 EventHandler<Object> shrinkHandler = new EventHandler<object>((s1, e1) =>
                 {
                     shrinkTimer.Stop();
+                    grid.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
+                    grid.IsEnabled = true;
                     grid.Scale = new Vector3(1);
                     // grow back and reset ScaleTransition
                     DispatcherTimer growTimer = new DispatcherTimer();
