@@ -15,7 +15,14 @@
         <StackPanel x:Name="PageStackPanel">
             <TextBlock Text="Game Settings" HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,16" />
             <ScrollViewer x:Name="Scroller" HorizontalAlignment="Stretch" Margin="0,0,0,48">
-                <StackPanel HorizontalAlignment="Stretch" Spacing="4" >
+                <StackPanel HorizontalAlignment="Stretch" Padding="0,0,0,72" Spacing="4" >
+                    <StackPanel.ChildrenTransitions>
+                        <TransitionCollection>
+                            <EntranceThemeTransition IsStaggeringEnabled="True" FromHorizontalOffset="0" FromVerticalOffset="64" />
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </StackPanel.ChildrenTransitions>
+
                     <Expander x:Name="GamemodeExpander" HorizontalAlignment="Stretch" MinHeight="72" >
                         <Expander.Header>
                             <Grid VerticalAlignment="Center" Margin="4,16,0,16">
