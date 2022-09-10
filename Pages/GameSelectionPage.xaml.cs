@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Security.Isolation;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -32,15 +33,15 @@ public sealed partial class GameSelectionPage : Page
     {
         if (GamemodeSelectionBox.SelectedIndex == 0)
         {
-            //MultiplayerContent.Visibility = Visibility.Collapsed;
-            //SingleplayerContent.Visibility = Visibility.Visible;
             GamemodeExpander.Content = SingleplayerContent;
+        }
+        else if (GamemodeSelectionBox.SelectedIndex == 1)
+        {
+            GamemodeExpander.Content = MultiplayerContent;
         }
         else
         {
-            GamemodeExpander.Content = MultiplayerContent;
-            //SingleplayerContent.Visibility = Visibility.Collapsed;
-            //MultiplayerContent.Visibility = Visibility.Visible;
+            GamemodeExpander.Content = SpectatorContent;
         }
     }
 
@@ -57,10 +58,64 @@ public sealed partial class GameSelectionPage : Page
         }
     }
 
+    private void UpdateBoardExanderContent()
+    {
+        if (BoardExpander.IsExpanded)
+        {
+            if (BoardSelectionBox.SelectedIndex == 0)
+            {
+                BoardRowSelection.IsEnabled = false;
+                BoardColumnSelection.IsEnabled = false;
+                WinPatternSelectionBox.IsEnabled = false;
+
+                BoardRowSelection.Value = Double.Parse(BoardRowSelection.PlaceholderText);
+                BoardColumnSelection.Value = Double.Parse(BoardColumnSelection.PlaceholderText);
+                WinPatternSelectionBox.SelectedIndex = 0;
+            }
+            else
+            {
+                BoardRowSelection.IsEnabled = true;
+                BoardColumnSelection.IsEnabled = true;
+                WinPatternSelectionBox.IsEnabled = true;
+            }
+        }
+    }
+
+    private void BoardRowsChanged(NumberBox sender, NumberBoxValueChangedEventArgs e)
+    {
+
+    }
+
+    private void BoardColumnsChanged(NumberBox sender, NumberBoxValueChangedEventArgs e)
+    {
+
+    }
+
+    private void WinPatternChanged(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void BoardExanderExpanded(Expander sender, ExpanderExpandingEventArgs e)
+    {
+        UpdateBoardExanderContent();
+    }
+
+    private void BoardSelected(object sender, RoutedEventArgs e)
+    {
+        UpdateBoardExanderContent();
+    }
+
     private void PlayerBoxChanged(NumberBox sender, NumberBoxValueChangedEventArgs e)
     {
-        
+
     }
+
+    private void BotsBoxChanged(NumberBox sender, NumberBoxValueChangedEventArgs e)
+    {
+
+    }
+
 
     private void StartButtonClick(object sender, RoutedEventArgs e)
     {
