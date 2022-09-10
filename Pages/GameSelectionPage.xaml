@@ -48,32 +48,25 @@
                                 <Grid x:Name="SingleplayerContent" Padding="4,0,0,0">
                                     <Grid.ChildrenTransitions >
                                         <TransitionCollection>
-                                            <ContentThemeTransition />
-                                            <RepositionThemeTransition />
                                             <EntranceThemeTransition />
                                         </TransitionCollection>
                                     </Grid.ChildrenTransitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7fc;" Margin="0,1,16,0" />
+                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe8f0;" Margin="0,0,16,0" />
                                         <TextBlock Text="Difficulty"/>
                                     </StackPanel>
-                                    <ComboBox Grid.Column="2" x:Name="DifficultySelectionBox" Width="{Binding ElementName=DifficultySelectionBox, Path=ActualWidth}"
+                                    <ComboBox x:Name="DifficultySelectionBox" Width="{Binding ElementName=DifficultySelectionBox, Path=ActualWidth}"
                                         FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="1">
                                         <x:String>Easy</x:String>
                                         <x:String>Medium</x:String>
                                         <x:String>Hard</x:String>
-                                    </ComboBox>
+                                    </ComboBox> 
                                 </Grid>
                                 <Grid x:Name="MultiplayerContent" Padding="4,0,0,0">
                                     <Grid.ChildrenTransitions >
                                         <TransitionCollection>
-                                            <ContentThemeTransition />
-                                            <RepositionThemeTransition />
                                             <EntranceThemeTransition />
                                         </TransitionCollection>
                                     </Grid.ChildrenTransitions>
