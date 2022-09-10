@@ -14,8 +14,8 @@
                 <StackPanel Spacing="4">
                     <StackPanel.ChildrenTransitions>
                         <TransitionCollection>
-                            <EntranceThemeTransition IsStaggeringEnabled="True" FromHorizontalOffset="0" FromVerticalOffset="32" />
-                            <RepositionThemeTransition />
+                            <EntranceThemeTransition FromHorizontalOffset="0" FromVerticalOffset="32" />
+                            <RepositionThemeTransition IsStaggeringEnabled="False" />
                         </TransitionCollection>
                     </StackPanel.ChildrenTransitions>
 
@@ -36,11 +36,6 @@
                         </Expander.Header>
                         <Expander.Content>
                             <Grid Padding="0,0,32,0">
-                                <Grid.ChildrenTransitions>
-                                    <TransitionCollection>
-                                        <EntranceThemeTransition IsStaggeringEnabled="True" FromHorizontalOffset="0"/>
-                                    </TransitionCollection>
-                                </Grid.ChildrenTransitions>
                                 <Grid x:Name="SingleplayerContent" Padding="4,0,32,0">
                                     <Grid.ChildrenTransitions >
                                         <TransitionCollection>
@@ -166,7 +161,7 @@
                             </Grid>
                         </Expander.Content>
                     </Expander>
-                    <TextBlock Text="Match Info" Margin="0,12,0,2" Style="{ThemeResource BodyTextBlockStyle}"></TextBlock>
+                    <TextBlock Text="Match Info" Margin="4,16,0,2" ></TextBlock>
                     <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="4" Height="72"
                           BorderBrush="{ThemeResource CardStrokeColorDefault}" BorderThickness="1" HorizontalAlignment="Stretch" Padding="20,16,-60,16" >
                         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" VerticalAlignment="Center">
