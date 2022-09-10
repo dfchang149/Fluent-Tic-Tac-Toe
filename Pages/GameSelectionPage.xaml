@@ -24,7 +24,7 @@
                     </StackPanel.ChildrenTransitions>
 
                     <Expander x:Name="GamemodeExpander" Expanding="GamemodeExanderExpanded" HorizontalAlignment="Stretch" MinHeight="72"
-                              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" HorizontalContentAlignment="Stretch">
                         <Expander.Header>
                             <Grid Margin="4,16,0,16">
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
@@ -45,7 +45,7 @@
                                         <EntranceThemeTransition IsStaggeringEnabled="True" FromHorizontalOffset="0"/>
                                     </TransitionCollection>
                                 </Grid.ChildrenTransitions>
-                                <Grid x:Name="SingleplayerContent" HorizontalAlignment="Stretch">
+                                <Grid x:Name="SingleplayerContent" Padding="4,0,0,0">
                                     <Grid.ChildrenTransitions >
                                         <TransitionCollection>
                                             <ContentThemeTransition />
@@ -69,7 +69,7 @@
                                         <x:String>Hard</x:String>
                                     </ComboBox>
                                 </Grid>
-                                <Grid x:Name="MultiplayerContent" HorizontalAlignment="Stretch">
+                                <Grid x:Name="MultiplayerContent" Padding="4,0,0,0">
                                     <Grid.ChildrenTransitions >
                                         <TransitionCollection>
                                             <ContentThemeTransition />
@@ -78,7 +78,7 @@
                                         </TransitionCollection>
                                     </Grid.ChildrenTransitions>
                                     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <SymbolIcon Symbol="People" Margin="0,0,8,0" />
+                                        <SymbolIcon Symbol="People" Margin="0,0,16,0" />
                                         <TextBlock  Text="Number of Players"/>
                                     </StackPanel>
                                     <NumberBox ValueChanged="PlayerBoxChanged" HorizontalAlignment="Right" Width="{Binding Path=ActualWidth}"
