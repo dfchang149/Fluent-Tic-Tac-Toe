@@ -117,7 +117,7 @@ public sealed partial class GameSelectionPage : Page
     }
 
 
-    private void StartButtonClick(object sender, RoutedEventArgs e)
+    private void ResetGameSettingsClick(object sender, RoutedEventArgs e)
     {
 
     }

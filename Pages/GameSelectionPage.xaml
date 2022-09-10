@@ -7,10 +7,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="Transparent">
-    <Grid Padding="24" x:Name="PageGrid">
-        <StackPanel x:Name="PageStackPanel">
-            <TextBlock Text="Game Settings" HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,16" />
-            <ScrollViewer x:Name="Scroller" HorizontalAlignment="Stretch" Padding="16,0,16,0" MaxWidth="{Binding ElementName=PageGrid, Path=ActualHeight}">
+    
+    <Grid Padding="8,16,8,0" x:Name="PageGrid">
+        <Grid x:Name="PageStackPanel">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Game Settings" HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,16" />
+            <ScrollViewer Grid.Row="1" x:Name="Scroller" Padding="16,0,16,0" HorizontalAlignment="Stretch" MaxWidth="{Binding ElementName=PageGrid, Path=ActualHeight}">
                 <StackPanel Spacing="4">
                     <StackPanel.ChildrenTransitions>
                         <TransitionCollection>
@@ -19,6 +25,7 @@
                         </TransitionCollection>
                     </StackPanel.ChildrenTransitions>
 
+                    <TextBlock Text="General" Margin="4,0,0,2" ></TextBlock>
                     <Expander x:Name="GamemodeExpander" Expanding="GamemodeExanderExpanded" HorizontalAlignment="Stretch" MinHeight="72"
                               Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" HorizontalContentAlignment="Stretch">
                         <Expander.Header>
@@ -167,7 +174,7 @@
                         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" VerticalAlignment="Center">
                             <SymbolIcon Symbol="Clock" Margin="0,0,16,0" />
                             <StackPanel VerticalAlignment="Center" Spacing="1">
-                                <TextBlock  Text="Match Timer"/>
+                                <TextBlock Text="Match Timer"/>
                                 <TextBlock Foreground="Gray" Style="{ThemeResource CaptionTextBlockStyle}"
                                            Text="Keep track of how long the match takes"/>
                             </StackPanel>
@@ -200,12 +207,12 @@
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
-        </StackPanel>
-        <Button Margin="0,16,0,32" Name="StartButton" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="StartButtonClick" >
-            <StackPanel Padding="4,4,4,4" Orientation="Horizontal">
-                <SymbolIcon Symbol="Play" Margin="0,0,8,0" />
-                <TextBlock Text="Start Game"/>
-            </StackPanel>
-        </Button>
+            <Button Grid.Row="2" Margin="0,16,0,16" Name="ResetGameSettingsButton" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="ResetGameSettingsClick" >
+                <StackPanel Padding="4,4,4,4" Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe777;" Margin="0,0,8,0" />
+                    <TextBlock Text="Reset to default"/>
+                </StackPanel>
+            </Button>
+        </Grid>
     </Grid>
 </Page>
