@@ -23,9 +23,10 @@
                         </TransitionCollection>
                     </StackPanel.ChildrenTransitions>
 
-                    <Expander x:Name="GamemodeExpander" HorizontalAlignment="Stretch" MinHeight="72" >
+                    <Expander x:Name="GamemodeExpander" Expanding="GamemodeExanderExpanded" HorizontalAlignment="Stretch" MinHeight="72"
+                              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                         <Expander.Header>
-                            <Grid VerticalAlignment="Center" Margin="4,16,0,16">
+                            <Grid Margin="4,16,0,16">
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
                                     <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7fc;" Margin="0,1,16,0" />
                                     <TextBlock  Text="Gamemode"/>
@@ -39,11 +40,56 @@
                         </Expander.Header>
                         <Expander.Content>
                             <Grid>
-                                
+                                <Grid.ChildrenTransitions>
+                                    <TransitionCollection>
+                                        <EntranceThemeTransition IsStaggeringEnabled="True" FromHorizontalOffset="0"/>
+                                    </TransitionCollection>
+                                </Grid.ChildrenTransitions>
+                                <Grid x:Name="SingleplayerContent" HorizontalAlignment="Stretch">
+                                    <Grid.ChildrenTransitions >
+                                        <TransitionCollection>
+                                            <ContentThemeTransition />
+                                            <RepositionThemeTransition />
+                                            <EntranceThemeTransition />
+                                        </TransitionCollection>
+                                    </Grid.ChildrenTransitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7fc;" Margin="0,1,16,0" />
+                                        <TextBlock Text="Difficulty"/>
+                                    </StackPanel>
+                                    <ComboBox Grid.Column="2" x:Name="DifficultySelectionBox" Width="{Binding ElementName=DifficultySelectionBox, Path=ActualWidth}"
+                                        FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="1">
+                                        <x:String>Easy</x:String>
+                                        <x:String>Medium</x:String>
+                                        <x:String>Hard</x:String>
+                                    </ComboBox>
+                                </Grid>
+                                <Grid x:Name="MultiplayerContent" HorizontalAlignment="Stretch">
+                                    <Grid.ChildrenTransitions >
+                                        <TransitionCollection>
+                                            <ContentThemeTransition />
+                                            <RepositionThemeTransition />
+                                            <EntranceThemeTransition />
+                                        </TransitionCollection>
+                                    </Grid.ChildrenTransitions>
+                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <SymbolIcon Symbol="People" Margin="0,0,8,0" />
+                                        <TextBlock  Text="Number of Players"/>
+                                    </StackPanel>
+                                    <NumberBox ValueChanged="PlayerBoxChanged" HorizontalAlignment="Right" Width="{Binding Path=ActualWidth}"
+                                        Value="2" SpinButtonPlacementMode="Compact" SmallChange="1"
+                                        Minimum="2" Maximum="10" />
+                                </Grid>
                             </Grid>
                         </Expander.Content>
                     </Expander>
                     <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="4" Height="72"
+                          ToolTipService.ToolTip="Displays a timer for how long the match takes."
                           BorderBrush="{ThemeResource CardStrokeColorDefault}" BorderThickness="1" HorizontalAlignment="Stretch" Padding="20,16,-60,16" >
                         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" VerticalAlignment="Center">
                             <SymbolIcon Symbol="Clock" Margin="0,0,16,0" />
@@ -52,12 +98,22 @@
                         <ToggleSwitch x:Name="TimerToggleSwitch" Toggled="TimerToggled" HorizontalAlignment="Right" IsOn="True" />
                     </Grid>
                     <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="4" Height="72"
+                          ToolTipService.ToolTip="Counts the number of spots taken during the game."
                           BorderBrush="{ThemeResource CardStrokeColorDefault}" BorderThickness="1" HorizontalAlignment="Stretch" Padding="20,16,-60,16" >
                         <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" VerticalAlignment="Center">
                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xf5ed;" Margin="0,0,16,0" />
                             <TextBlock Text="Spaces Info"/>
                         </StackPanel>
                         <ToggleSwitch x:Name="SquaresInfoToggleSwitch" Toggled="SquaresInfoToggled" HorizontalAlignment="Right" IsOn="False" />
+                    </Grid>
+                    <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="4" Height="72"
+                          ToolTipService.ToolTip="Displays the number of players in the game."
+                          BorderBrush="{ThemeResource CardStrokeColorDefault}" BorderThickness="1" HorizontalAlignment="Stretch" Padding="20,16,-60,16" >
+                        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" VerticalAlignment="Center">
+                            <SymbolIcon Symbol="Contact2" Margin="0,0,16,0" />
+                            <TextBlock Text="Player Counter"/>
+                        </StackPanel>
+                        <ToggleSwitch x:Name="PlayerCounterToggleSwitch" IsOn="True" Toggled="PlayerCounterToggled" HorizontalAlignment="Right"/>
                     </Grid>
                 </StackPanel>
             </ScrollViewer>

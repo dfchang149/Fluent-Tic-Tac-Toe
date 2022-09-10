@@ -25,9 +25,39 @@ public sealed partial class GameSelectionPage : Page
     public GameSelectionPage()
     {
         this.InitializeComponent();
+        GamemodeExpander.Content = null;
+    }
+
+    private void UpdateGamemodeExanderContent()
+    {
+        if (GamemodeSelectionBox.SelectedIndex == 0)
+        {
+            //MultiplayerContent.Visibility = Visibility.Collapsed;
+            //SingleplayerContent.Visibility = Visibility.Visible;
+            GamemodeExpander.Content = SingleplayerContent;
+        }
+        else
+        {
+            GamemodeExpander.Content = MultiplayerContent;
+            //SingleplayerContent.Visibility = Visibility.Collapsed;
+            //MultiplayerContent.Visibility = Visibility.Visible;
+        }
+    }
+
+    private void GamemodeExanderExpanded(Expander sender, ExpanderExpandingEventArgs e)
+    {
+        UpdateGamemodeExanderContent();
     }
 
     private void GamemodeSelected(object sender, RoutedEventArgs e)
+    {
+        if (GamemodeExpander.IsExpanded)
+        {
+            UpdateGamemodeExanderContent();
+        }
+    }
+
+    private void PlayerBoxChanged(NumberBox sender, NumberBoxValueChangedEventArgs e)
     {
         
     }
@@ -43,6 +73,11 @@ public sealed partial class GameSelectionPage : Page
     }
 
     private void SquaresInfoToggled(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void PlayerCounterToggled(object sender, RoutedEventArgs e)
     {
 
     }
