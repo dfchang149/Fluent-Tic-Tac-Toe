@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Fluent_Tic_tac_toe.Helpers;
 
 namespace Fluent_Tic_tac_toe;
 internal class Game
 {
-    public static string[] gamemodes = { "singleplayer", "multiplayer" };
+    public static string[] gamemodes = { "Singleplayer", "Multiplayer","Spectator"};
     public static string Gamemode = gamemodes[0];
     public List<Player> players
     {
