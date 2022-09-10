@@ -30,14 +30,6 @@ public sealed partial class PlayingPage : Page
         PageStackPanel.Children.Remove(AgainButton);
     }
 
-    private void BackButton_Click(object sender, RoutedEventArgs e)
-    {
-        if (this.Frame.CanGoBack)
-        {
-            this.Frame.GoBack();
-        }
-    }
-
     private void CreateBoard()
     {
         // Create grid

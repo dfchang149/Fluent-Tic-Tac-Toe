@@ -20,7 +20,6 @@
                 <StackPanel Spacing="4">
                     <StackPanel.ChildrenTransitions>
                         <TransitionCollection>
-                            <EntranceThemeTransition FromHorizontalOffset="0" FromVerticalOffset="32" />
                             <RepositionThemeTransition IsStaggeringEnabled="False" />
                         </TransitionCollection>
                     </StackPanel.ChildrenTransitions>
@@ -209,7 +208,7 @@
             </ScrollViewer>
             <Button Grid.Row="2" Margin="0,16,0,16" Name="ResetGameSettingsButton" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="ResetGameSettingsClick" >
                 <StackPanel Padding="4,4,4,4" Orientation="Horizontal">
-                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe777;" Margin="0,0,8,0" />
+                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe8ee;" Margin="0,0,8,0" />
                     <TextBlock Text="Reset to default"/>
                 </StackPanel>
             </Button>

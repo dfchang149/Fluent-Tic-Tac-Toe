@@ -11,7 +11,7 @@
     Title="Fluent Tic-Tac-Toe"
     mc:Ignorable="d">
 
-    <Grid Background="Transparent">
+    <Grid Background="Transparent" x:Name="MainGrid">
         <Grid
             x:Name="AppTitleBar"
             Height="44"
@@ -20,7 +20,22 @@
             <Rectangle x:Name="TitleBarFill" Fill="{ThemeResource AccentAAFillColorDefaultBrush}" Opacity="0.05" />
             <TextBlock Text="Fluent Tic-Tac-Toe" Margin="24,16,0,0" FontSize="12" />
         </Grid>
-        <Frame x:Name="ContentFrame" Margin="0,48,0,0" />
+
+        <CommandBar Margin="0,48,0,0" x:Name="BackButton">
+            <CommandBar.Transitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition FromHorizontalOffset="16" FromVerticalOffset="0" />
+                </TransitionCollection>
+            </CommandBar.Transitions>
+            <CommandBar.Content>
+                <Button Click="BackButtonClick"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}"
+                        IsEnabled="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}" 
+                        ToolTipService.ToolTip="Back" 
+                        VerticalAlignment="Top"/>
+            </CommandBar.Content>
+        </CommandBar>
+        <Frame x:Name="ContentFrame" Margin="0,48,0,0" Navigated="OnNavigated" />
     </Grid>
 
     <winex:WindowEx.Backdrop>

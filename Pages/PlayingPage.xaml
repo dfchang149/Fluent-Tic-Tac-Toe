@@ -11,20 +11,6 @@
     Background="Transparent">
 
     <Grid >
-        <CommandBar>
-            <CommandBar.Transitions>
-                <TransitionCollection>
-                    <EntranceThemeTransition FromHorizontalOffset="16" FromVerticalOffset="-8" />
-                </TransitionCollection>
-            </CommandBar.Transitions>
-            <CommandBar.Content>
-                <Button x:Name="BackButton" Click="BackButton_Click"
-                        Style="{StaticResource NavigationBackButtonNormalStyle}"
-                        IsEnabled="{x:Bind Frame.CanGoBack, Mode=OneWay}" 
-                        ToolTipService.ToolTip="Back" 
-                        VerticalAlignment="Top"/>
-            </CommandBar.Content>
-        </CommandBar>
         <StackPanel x:Name="PageStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel.ChildrenTransitions>
                 <TransitionCollection>

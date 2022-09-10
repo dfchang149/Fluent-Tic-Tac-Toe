@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Navigation;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -16,6 +17,27 @@ public sealed partial class MainWindow : WinUIEx.WindowEx
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
         Navigate();
+        MainGrid.Children.Remove(BackButton);
+    }
+
+    private void BackButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (ContentFrame.CanGoBack)
+        {
+            ContentFrame.GoBack();
+        }
+    }
+
+    private void OnNavigated(object sender, NavigationEventArgs e)
+    {
+        if (ContentFrame.CanGoBack)
+        {
+            MainGrid.Children.Add(BackButton);
+        }
+        else
+        {
+            MainGrid.Children.Remove(BackButton);
+        }
     }
 
     private void WindowActivated(object sender, WindowActivatedEventArgs e)
