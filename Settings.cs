@@ -17,6 +17,7 @@ internal class Settings
 
     public static List<Player> players = new();
     public static int numPlayers = 0;
+    public static int numSingleplayerBots = 0;
     public static int numMultiplayerBots = 0;
     public static int numSpectatorBots = 2;
 
@@ -31,11 +32,19 @@ internal class Settings
     public static bool boardInfoEnabled = true;
     public static bool playerCounterEnabled = true;
 
+    public static bool informedMaxPlayers = false;
+
+    public static string[] themes = {"Light","Dark","Use System Settings" };
+    public static int theme = 2;
+
     public static void Reset()
     {
+        theme = 2;
+        
         gamemode = 0;
         boardMode = 0;
         numPlayers = 0;
+        numSingleplayerBots = 1;
         numMultiplayerBots = 0; 
         numSpectatorBots = 2;
         difficulty = 1;
@@ -44,5 +53,10 @@ internal class Settings
         matchTimerEnabled = true;
         boardInfoEnabled = true;
         playerCounterEnabled = true;
+    }
+
+    public static int GetMaxPlayers() // returns max amount of players for current board size
+    {
+        return (int) Math.Round((boardSize.X * boardSize.Y)/4.5f);
     }
 }
