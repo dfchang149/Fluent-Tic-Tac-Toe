@@ -209,7 +209,18 @@
 
             </StackPanel>
         </ScrollViewer>
-        <Button Grid.Row="2" Margin="0,16,0,16" Name="ResetGameSettingsButton" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="ResetGameSettingsClick" >
+        <Button Grid.Row="2" Margin="0,16,0,16" Name="ResetGameSettingsButton" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <Button.Flyout>
+                <Flyout>
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Style="{ThemeResource BaseTextBlockStyle}"
+                                   Text="Are you sure you want to?"
+                                   Margin="0,0,0,12" TextWrapping="Wrap" />
+                        <Button HorizontalAlignment="Center" Click="ResetGameSettingsClick" Content="Yes, reset my settings" />
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+
             <StackPanel Padding="4,4,4,4" Orientation="Horizontal">
                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe8ee;" Margin="0,0,8,0" />
                 <TextBlock Text="Reset to default"/>

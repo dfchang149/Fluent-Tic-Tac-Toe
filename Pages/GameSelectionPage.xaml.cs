@@ -120,6 +120,7 @@ public sealed partial class GameSelectionPage : Page
 
     private void ResetGameSettingsClick(object sender, RoutedEventArgs e)
     {
+        ResetGameSettingsButton.Flyout.Hide();
         Settings.Reset();
         GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
         BoardSelectionBox.SelectedIndex = Settings.boardMode;
