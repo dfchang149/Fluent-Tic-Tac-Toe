@@ -31,18 +31,21 @@ public sealed partial class GameSelectionPage : Page
 
     private void UpdateGamemodeExanderContent()
     {
-        if (GamemodeSelectionBox.SelectedIndex == 0)
+        if (GamemodeExpander.IsExpanded)
         {
-            GamemodeExpander.Content = SingleplayerContent;
-        }
-        else if (GamemodeSelectionBox.SelectedIndex == 1)
-        {
-            GamemodeExpander.Content = MultiplayerContent;
-        }
-        else
-        {
-            GamemodeExpander.Content = SpectatorContent;
-        }
+            if (GamemodeSelectionBox.SelectedIndex == 0)
+            {
+                GamemodeExpander.Content = SingleplayerContent;
+            }
+            else if (GamemodeSelectionBox.SelectedIndex == 1)
+            {
+                GamemodeExpander.Content = MultiplayerContent;
+            }
+            else
+            {
+                GamemodeExpander.Content = SpectatorContent;
+            }
+        } 
     }
 
     private void GamemodeExanderExpanded(Expander sender, ExpanderExpandingEventArgs e)
@@ -52,16 +55,14 @@ public sealed partial class GameSelectionPage : Page
 
     private void GamemodeSelected(object sender, RoutedEventArgs e)
     {
-        if (GamemodeExpander.IsExpanded)
-        {
-            UpdateGamemodeExanderContent();
-        }
+        UpdateGamemodeExanderContent();
     }
 
     private void UpdateBoardExanderContent()
     {
         if (BoardExpander.IsExpanded)
         {
+            BoardExpander.Content = BoardExpanderContent;
             if (BoardSelectionBox.SelectedIndex == 0)
             {
                 BoardRowSelection.IsEnabled = false;
@@ -119,6 +120,18 @@ public sealed partial class GameSelectionPage : Page
 
     private void ResetGameSettingsClick(object sender, RoutedEventArgs e)
     {
+        Settings.Reset();
+        GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
+        BoardSelectionBox.SelectedIndex = Settings.boardMode;
+        MultiplayerPlayersBox.Value = Settings.numPlayers;
+        MultiplayerBotsBox.Value = Settings.numMultiplayerBots;
+        SpectatorBotsBox.Value = Settings.numSpectatorBots;
+        DifficultySelectionBox.SelectedIndex = Settings.difficulty;
+        BoardRowSelection.Value = Settings.boardSize.Y;
+        BoardColumnSelection.Value = Settings.boardSize.X;
+        TimerToggleSwitch.IsOn = Settings.matchTimerEnabled;
+        SquaresInfoToggleSwitch.IsOn = Settings.boardInfoEnabled;
+        PlayerCounterToggleSwitch.IsOn = Settings.playerCounterEnabled;
 
     }
 
