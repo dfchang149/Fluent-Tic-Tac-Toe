@@ -9,7 +9,8 @@
     MinWidth="500"     
     MinHeight="550"
     Title="Fluent Tic-Tac-Toe"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    TaskBarIcon="Assets/AppIcon16x16.ico">
 
     <Grid Background="Transparent" x:Name="MainGrid">
         <Grid
