@@ -26,7 +26,7 @@
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
-                <TextBlock Text="System" Margin="4,0,0,2"></TextBlock>
+                <TextBlock Text="Appearance" Margin="4,0,0,2"></TextBlock>
                 <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="4" Height="72"
                           BorderBrush="{ThemeResource CardStrokeColorDefault}" BorderThickness="1" HorizontalAlignment="Stretch" Padding="20,16,16,16" >
                     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
