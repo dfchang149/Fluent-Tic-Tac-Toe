@@ -117,10 +117,6 @@ public sealed partial class GameSelectionPage : Page
 
     private void UpdatePlayerBoxes()
     {
-        if (!this.IsLoaded)
-        {
-            return;
-        }
         if (MultiplayerPlayersBox != null && MultiplayerBotsBox != null && SpectatorBotsBox != null && MaxPlayersMultiplayerText != null && MaxPlayersSpectatorText != null)
         {
             var MaxPlayers = Settings.GetMaxPlayers();
@@ -131,15 +127,19 @@ public sealed partial class GameSelectionPage : Page
             MultiplayerPlayersBox.Maximum = MaxPlayers - MultiplayerBotsBox.Value;
             SpectatorBotsBox.Maximum = MaxPlayers;
 
-            if (Settings.gamemode.Equals(Settings.gamemodes[1]))
+            if (this.IsLoaded)
             {
-                Settings.numPlayers = (int)MultiplayerPlayersBox.Value;
-                Settings.numMultiplayerBots = (int)MultiplayerBotsBox.Value;
+                if (Settings.gamemode.Equals(Settings.gamemodes[1]))
+                {
+                    Settings.numPlayers = (int)MultiplayerPlayersBox.Value;
+                    Settings.numMultiplayerBots = (int)MultiplayerBotsBox.Value;
+                }
+                else if (Settings.gamemode.Equals(Settings.gamemodes[2]))
+                {
+                    Settings.numSpectatorBots = (int)SpectatorBotsBox.Value;
+                }
             }
-            else if(Settings.gamemode.Equals(Settings.gamemodes[2]))
-            {
-                Settings.numSpectatorBots = (int)SpectatorBotsBox.Value;
-            }
+            
         }
     }
 
@@ -227,22 +227,24 @@ public sealed partial class GameSelectionPage : Page
 
     private void LoadSettings()
     {
-        ThemeSelectionBox.SelectedIndex = Settings.theme;
-
-        GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
-        BoardSelectionBox.SelectedIndex = Settings.boardMode;
-        MultiplayerPlayersBox.Value = Settings.numPlayers;
-        MultiplayerBotsBox.Value = Settings.numMultiplayerBots;
-        SpectatorBotsBox.Value = Settings.numSpectatorBots;
-        DifficultySelectionBox.SelectedIndex = Settings.difficulty;
-        BoardRowSelection.Value = Settings.boardSize.Y;
-        BoardColumnSelection.Value = Settings.boardSize.X;
-        WinPatternSelectionBox.SelectedIndex = Settings.winPattern;
-        TimerToggleSwitch.IsOn = Settings.matchTimerEnabled;
-        SquaresInfoToggleSwitch.IsOn = Settings.boardInfoEnabled;
-        PlayerCounterToggleSwitch.IsOn = Settings.playerCounterEnabled;
         try
         {
+            ThemeSelectionBox.SelectedIndex = Settings.theme;
+
+            GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
+            BoardSelectionBox.SelectedIndex = Settings.boardMode;
+            MultiplayerPlayersBox.Value = Settings.numPlayers;
+            MultiplayerBotsBox.Value = Settings.numMultiplayerBots;
+            SpectatorBotsBox.Value = Settings.numSpectatorBots;
+            DifficultySelectionBox.SelectedIndex = Settings.difficulty;
+            BoardRowSelection.Value = Settings.boardSize.Y;
+            BoardColumnSelection.Value = Settings.boardSize.X;
+            WinPatternSelectionBox.SelectedIndex = Settings.winPattern;
+            TimerToggleSwitch.IsOn = Settings.matchTimerEnabled;
+            SquaresInfoToggleSwitch.IsOn = Settings.boardInfoEnabled;
+            PlayerCounterToggleSwitch.IsOn = Settings.playerCounterEnabled;
+
+            UpdatePlayerBoxes();
         }
         catch (Exception e)
         {
