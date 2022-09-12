@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="128" align="center" src="Assets/StoreLogo.scale-400.png" />
+  <img width="150" align="center" src="Assets/StoreLogo.scale-400.png" />
 </p>
 <h1 align="center">
   Fluent Tic-Tac-Toe
@@ -10,7 +10,7 @@
 </p>
 <p align="center">
   <a title="Platform" target="_blank">
-    <img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform" />
+	<img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform" />
   </a>
 </p>
 
