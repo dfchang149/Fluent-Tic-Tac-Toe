@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -27,11 +28,16 @@ public sealed partial class GameSelectionPage : Page
     public GameSelectionPage()
     {
         this.InitializeComponent();
+        LoadSettings();
         GamemodeExpander.Content = null;
     }
 
     private void ThemeSelected(object sender, RoutedEventArgs e)
     {
+        if (!this.IsLoaded)
+        {
+            return;
+        }
         switch (ThemeSelectionBox.SelectedIndex)
         {
             case 0:
@@ -53,6 +59,11 @@ public sealed partial class GameSelectionPage : Page
 
     private void UpdateGamemodeExanderContent()
     {
+        if (!this.IsLoaded)
+        {
+            return;
+        }
+        Settings.gamemode = GamemodeSelectionBox.SelectedIndex;
         if (GamemodeExpander.IsExpanded)
         {
             if (GamemodeSelectionBox.SelectedIndex == 0)
@@ -106,7 +117,11 @@ public sealed partial class GameSelectionPage : Page
 
     private void UpdatePlayerBoxes()
     {
-        if(MultiplayerPlayersBox != null && MultiplayerBotsBox != null && SpectatorBotsBox != null && MaxPlayersMultiplayerText != null && MaxPlayersSpectatorText != null)
+        if (!this.IsLoaded)
+        {
+            return;
+        }
+        if (MultiplayerPlayersBox != null && MultiplayerBotsBox != null && SpectatorBotsBox != null && MaxPlayersMultiplayerText != null && MaxPlayersSpectatorText != null)
         {
             var MaxPlayers = Settings.GetMaxPlayers();
             MaxPlayersMultiplayerText.Text = MaxPlayers.ToString();
@@ -128,21 +143,38 @@ public sealed partial class GameSelectionPage : Page
         }
     }
 
+    private void DifficultySelected(object sender, RoutedEventArgs e)
+    {
+        if (this.IsLoaded)
+        {
+            Settings.difficulty = DifficultySelectionBox.SelectedIndex;
+        }
+    }
+
     private void BoardRowsChanged(NumberBox sender, NumberBoxValueChangedEventArgs e)
     {
-        Settings.boardSize.Y = (float) e.NewValue;
-        UpdatePlayerBoxes();
+        if (this.IsLoaded)
+        {
+            Settings.boardSize.Y = (float)e.NewValue;
+            UpdatePlayerBoxes();
+        }
     }
 
     private void BoardColumnsChanged(NumberBox sender, NumberBoxValueChangedEventArgs e)
     {
-        Settings.boardSize.X = (float)e.NewValue;
-        UpdatePlayerBoxes();
+        if (this.IsLoaded)
+        {
+            Settings.boardSize.X = (float)e.NewValue;
+            UpdatePlayerBoxes();
+        }
     }
 
     private void WinPatternChanged(object sender, RoutedEventArgs e)
     {
-        Settings.winPattern = WinPatternSelectionBox.SelectedIndex;
+        if (this.IsLoaded)
+        {
+            Settings.winPattern = WinPatternSelectionBox.SelectedIndex;
+        }
     }
 
     private void BoardExanderExpanded(Expander sender, ExpanderExpandingEventArgs e)
@@ -152,6 +184,10 @@ public sealed partial class GameSelectionPage : Page
 
     private void BoardSelected(object sender, RoutedEventArgs e)
     {
+        if (this.IsLoaded)
+        {
+            Settings.boardMode = BoardSelectionBox.SelectedIndex;
+        }
         UpdateBoardExanderContent();
     }
 
@@ -167,17 +203,51 @@ public sealed partial class GameSelectionPage : Page
 
     private void TimerToggled(object sender, RoutedEventArgs e)
     {
-        Settings.matchTimerEnabled = TimerToggleSwitch.IsOn;
+        if (this.IsLoaded)
+        {
+            Settings.matchTimerEnabled = TimerToggleSwitch.IsOn;
+        }
     }
 
     private void SquaresInfoToggled(object sender, RoutedEventArgs e)
     {
-        Settings.boardInfoEnabled = SquaresInfoToggleSwitch.IsOn;
+        if (this.IsLoaded)
+        {
+            Settings.boardInfoEnabled = SquaresInfoToggleSwitch.IsOn;
+        }
     }
 
     private void PlayerCounterToggled(object sender, RoutedEventArgs e)
     {
-        Settings.playerCounterEnabled = PlayerCounterToggleSwitch.IsOn;
+        if (this.IsLoaded)
+        {
+            Settings.playerCounterEnabled = PlayerCounterToggleSwitch.IsOn;
+        }
+    }
+
+    private void LoadSettings()
+    {
+        ThemeSelectionBox.SelectedIndex = Settings.theme;
+
+        GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
+        BoardSelectionBox.SelectedIndex = Settings.boardMode;
+        MultiplayerPlayersBox.Value = Settings.numPlayers;
+        MultiplayerBotsBox.Value = Settings.numMultiplayerBots;
+        SpectatorBotsBox.Value = Settings.numSpectatorBots;
+        DifficultySelectionBox.SelectedIndex = Settings.difficulty;
+        BoardRowSelection.Value = Settings.boardSize.Y;
+        BoardColumnSelection.Value = Settings.boardSize.X;
+        WinPatternSelectionBox.SelectedIndex = Settings.winPattern;
+        TimerToggleSwitch.IsOn = Settings.matchTimerEnabled;
+        SquaresInfoToggleSwitch.IsOn = Settings.boardInfoEnabled;
+        PlayerCounterToggleSwitch.IsOn = Settings.playerCounterEnabled;
+        try
+        {
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 
     private void ResetGameSettingsClick(object sender, RoutedEventArgs e)

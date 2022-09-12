@@ -71,7 +71,7 @@
                                     <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe8f0;" Margin="0,0,16,0" />
                                     <TextBlock Text="Difficulty"/>
                                 </StackPanel>
-                                <ComboBox x:Name="DifficultySelectionBox" Width="{Binding ElementName=DifficultySelectionBox, Path=ActualWidth}"
+                                <ComboBox x:Name="DifficultySelectionBox" SelectionChanged="DifficultySelected" Width="{Binding ElementName=DifficultySelectionBox, Path=ActualWidth}"
                                         FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="1">
                                     <x:String>Easy</x:String>
                                     <x:String>Medium</x:String>
