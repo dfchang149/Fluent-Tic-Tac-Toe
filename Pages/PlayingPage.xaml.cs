@@ -172,7 +172,7 @@ public sealed partial class PlayingPage : Page
         {
             TurnTextBlock.Text = "Click a square to start the game.";
         }
-        else if (game.gamemode == 0 && game.GetCurrentPlayerTurn().Equals(game.players.First()))
+        else if (game.gamemode == 0 && !game.GetCurrentPlayerTurn().isComputer)
         {
             TurnTextBlock.Text = "Your Turn";
         }
@@ -217,6 +217,7 @@ public sealed partial class PlayingPage : Page
             if (game.GetCurrentPlayerTurn().isComputer) // if it's a computer's turn
             {
                 OnBoardUpdated();
+                return;
             }
         }
 
@@ -264,14 +265,19 @@ public sealed partial class PlayingPage : Page
         // Check if won
         if (game.Won())
         {
-            if (game.gamemode == 0 && game.winner != game.players.First())
+            if (game.gamemode == 0 && game.winner.isComputer) 
             {
                 TurnTextBlock.Text = "You lost!";
                 AgainButtonText.Text = "Try again";
             }
             else
             {
-                TurnTextBlock.Text = String.Concat(game.winner.name, " won!");
+                if (game.gamemode == 0 && !game.winner.isComputer)
+                {
+                    TurnTextBlock.Text = "You won!";
+                } else {
+                    TurnTextBlock.Text = String.Concat(game.winner.name, " won!");
+                }
 
                 if (game.gamemode == 2)
                 {

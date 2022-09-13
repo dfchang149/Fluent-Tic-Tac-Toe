@@ -110,6 +110,19 @@ internal class Game
         this.board = new Piece[(int)Settings.boardSize.Y, (int)Settings.boardSize.X];
         this.time = 0;
         this.started = false;
+        AlternatePlayers();
+    }
+
+    public void AlternatePlayers() // so the first player doesn't keep going first
+    {
+        Player FirstPlayer = this.players.First();
+        this.players.Remove(FirstPlayer);
+        this.players.Add(FirstPlayer);
+
+        for (var i = 0; i < this.players.Count(); i++)
+        {
+            this.players[i].SetSymbol(i);
+        }
     }
 
     public bool Won()
@@ -297,6 +310,18 @@ internal class Game
     public Player GetCurrentPlayerTurn()
     {
         return players[turns % players.Count];
+    }
+
+    public Player GetFirstRealPlayer()
+    {
+        foreach (Player player in players)
+        {
+            if (!player.isComputer)
+            {
+                return player;
+            }
+        }
+        return null;
     }
 
     public string GetGridName(int row, int col)
