@@ -88,6 +88,7 @@ public sealed partial class PlayingPage : Page
 
         // Update Textblocks
         UpdateTurnText();
+
         PlayersTextBlock.Text = game.GetNumberOfRealPlayers().ToString();
         TimeTextBlock.Text = game.time.ToString();
         TurnsTextBlock.Text = game.time.ToString();
@@ -167,7 +168,11 @@ public sealed partial class PlayingPage : Page
 
     private void UpdateTurnText()
     {
-        if (game.gamemode == 0 && game.GetCurrentPlayerTurn().Equals(game.players.First()))
+        if (game.GetCurrentPlayerTurn().isComputer && !game.started)
+        {
+            TurnTextBlock.Text = "Click a square to start the game.";
+        }
+        else if (game.gamemode == 0 && game.GetCurrentPlayerTurn().Equals(game.players.First()))
         {
             TurnTextBlock.Text = "Your Turn";
         }
@@ -209,13 +214,16 @@ public sealed partial class PlayingPage : Page
         {
             game.Start();
             SetMatchTimerActive(true);
+            if (game.GetCurrentPlayerTurn().isComputer) // if it's a computer's turn
+            {
+                OnBoardUpdated();
+            }
         }
 
         if (game.winner == null)
         {
-            if (game.GetCurrentPlayerTurn().isComputer)
+            if (game.GetCurrentPlayerTurn().isComputer) // if it's a computer's turn
             {
-                // if it's a computer's turn
                 return;
             }
 
@@ -244,11 +252,14 @@ public sealed partial class PlayingPage : Page
 
     private void OnBoardUpdated()
     {
-        Piece recentPiece = game.pieces.Last();
-        Button button = GetButtonFromPiece(recentPiece);
-        TurnsTextBlock.Text = game.turns.ToString();
-        button.IsEnabled = false;
-        button.Content = recentPiece.player.symbol;
+        if (game.pieces.Count > 0)
+        {
+            Piece recentPiece = game.pieces.Last();
+            Button button = GetButtonFromPiece(recentPiece);
+            TurnsTextBlock.Text = game.turns.ToString();
+            button.IsEnabled = false;
+            button.Content = recentPiece.player.symbol;
+        }
 
         // Check if won
         if (game.Won())
