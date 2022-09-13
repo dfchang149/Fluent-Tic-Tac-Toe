@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Microsoft.UI.Composition.Interactions;
+using Microsoft.VisualBasic;
 
 namespace Fluent_Tic_tac_toe;
 internal class Game
@@ -119,10 +120,12 @@ internal class Game
         this.players.Remove(FirstPlayer);
         this.players.Add(FirstPlayer);
 
+        /* Decided not to use this because it would confuse players and their symbols
         for (var i = 0; i < this.players.Count(); i++)
         {
             this.players[i].SetSymbol(i);
         }
+        */
     }
 
     public bool Won()
@@ -249,6 +252,135 @@ internal class Game
         return false;
     }
 
+    public bool Won2()
+    {
+        List<Piece> selectedPieces = new();
+        bool won = false;
+        int maxDiagonalPieces = (int)Math.Min(Settings.boardSize.X, Settings.boardSize.Y);
+
+        void CheckSelectedPieces()
+        {
+            if(!won && selectedPieces.Count > 2)
+            {
+                if (Settings.winPattern == 0)// check for 3 in a row
+                {
+                    Debug.WriteLine("WON 3");
+                    Debug.WriteLine(selectedPieces.Count);
+                    won = selectedPieces.Count >= 3;
+                }
+                else // check for full row wins
+                {
+                    if (selectedPieces[0].row.Equals(selectedPieces[1].row)) // check for horizontal win
+                    {
+                        won = selectedPieces.Count >= Settings.boardSize.X;
+                    }
+                    else if (selectedPieces[0].col.Equals(selectedPieces[1].col)) // check for vertical win
+                    {
+                        won = selectedPieces.Count >= Settings.boardSize.Y;
+                    }
+                    else // check diagonal wins
+                    {
+                        won = selectedPieces.Count >= maxDiagonalPieces;
+                    }
+                }
+                if (won)
+                {
+                    this.winner = selectedPieces.First().player;
+                    this.winningPieces.Clear();
+                    this.winningPieces.AddRange(selectedPieces);
+                }
+            }
+        }
+        void TryAddingSelectedPiece(Piece piece)
+        {
+            if (piece != null)
+            {
+                if (selectedPieces.Count > 0 && !selectedPieces.First().Matches(piece))
+                {
+                    CheckSelectedPieces();
+                    selectedPieces.Clear();
+                }
+                selectedPieces.Add(piece);
+            }
+            else
+            {
+                CheckSelectedPieces();
+                selectedPieces.Clear();
+            }
+        }
+
+        // Gather selected pieces
+        Debug.WriteLine("Checking horizontal");
+        for (var r = 0; r < Settings.boardSize.Y; r++) // Finds horizontal pieces
+        {
+            selectedPieces.Clear();
+            for (var c = 0; c < Settings.boardSize.X; c++)
+            {
+                TryAddingSelectedPiece(board[r, c]);
+            }
+            CheckSelectedPieces();
+            if (won)
+            {
+                return true;
+            }
+        }
+
+        Debug.WriteLine("Checking Vetical");
+        for (var c = 0; c < Settings.boardSize.X; c++) // Finds vertical pieces
+        {
+            selectedPieces.Clear();
+            for (var r = 0; r < Settings.boardSize.Y; r++)
+            {
+                TryAddingSelectedPiece(board[r, c]);
+            }
+            CheckSelectedPieces();
+            if (won)
+            {
+                return true;
+            }
+        }
+
+        Debug.WriteLine("Checking Diagonal right");
+        for (var r = 0; r <= Settings.boardSize.Y-maxDiagonalPieces; r++) // Finds down-right diagonal pieces
+        {
+            for (var c = 0; c <= Settings.boardSize.X - maxDiagonalPieces; c++)
+            {
+                selectedPieces.Clear();
+                for (var i = 0; i < maxDiagonalPieces; i++)
+                {
+                    TryAddingSelectedPiece(board[r + i, c + i]);
+                }
+                CheckSelectedPieces();
+                if (won)
+                {
+                    return true;
+                }
+            }
+        }
+
+        Debug.WriteLine("Checking diagonal left");
+        for (var r = 0; r <= Settings.boardSize.Y - maxDiagonalPieces; r++) // Finds down-left diagonal pieces
+        {
+            for (var c = 0; c <= Settings.boardSize.X - maxDiagonalPieces; c++)
+            {
+                selectedPieces.Clear();
+                for (var i = 0; i < maxDiagonalPieces; i++)
+                {
+                    int row = (int)(Settings.boardSize.Y - r - 1) - i;
+                    int col = c + i;
+                    TryAddingSelectedPiece(board[row,col]);
+                }
+                CheckSelectedPieces();
+                if (won)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     private bool PlacePiece(Player player, int row, int col)
     {
         if (board[row, col] == null)
@@ -345,7 +477,7 @@ internal class Game
 
 public class Player
 {
-    public static string[] symbols = { "x", "o","" };
+    public static string[] symbols = { "x", "o"};
     
     public string name
     {
