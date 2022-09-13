@@ -288,7 +288,7 @@ public sealed partial class PlayingPage : Page
         }
 
         // Check if won
-        if (game.Won2())
+        if (game.Won())
         {
             if (game.gamemode == 0 && game.winner.isComputer) 
             {

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using Microsoft.UI.Composition.Interactions;
 using Microsoft.VisualBasic;
 
@@ -130,130 +131,6 @@ internal class Game
 
     public bool Won()
     {
-        for (var r = 0; r < Settings.boardSize.Y; r++)
-        {
-            winningPieces.Clear();
-            Piece initialPiece = board[r, 0];
-            var foundWinner = true;
-            if (initialPiece != null)
-            {
-                winningPieces.Add(initialPiece);
-
-                for (var c = 1; c < Settings.boardSize.X; c++) // Checks horizontal wins
-                {
-                    Piece piece = board[r, c];
-                    if (piece == null) { foundWinner = false; break; }
-                    winningPieces.Add(piece);
-                    if (!initialPiece.Matches(piece))
-                    {
-                        foundWinner = false;
-                        break;
-                    }
-                }
-                if (foundWinner)
-                {
-                    winner = initialPiece.player;
-                    winner.wins++;
-                    return true;
-                }
-            }
-        }
-        for (var c = 0; c < Settings.boardSize.X; c++)
-        {
-            winningPieces.Clear();
-            Piece initialPiece = board[0, c];
-            var foundWinner = true;
-            if (initialPiece != null)
-            {
-                winningPieces.Add(initialPiece);
-
-                for (var r = 1; r < Settings.boardSize.Y; r++) // Checks vertical wins
-                {
-                    Piece piece = board[r, c];
-                    if (piece == null) { foundWinner = false; break; }
-                    winningPieces.Add(piece);
-                    if (!initialPiece.Matches(piece))
-                    {
-                        foundWinner = false;
-                        break;
-                    }
-                }
-                if (foundWinner)
-                {
-                    winner = initialPiece.player;
-                    winner.wins++;
-                    return true;
-                }
-            }
-        }
-
-        winningPieces.Clear();
-        // Check diagonal wins
-        if (board[1, 1] != null)
-        {
-            Piece initialPiece = null;
-            var foundWinner = true;
-            for (var i = 0; i < Settings.boardSize.Y && i < Settings.boardSize.X; i++)
-            {
-                Piece piece = board[i, i];
-                if (piece == null) { foundWinner = false; break; }
-                winningPieces.Add(piece);
-
-                if (initialPiece == null)
-                {
-                    initialPiece = piece;
-                }
-                else
-                {
-                    if (!initialPiece.Matches(piece))
-                    {
-                        foundWinner = false;
-                        break;
-                    }
-                }
-            }
-            if (foundWinner)
-            {
-                winner = initialPiece.player;
-                winner.wins++;
-                return true;
-            }
-            initialPiece = null;
-            winningPieces.Clear();
-            foundWinner = true;
-            for (var i = 0; i < Settings.boardSize.Y && i < Settings.boardSize.X; i++)
-            {
-                Piece piece = board[i, (int)(Settings.boardSize.X - 1) - i];
-                if (piece == null) { foundWinner = false; break; }
-                winningPieces.Add(piece);
-
-                if (initialPiece == null)
-                {
-                    initialPiece = piece;
-                }
-                else
-                {
-                    if (!initialPiece.Matches(piece))
-                    {
-                        foundWinner = false;
-                        break;
-                    }
-                }
-
-            }
-            if (foundWinner)
-            {
-                winner = initialPiece.player;
-                winner.wins++;
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public bool Won2()
-    {
         List<Piece> selectedPieces = new();
         bool won = false;
         int maxDiagonalPieces = (int)Math.Min(Settings.boardSize.X, Settings.boardSize.Y);
@@ -264,8 +141,6 @@ internal class Game
             {
                 if (Settings.winPattern == 0)// check for 3 in a row
                 {
-                    Debug.WriteLine("WON 3");
-                    Debug.WriteLine(selectedPieces.Count);
                     won = selectedPieces.Count >= 3;
                 }
                 else // check for full row wins
@@ -310,7 +185,6 @@ internal class Game
         }
 
         // Gather selected pieces
-        Debug.WriteLine("Checking horizontal");
         for (var r = 0; r < Settings.boardSize.Y; r++) // Finds horizontal pieces
         {
             selectedPieces.Clear();
@@ -325,7 +199,6 @@ internal class Game
             }
         }
 
-        Debug.WriteLine("Checking Vetical");
         for (var c = 0; c < Settings.boardSize.X; c++) // Finds vertical pieces
         {
             selectedPieces.Clear();
@@ -340,13 +213,12 @@ internal class Game
             }
         }
 
-        Debug.WriteLine("Checking Diagonal right");
-        for (var r = 0; r <= Settings.boardSize.Y-maxDiagonalPieces; r++) // Finds down-right diagonal pieces
+        for (var r = 0; r < Settings.boardSize.Y - 2; r++) // Finds down-right diagonal pieces
         {
-            for (var c = 0; c <= Settings.boardSize.X - maxDiagonalPieces; c++)
+            for (var c = 0; c < Settings.boardSize.X - 2; c++)
             {
                 selectedPieces.Clear();
-                for (var i = 0; i < maxDiagonalPieces; i++)
+                for (var i = 0; i < Math.Min(Settings.boardSize.Y-r, Settings.boardSize.X-c); i++)
                 {
                     TryAddingSelectedPiece(board[r + i, c + i]);
                 }
@@ -358,17 +230,14 @@ internal class Game
             }
         }
 
-        Debug.WriteLine("Checking diagonal left");
-        for (var r = 0; r <= Settings.boardSize.Y - maxDiagonalPieces; r++) // Finds down-left diagonal pieces
+        for (var r = 0; r < Settings.boardSize.Y - 2; r++) // Finds down-left diagonal pieces
         {
-            for (var c = 0; c <= Settings.boardSize.X - maxDiagonalPieces; c++)
+            for (var c = 2; c < Settings.boardSize.X; c++)
             {
                 selectedPieces.Clear();
-                for (var i = 0; i < maxDiagonalPieces; i++)
+                for (var i = 0; i < Math.Min(Settings.boardSize.Y - r, c+1); i++)
                 {
-                    int row = (int)(Settings.boardSize.Y - r - 1) - i;
-                    int col = c + i;
-                    TryAddingSelectedPiece(board[row,col]);
+                    TryAddingSelectedPiece(board[r + i, c - i]);
                 }
                 CheckSelectedPieces();
                 if (won)
