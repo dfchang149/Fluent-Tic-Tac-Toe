@@ -32,6 +32,7 @@ public sealed partial class GameSelectionPage : Page
         GamemodeExpander.Content = null;
     }
 
+    /*
     private void ThemeSelected(object sender, RoutedEventArgs e)
     {
         if (!this.IsLoaded)
@@ -56,6 +57,7 @@ public sealed partial class GameSelectionPage : Page
         }
         Settings.theme = ThemeSelectionBox.SelectedIndex;
     }
+    */
 
     private void UpdateGamemodeExanderContent()
     {
@@ -229,7 +231,7 @@ public sealed partial class GameSelectionPage : Page
     {
         try
         {
-            ThemeSelectionBox.SelectedIndex = Settings.theme;
+            //ThemeSelectionBox.SelectedIndex = Settings.theme;
 
             GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
             BoardSelectionBox.SelectedIndex = Settings.boardMode;
@@ -257,7 +259,7 @@ public sealed partial class GameSelectionPage : Page
         ResetGameSettingsButton.Flyout.Hide();
         Settings.Reset();
 
-        ThemeSelectionBox.SelectedIndex = Settings.theme;
+        //ThemeSelectionBox.SelectedIndex = Settings.theme;
 
         GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
         BoardSelectionBox.SelectedIndex = Settings.boardMode;

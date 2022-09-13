@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using Microsoft.UI.Composition.Interactions;
 
 namespace Fluent_Tic_tac_toe;
 internal class Game
 {
-    public static string[] gamemodes = { "Singleplayer", "Multiplayer","Spectator"};
-    public static string Gamemode = gamemodes[0];
+    public int gamemode;
     public List<Player> players
     {
         get;
@@ -47,33 +49,52 @@ internal class Game
 
     public Game()
     {
-    }
+        this.gamemode = Settings.gamemode;
+        this.players = new List<Player>();
 
-    public Game(List<Player> players, string gamemode)
-    {
-        this.players = players;
-        this.board = new Piece[3, 3];
+        // add in players
+        var numPlayers = 1;
+        var numBots = 1;
+
+        if (gamemode == 1)
+        {
+            numPlayers = Settings.numPlayers;
+            Debug.WriteLine(numPlayers);
+            numBots = Settings.numMultiplayerBots;
+        }
+        else if (gamemode == 2)
+        {
+            numBots = Settings.numSpectatorBots;
+            numPlayers = 0;
+        }
+
+        for (var i = 0; i < numPlayers; i++)
+        {
+            Player player = new Player(false);
+            player.SetSymbol(i);
+            this.players.Add(player);
+        }
+        
+        // add in bots
+
+        for (var i = 0; i < numBots; i++)
+        {
+            Player bot = new Player(true);
+            bot.SetSymbol(i+numPlayers);
+            this.players.Add(bot);
+        }
+
+        // initialize other vars
+        this.board = new Piece[(int)Settings.boardSize.Y, (int)Settings.boardSize.X];
         this.winningPieces = new List<Piece>();
         this.pieces = new List<Piece>();
-        this.time = 0;
-        this.started = false;
-        SetGamemode(gamemode);
-    }
-
-    public Game(List<Player> players)
-    {
-        this.players = players;
-        this.board = new Piece[3, 3];
-        this.winningPieces = new List<Piece>();
-        this.pieces = new List<Piece>();
+        this.winner = null;
         this.time = 0;
         this.started = false;
     }
 
     public void Start()
     {
-        this.players[0].symbol = "x";
-        this.players[1].symbol = "o";
         this.turns = 0;
         this.winner = null;
         this.time = 0;
@@ -83,10 +104,10 @@ internal class Game
     public void Restart()
     {
         this.winner = null;
-        this.winningPieces = new List<Piece>();
-        this.pieces = new List<Piece>();
+        this.winningPieces.Clear();
+        this.pieces.Clear();
         this.turns = 0;
-        this.board = new Piece[3, 3];
+        this.board = new Piece[(int)Settings.boardSize.Y, (int)Settings.boardSize.X];
         this.time = 0;
         this.started = false;
     }
@@ -116,6 +137,7 @@ internal class Game
                 if (foundWinner)
                 {
                     winner = initialPiece.player;
+                    winner.wins++;
                     return true;
                 }
             }
@@ -143,6 +165,7 @@ internal class Game
                 if (foundWinner)
                 {
                     winner = initialPiece.player;
+                    winner.wins++;
                     return true;
                 }
             }
@@ -176,6 +199,7 @@ internal class Game
             if (foundWinner)
             {
                 winner = initialPiece.player;
+                winner.wins++;
                 return true;
             }
             initialPiece = null;
@@ -204,6 +228,7 @@ internal class Game
             if (foundWinner)
             {
                 winner = initialPiece.player;
+                winner.wins++;
                 return true;
             }
         }
@@ -279,11 +304,6 @@ internal class Game
         return "square" + ((row * 3) + col);
     }
 
-    public string GetGamemode()
-    {
-        return Gamemode;
-    }
-
     public int GetNumberOfRealPlayers() // amount of players that aren't a computer
     {
         var result = 0;
@@ -296,18 +316,12 @@ internal class Game
         }
         return result;
     }
-
-    public void SetGamemode(string gamemode)
-    {
-        if (gamemodes.Contains(gamemode))
-        {
-            Gamemode = gamemode;
-        }
-    }
 }
 
 public class Player
 {
+    public static string[] symbols = { "x", "o","" };
+    
     public string name
     {
         get; set;
@@ -324,30 +338,44 @@ public class Player
     {
         get; set;
     }
-    private static int playerNumber = 1;
+    public int wins;
+
+    public static int playerNumber = 1;
+    public static int botNum = 1;
 
     public Player(string name, bool isComputer)
     {
+        new Player(isComputer);
         this.name = name;
-        this.number = playerNumber;
-        this.isComputer = isComputer;
-        playerNumber++;
     }
 
     public Player(bool isComputer)
     {
-        this.name = "Player " + playerNumber;
-        this.number = playerNumber;
+        if (isComputer)
+        {
+            this.name = "Bot " + botNum;
+            this.number = botNum;
+            botNum++;
+        }
+        else
+        {
+            this.name = "Player " + playerNumber;
+            this.number = playerNumber;
+            playerNumber++;
+        }
         this.isComputer = isComputer;
-        playerNumber++;
+        this.wins = 0;
     }
 
     public Player(string name)
     {
+        new Player(false);
         this.name = name;
-        this.number = playerNumber;
-        this.isComputer = false;
-        playerNumber++;
+    }
+
+    public void SetSymbol(int num)
+    {
+        this.symbol = num < symbols.Length ? symbols[num] : Convert.ToChar(num).ToString();
     }
 }
 

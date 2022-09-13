@@ -18,29 +18,13 @@ public sealed partial class MainPage : Page
 
     bool buttonsEnabled = true;
 
-    public void MoveToGameSelection(object sender, RoutedEventArgs e)
-    {
-    }
-
-    public void PlaySingleplayerClick(object sender, RoutedEventArgs e)
+    public void PlayButtonClick(object sender, RoutedEventArgs e)
     {
         if (buttonsEnabled)
         {
             buttonsEnabled = false;
-            PageContent.Visibility = Visibility.Collapsed; //remove this
-            Game.Gamemode = (Game.gamemodes[0]);
-            this.Frame.Navigate(typeof(Pages.PlayingPage), null, new DrillInNavigationTransitionInfo());
-        }
-    }
-
-    private void PlayMultiplayerClick(object sender, RoutedEventArgs e)
-    {
-        if (buttonsEnabled)
-        {
-            buttonsEnabled = false;
-            PageContent.Visibility = Visibility.Collapsed;
-            PlayButton.IsEnabled = false;
-            Game.Gamemode = (Game.gamemodes[1]);
+            Player.playerNumber = 1;
+            Player.botNum = 1;
             this.Frame.Navigate(typeof(Pages.PlayingPage), null, new DrillInNavigationTransitionInfo());
         }
     }

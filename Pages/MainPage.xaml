@@ -17,18 +17,11 @@
             </StackPanel.ChildrenTransitions>
             <TextBlock Text="Fluent" HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,8" FontWeight="SemiBold" />
             <TextBlock Text="Tic-Tac-Toe" HorizontalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}" />
-            <Button Margin="0,32,0,0" Name="PlayButton" HorizontalAlignment="Center" Click="MoveToGameSelection" Width="{Binding Path=ActualWidth, ElementName=SettingsButton}">
+            <Button Margin="0,32,0,0" Name="PlayButton" HorizontalAlignment="Center" Click="PlayButtonClick" Width="{Binding Path=ActualWidth, ElementName=SettingsButton}">
                 <StackPanel Padding="4,0,4,0" Orientation="Horizontal">
                     <SymbolIcon Symbol="Play" Margin="0,0,8,0" />
                     <TextBlock Text="Play"/>
                 </StackPanel>
-                <Button.Flyout>
-                    <MenuFlyout Placement="RightEdgeAlignedTop">
-                        <MenuFlyoutItem Click="PlaySingleplayerClick" Text="Singleplayer" ToolTipService.ToolTip="Play against a bot"></MenuFlyoutItem>
-                        <MenuFlyoutItem Click="PlayMultiplayerClick" Text="Multiplayer" ToolTipService.ToolTip="Play against someone else on the same device"></MenuFlyoutItem>
-                    </MenuFlyout>
-                </Button.Flyout>
-
             </Button>
             <Button Margin="0,8,0,0" Name="SettingsButton" HorizontalAlignment="Center" Click="SettingsButtonClick" >
                 <StackPanel Padding="4,0,4,0" Orientation="Horizontal">

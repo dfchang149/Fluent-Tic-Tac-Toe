@@ -70,25 +70,21 @@ public sealed partial class PlayingPage : Page
 
     private void SetUpGame()
     {
-        // Add players to game
-        Player player1;
-        Player player2;
+        game = new Game();
 
-        if (Game.Gamemode.Equals(Game.gamemodes[0]))
+        if (game.gamemode == 0) // singleplayer
         {
-            player1 = new Player("You");
-            player2 = new Player("Computer", true);
             PlayersIcon.Symbol = Symbol.Contact;
         }
-        else
+        else if (game.gamemode == 1) // multiplayer
         {
-            player1 = new Player("Player 1");
-            player2 = new Player("Player 2");
             PlayersIcon.Symbol = Symbol.People;
         }
-
-        List<Player> playerList = new List<Player> { player1, player2 };
-        game = new Game(playerList);
+        else // spectator
+        {
+            InfosPanel.Children.Remove(PlayersInfo);
+            PlayersIcon.Symbol = Symbol.People;
+        }
 
         // Update Textblocks
         UpdateTurnText();
@@ -96,7 +92,7 @@ public sealed partial class PlayingPage : Page
         TimeTextBlock.Text = game.time.ToString();
         TurnsTextBlock.Text = game.time.ToString();
 
-        int botPlayers = (game.players.Count - game.GetNumberOfRealPlayers());
+        var botPlayers = (game.players.Count - game.GetNumberOfRealPlayers());
 
         if (botPlayers > 0)
         {
@@ -104,32 +100,74 @@ public sealed partial class PlayingPage : Page
         }
         else
         {
-            BotsInfo.Visibility = Visibility.Collapsed;
+            InfosPanel.Children.Remove(BotsInfo);
+        }
+
+
+        if (!Settings.matchTimerEnabled && !Settings.boardInfoEnabled && !Settings.playerCounterEnabled)
+        {
+            InfosPanel.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            if (!Settings.matchTimerEnabled)
+            {
+                InfosPanel.Children.Remove(TimerInfo);
+            }
+
+            if (!Settings.boardInfoEnabled)
+            {
+                InfosPanel.Children.Remove(BoardsInfo);
+            }
+
+            if (!Settings.playerCounterEnabled)
+            {
+                InfosPanel.Children.Remove(PlayersInfo);
+                InfosPanel.Children.Remove(BotsInfo);
+            }
         }
     }
 
     private void InitializeTimer()
     {
-        matchTimer = new DispatcherTimer();
-        matchTimer.Interval = TimeSpan.FromSeconds(1);
-        EventHandler<Object> handler = new EventHandler<object>((s, e) =>
+        if (Settings.matchTimerEnabled)
         {
-            if (game.winner == null)
+            matchTimer = new DispatcherTimer();
+            matchTimer.Interval = TimeSpan.FromSeconds(1);
+            EventHandler<Object> handler = new EventHandler<object>((s, e) =>
             {
-                game.time++;
-                TimeTextBlock.Text = game.time.ToString();
+                if (game.winner == null)
+                {
+                    game.time++;
+                    TimeTextBlock.Text = game.time.ToString();
+                }
+                else
+                {
+                    matchTimer.Stop();
+                }
+            });
+            matchTimer.Tick += handler;
+        }
+    }
+
+    private void SetMatchTimerActive(bool value)
+    {
+        if(matchTimer != null)
+        {
+            if (value)
+            {
+                matchTimer.Start();
             }
             else
             {
                 matchTimer.Stop();
             }
-        });
-        matchTimer.Tick += handler;
+        }
     }
 
     private void UpdateTurnText()
     {
-        if (Game.Gamemode.Equals(Game.gamemodes[0]) && game.GetCurrentPlayerTurn().Equals(game.players[0]))
+        if (game.gamemode == 0 && game.GetCurrentPlayerTurn().Equals(game.players.First()))
         {
             TurnTextBlock.Text = "Your Turn";
         }
@@ -170,14 +208,14 @@ public sealed partial class PlayingPage : Page
         if (!game.started)
         {
             game.Start();
-            matchTimer.Start();
+            SetMatchTimerActive(true);
         }
 
         if (game.winner == null)
         {
-            if (Game.Gamemode.Equals(Game.gamemodes[0]) && !game.GetCurrentPlayerTurn().Equals(game.players.First()))
+            if (game.GetCurrentPlayerTurn().isComputer)
             {
-                // if it's singleplayer and its not the client's turn
+                // if it's a computer's turn
                 return;
             }
 
@@ -215,7 +253,7 @@ public sealed partial class PlayingPage : Page
         // Check if won
         if (game.Won())
         {
-            if (Game.Gamemode.Equals(Game.gamemodes[0]) && game.winner != game.players.First())
+            if (game.gamemode == 0 && game.winner != game.players.First())
             {
                 TurnTextBlock.Text = "You lost!";
                 AgainButtonText.Text = "Try again";
@@ -223,7 +261,14 @@ public sealed partial class PlayingPage : Page
             else
             {
                 TurnTextBlock.Text = String.Concat(game.winner.name, " won!");
-                AgainButtonText.Text = "Play again";
+
+                if (game.gamemode == 2)
+                {
+                    AgainButtonText.Text = "New round";
+                } else
+                {
+                    AgainButtonText.Text = "Play again";
+                }
             }
             OnGameEnded();
         }
@@ -264,7 +309,7 @@ public sealed partial class PlayingPage : Page
 
     private void OnGameEnded()
     {
-        matchTimer.Stop();
+        SetMatchTimerActive(false);
         if (game.winner != null)
         {
             var num = 0;
@@ -344,7 +389,7 @@ public sealed partial class PlayingPage : Page
     private void PlayAgainButtonPressed(object sender, RoutedEventArgs e)
     {
         PageStackPanel.Children.Remove(AgainButton);
-        matchTimer.Stop();
+        SetMatchTimerActive(false);
 
         foreach (Piece piece in game.pieces)
         {

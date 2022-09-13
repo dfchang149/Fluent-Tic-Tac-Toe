@@ -16,7 +16,7 @@ internal class Settings
     public static int difficulty = 1;
 
     public static List<Player> players = new();
-    public static int numPlayers = 0;
+    public static int numPlayers = 2;
     public static int numSingleplayerBots = 0;
     public static int numMultiplayerBots = 0;
     public static int numSpectatorBots = 2;
@@ -34,16 +34,16 @@ internal class Settings
 
     public static bool informedMaxPlayers = false;
 
-    public static string[] themes = {"Light","Dark","Use System Settings" };
-    public static int theme = 2;
+    //public static string[] themes = {"Light","Dark","Use System Settings" };
+    //public static int theme = 2;
 
     public static void Reset()
     {
-        theme = 2;
+        //theme = 2;
         
         gamemode = 0;
         boardMode = 0;
-        numPlayers = 0;
+        numPlayers = 2;
         numSingleplayerBots = 1;
         numMultiplayerBots = 0; 
         numSpectatorBots = 2;
