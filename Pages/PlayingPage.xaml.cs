@@ -24,8 +24,8 @@ public sealed partial class PlayingPage : Page
     public PlayingPage()
     {
         this.InitializeComponent();
-        this.CreateBoard();
         this.SetUpGame();
+        this.CreateBoard();
         this.InitializeTimer();
         PageStackPanel.Children.Remove(AgainButton);
     }
@@ -33,11 +33,11 @@ public sealed partial class PlayingPage : Page
     private void CreateBoard()
     {
         // Create grid
-        for (var r = 0; r < 3; r++)
+        for (var r = 0; r < Settings.boardSize.Y; r++)
         {
-            for (var c = 0; c < 3; c++)
+            for (var c = 0; c < Settings.boardSize.X; c++)
             {
-                var index = (r * 3) + c;
+                var index = (r * Settings.boardSize.X) + c;
 
                 var button = new Button();
                 button.Height = 80;
@@ -61,8 +61,8 @@ public sealed partial class PlayingPage : Page
                 button.PointerExited += OnGridLeft;
                 button.PointerCanceled += OnGridLeft;
 
-                Grid.SetRow(button, r % 3);
-                Grid.SetColumn(button, c % 3);
+                Grid.SetRow(button, r);
+                Grid.SetColumn(button, c);
                 Board.Children.Add(button);
             }
         }
@@ -355,13 +355,13 @@ public sealed partial class PlayingPage : Page
                 shrinkTimer.Tick += shrinkHandler;
                 shrinkTimer.Start();
 
-
                 // Hopefully animate background color
-                //var uiSettings = new UISettings();
+                /*var uiSettings = new UISettings();
                 var accentColor = new UISettings().GetColorValue(UIColorType.Accent);
                 Brush brush = new SolidColorBrush(accentColor);
-                //button.Background = brush;
+                button.Background = brush;
 
+                
                 ColorAnimation colorAnim = new ColorAnimation()
                 {
                     To = accentColor,
@@ -369,12 +369,13 @@ public sealed partial class PlayingPage : Page
                     AutoReverse = true,
                 };
 
-                //DoubleAnimation widthAnimation = new DoubleAnimation();
-                //120, 300, TimeSpan.FromSeconds(5));
-                //widthAnimation.RepeatBehavior = RepeatBehavior.Forever;
-                //widthAnimation.AutoReverse = true;
-                //grid.BeginAnimation(Button.WidthProperty, widthAnimation);
-                //OnGridLeft(grid, null);
+                DoubleAnimation widthAnimation = new DoubleAnimation();
+                120, 300, TimeSpan.FromSeconds(5));
+                widthAnimation.RepeatBehavior = RepeatBehavior.Forever;
+                widthAnimation.AutoReverse = true;
+                grid.BeginAnimation(Button.WidthProperty, widthAnimation);
+                OnGridLeft(grid, null);
+                */
             }
         }
         else
@@ -393,7 +394,7 @@ public sealed partial class PlayingPage : Page
 
         foreach (Piece piece in game.pieces)
         {
-            var index = (piece.row * 3) + piece.col;
+            var index = (piece.row * Settings.boardSize.X) + piece.col;
             Button grid = (Button)Board.FindName("square" + index);
             if (grid != null)
             {
@@ -412,7 +413,7 @@ public sealed partial class PlayingPage : Page
 
     private Button GetButtonFromPiece(Piece piece)
     {
-        var index = (piece.row * 3) + piece.col;
+        var index = (piece.row * Settings.boardSize.X) + piece.col;
         return (Button) Board.FindName("square" + index);
     }
 }

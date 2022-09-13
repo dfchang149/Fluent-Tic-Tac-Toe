@@ -114,7 +114,7 @@ internal class Game
 
     public bool Won()
     {
-        for (var r = 0; r < board.Rank + 1; r++)
+        for (var r = 0; r < Settings.boardSize.Y; r++)
         {
             winningPieces.Clear();
             Piece initialPiece = board[r, 0];
@@ -123,7 +123,7 @@ internal class Game
             {
                 winningPieces.Add(initialPiece);
 
-                for (var c = 1; c < board.GetLength(0); c++) // Checks horizontal wins
+                for (var c = 1; c < Settings.boardSize.X; c++) // Checks horizontal wins
                 {
                     Piece piece = board[r, c];
                     if (piece == null) { foundWinner = false; break; }
@@ -142,7 +142,7 @@ internal class Game
                 }
             }
         }
-        for (var c = 0; c < board.GetLength(0); c++)
+        for (var c = 0; c < Settings.boardSize.X; c++)
         {
             winningPieces.Clear();
             Piece initialPiece = board[0, c];
@@ -151,7 +151,7 @@ internal class Game
             {
                 winningPieces.Add(initialPiece);
 
-                for (var r = 1; r < board.Rank + 1; r++) // Checks vertical wins
+                for (var r = 1; r < Settings.boardSize.Y; r++) // Checks vertical wins
                 {
                     Piece piece = board[r, c];
                     if (piece == null) { foundWinner = false; break; }
@@ -177,7 +177,7 @@ internal class Game
         {
             Piece initialPiece = null;
             var foundWinner = true;
-            for (var i = 0; i < board.Rank + 1 && i < board.GetLength(0); i++)
+            for (var i = 0; i < Settings.boardSize.Y && i < Settings.boardSize.X; i++)
             {
                 Piece piece = board[i, i];
                 if (piece == null) { foundWinner = false; break; }
@@ -205,7 +205,7 @@ internal class Game
             initialPiece = null;
             winningPieces.Clear();
             foundWinner = true;
-            for (var i = 0; i < board.Rank + 1 && i < board.GetLength(0); i++)
+            for (var i = 0; i < Settings.boardSize.Y && i < Settings.boardSize.X; i++)
             {
                 Piece piece = board[i, (board.GetLength(0) - 1) - i];
                 if (piece == null) { foundWinner = false; break; }
@@ -281,9 +281,9 @@ internal class Game
     public List<Vector2> GetEmptySpaces()
     {
         List<Vector2> spaces = new List<Vector2>();
-        for (int r = 0; r < this.board.Rank + 1; r++)
+        for (int r = 0; r < Settings.boardSize.Y; r++)
         {
-            for (int c = 0; c < this.board.GetLength(0); c++)
+            for (int c = 0; c < Settings.boardSize.X; c++)
             {
                 if (board[r, c] == null)
                 {
@@ -408,6 +408,6 @@ public class Piece
 
     public int GetIndex()
     {
-        return (this.row * 3) + this.col;
+        return (int)((this.row * Settings.boardSize.X) + this.col);
     }
 }
