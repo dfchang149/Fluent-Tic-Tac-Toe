@@ -41,13 +41,12 @@
                     <TextBlock x:Name="BotsTextBlock" Text="0" Style="{StaticResource BodyStrongTextBlockStyle}"/>
                 </StackPanel>
             </StackPanel>
-            <Grid x:Name="Board" 
-                HorizontalAlignment="Center" VerticalAlignment="Top" Height="264" Width="264" Background="Transparent"
-                ColumnDefinitions="80, 80, 80" RowDefinitions ="80, 80, 80"
+            <Grid x:Name="Board" Margin="64,0,64,24"
+                HorizontalAlignment="Center" VerticalAlignment="Top" Height="280"
                 ColumnSpacing="8" RowSpacing="8">
             </Grid>
             <!--="{ThemeResource AccentButtonStyle}"-->
-            <Button Name="AgainButton" Margin="0,16,0,0" 
+            <Button Name="AgainButton" 
                     Height="48" HorizontalAlignment="Center" Click="PlayAgainButtonPressed" >
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Symbol="Refresh" Margin="0,0,8,0" />

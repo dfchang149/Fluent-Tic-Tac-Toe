@@ -185,7 +185,7 @@
                                         </StackPanel>
                                         <NumberBox x:Name="BoardRowSelection" ValueChanged="BoardRowsChanged" HorizontalAlignment="Right" PlaceholderText="3"
                                             Value="3" SpinButtonPlacementMode="Compact" SmallChange="1"
-                                            Minimum="3" Maximum="10" />
+                                            Minimum="3" Maximum="8" />
                                     </Grid>
                                     <Grid>
                                         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
@@ -194,7 +194,7 @@
                                         </StackPanel>
                                         <NumberBox x:Name="BoardColumnSelection" ValueChanged="BoardColumnsChanged" HorizontalAlignment="Right" PlaceholderText="3"
                                             Value="3" SpinButtonPlacementMode="Compact" SmallChange="1"
-                                            Minimum="3" Maximum="10" />
+                                            Minimum="3" Maximum="8" />
                                     </Grid>
                                     <Grid>
                                         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">

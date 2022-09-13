@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
+using ABI.Windows.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.UI.ViewManagement;
+using WinRT;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -32,38 +36,59 @@ public sealed partial class PlayingPage : Page
 
     private void CreateBoard()
     {
-        // Create grid
+        // Update Board
+        for (var r = 0; r < Settings.boardSize.Y; r++)
+        {
+            ColumnDefinition columnDef = new ColumnDefinition();
+            columnDef.Width = new GridLength(1,GridUnitType.Star);
+            Board.ColumnDefinitions.Add(columnDef);
+        }
+
+        for (var r = 0; r < Settings.boardSize.Y; r++)
+        {
+            RowDefinition rowDef = new RowDefinition();
+            rowDef.Height = new GridLength(1, GridUnitType.Star);
+            Board.RowDefinitions.Add(rowDef);
+        }
+
+        // Add buttons
         for (var r = 0; r < Settings.boardSize.Y; r++)
         {
             for (var c = 0; c < Settings.boardSize.X; c++)
             {
                 var index = (r * Settings.boardSize.X) + c;
+                var sizeRatio = Settings.boardSize.X / Settings.boardSize.Y;
+                int buttonLength = (int)((Board.Height/Settings.boardSize.Y)-(Board.RowSpacing));
 
-                var button = new Button();
-                button.Height = 80;
-                button.Width = 80;
-                button.Content = "";
-                button.Name = "square" + index;
-                button.FontSize = 24;
-                button.VerticalAlignment = VerticalAlignment.Center;
-                button.HorizontalAlignment = HorizontalAlignment.Center;
-                button.CenterPoint = new Vector3((float)button.Height / 2);
-
-                // Add transitions
                 Vector3Transition vector3Transition = new Vector3Transition();
                 vector3Transition.Duration = System.TimeSpan.FromMilliseconds(100);
-                button.ScaleTransition = vector3Transition;
-                button.TranslationTransition = vector3Transition;
+
+                var square = new Button()
+                {
+                    Height = buttonLength,
+                    Width = buttonLength,
+                    Content = new TextBlock().Text = "",
+                    Name = "square" + index,
+                    FontSize = 24,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    CenterPoint = new Vector3((float)(buttonLength / 2)),
+                    Padding = new Thickness(0),
+
+                    // Add transitions
+                    ScaleTransition = vector3Transition,
+                    TranslationTransition = vector3Transition
+                };
 
                 // Handle Events
-                button.Click += OnGridPressed;
-                button.PointerEntered += OnGridEntered;
-                button.PointerExited += OnGridLeft;
-                button.PointerCanceled += OnGridLeft;
+                square.Click += OnSquarePressed;
+                square.PointerEntered += OnSquareEntered;
+                square.PointerExited += OnSquareLeft;
+                square.PointerCanceled += OnSquareLeft;
 
-                Grid.SetRow(button, r);
-                Grid.SetColumn(button, c);
-                Board.Children.Add(button);
+                Grid.SetRow(square, r);
+                Grid.SetColumn(square, c);
+                Board.Children.Add(square);
             }
         }
     }
@@ -182,7 +207,7 @@ public sealed partial class PlayingPage : Page
         }
     }
 
-    private void OnGridEntered(object sender, RoutedEventArgs e)
+    private void OnSquareEntered(object sender, RoutedEventArgs e)
     {
         if (game.winner == null)
         {
@@ -194,7 +219,7 @@ public sealed partial class PlayingPage : Page
         }
     }
 
-    private void OnGridLeft(object sender, RoutedEventArgs e)
+    private void OnSquareLeft(object sender, RoutedEventArgs e)
     {
         if (game.winner == null)
         {
@@ -203,7 +228,7 @@ public sealed partial class PlayingPage : Page
         }
     }
 
-    private void OnGridPressed(object sender, RoutedEventArgs e)
+    private void OnSquarePressed(object sender, RoutedEventArgs e)
     {
         if (!canPress)
         {
@@ -228,15 +253,15 @@ public sealed partial class PlayingPage : Page
                 return;
             }
 
-            Button button = sender as Button;
+            Button square = sender as Button;
             // Add piece to board
-            var name = button.Name.ToString().ToLower();
+            var name = square.Name.ToString().ToLower();
             name = name.Substring("square".Length);
             var number = Int32.Parse(name);
-            var row = number / game.board.GetLength(0);
-            var col = number % game.board.GetLength(0);
+            var row = number / Settings.boardSize.X;
+            var col = number % Settings.boardSize.X;
 
-            var wasPlaced = game.PlacePiece(row, col);
+            var wasPlaced = game.PlacePiece((int)row, (int)col);
 
             if (wasPlaced)
             {
@@ -244,8 +269,8 @@ public sealed partial class PlayingPage : Page
             }
             else
             {
-                button.Opacity = 1;
-                button.IsEnabled = true;
+                square.Opacity = 1;
+                square.IsEnabled = true;
             }
         }
         //TimeTextBlock.Text = "Row: " + row + ", Col: " + col;
@@ -256,10 +281,10 @@ public sealed partial class PlayingPage : Page
         if (game.pieces.Count > 0)
         {
             Piece recentPiece = game.pieces.Last();
-            Button button = GetButtonFromPiece(recentPiece);
+            Button square = GetSquareFromPiece(recentPiece);
             TurnsTextBlock.Text = game.turns.ToString();
-            button.IsEnabled = false;
-            button.Content = recentPiece.player.symbol;
+            square.IsEnabled = false;
+            SetSquareText(square, recentPiece.player.symbol);
         }
 
         // Check if won
@@ -303,9 +328,9 @@ public sealed partial class PlayingPage : Page
                 {
                     // Simulate button pressing
                     canPress = false;
-                    Button buttonPressed = GetButtonFromPiece(game.pieces.Last());
-                    OnGridEntered(buttonPressed, null);
-                    buttonPressed.BorderThickness = new Microsoft.UI.Xaml.Thickness(2,2,2,2);
+                    Button buttonPressed = GetSquareFromPiece(game.pieces.Last());
+                    OnSquareEntered(buttonPressed, null);
+                    buttonPressed.BorderThickness = new Microsoft.UI.Xaml.Thickness(1.5,1.5,1.5,1.5);
 
                     DispatcherTimer timer = new DispatcherTimer();
                     timer.Interval = TimeSpan.FromSeconds(0.25);
@@ -333,13 +358,13 @@ public sealed partial class PlayingPage : Page
             foreach (Piece piece in game.winningPieces)
             {
                 num++;
-                Button grid = (Button)Board.FindName("square" + piece.GetIndex());
+                Button square = (Button)Board.FindName("square" + piece.GetIndex());
 
 
                 // Animate button size
-                TimeSpan savedDuration = grid.ScaleTransition.Duration;
-                grid.ScaleTransition.Duration = savedDuration.Multiply(3);
-                grid.Scale = new Vector3(0.95f);
+                TimeSpan savedDuration = square.ScaleTransition.Duration;
+                square.ScaleTransition.Duration = savedDuration.Multiply(3);
+                square.Scale = new Vector3(0.95f);
 
                 // shrink first
                 DispatcherTimer shrinkTimer = new DispatcherTimer();
@@ -347,15 +372,15 @@ public sealed partial class PlayingPage : Page
                 EventHandler<Object> shrinkHandler = new EventHandler<object>((s1, e1) =>
                 {
                     shrinkTimer.Stop();
-                    grid.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
-                    grid.IsEnabled = true;
-                    grid.Scale = new Vector3(1);
+                    square.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
+                    square.IsEnabled = true;
+                    square.Scale = new Vector3(1);
                     // grow back and reset ScaleTransition
                     DispatcherTimer growTimer = new DispatcherTimer();
                     growTimer.Interval = savedDuration.Divide(2) + TimeSpan.FromMilliseconds(100 * num);
                     EventHandler<Object> growHandler = new EventHandler<object>((s2, e2) =>
                     {
-                        grid.ScaleTransition.Duration = savedDuration;
+                        square.ScaleTransition.Duration = savedDuration;
                         growTimer.Stop();
 
                         if (piece.Equals(game.winningPieces.Last()))
@@ -412,12 +437,12 @@ public sealed partial class PlayingPage : Page
         foreach (Piece piece in game.pieces)
         {
             var index = (piece.row * Settings.boardSize.X) + piece.col;
-            Button grid = (Button)Board.FindName("square" + index);
-            if (grid != null)
+            Button square = (Button)Board.FindName("square" + index);
+            if (square != null)
             {
-                grid.Content = "";
-                grid.IsEnabled = true;
-                grid.Style = Application.Current.Resources["DefaultButtonStyle"] as Style;
+                SetSquareText(square, "");
+                square.IsEnabled = true;
+                square.Style = Application.Current.Resources["DefaultButtonStyle"] as Style;
             }
 
         }
@@ -428,7 +453,19 @@ public sealed partial class PlayingPage : Page
         UpdateTurnText();
     }
 
-    private Button GetButtonFromPiece(Piece piece)
+
+    private void SetSquareText(Button square,string text)
+    {
+        TextBlock textblock = new TextBlock();
+        textblock.Text = text;
+        textblock.HorizontalAlignment = HorizontalAlignment.Center;
+        textblock.VerticalAlignment = VerticalAlignment.Center;
+        textblock.TextAlignment = TextAlignment.Center;
+        textblock.FontSize = Math.Min(square.Height / 2.5,28);
+        square.Content = textblock;
+    }
+
+    private Button GetSquareFromPiece(Piece piece)
     {
         var index = (piece.row * Settings.boardSize.X) + piece.col;
         return (Button) Board.FindName("square" + index);

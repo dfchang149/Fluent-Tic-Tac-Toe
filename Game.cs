@@ -220,7 +220,7 @@ internal class Game
             foundWinner = true;
             for (var i = 0; i < Settings.boardSize.Y && i < Settings.boardSize.X; i++)
             {
-                Piece piece = board[i, (board.GetLength(0) - 1) - i];
+                Piece piece = board[i, (int)(Settings.boardSize.X - 1) - i];
                 if (piece == null) { foundWinner = false; break; }
                 winningPieces.Add(piece);
 
