@@ -375,7 +375,7 @@ public class Player
 
     public void SetSymbol(int num)
     {
-        this.symbol = num < symbols.Length ? symbols[num] : Convert.ToChar(num).ToString();
+        this.symbol = num < symbols.Length ? symbols[num] : Convert.ToChar(63+num).ToString();
     }
 }
 

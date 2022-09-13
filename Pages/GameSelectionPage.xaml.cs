@@ -131,12 +131,13 @@ public sealed partial class GameSelectionPage : Page
 
             if (this.IsLoaded)
             {
-                if (Settings.gamemode.Equals(Settings.gamemodes[1]))
+                if (Settings.gamemode == 1)
                 {
+                    Debug.WriteLine("YES");
                     Settings.numPlayers = (int)MultiplayerPlayersBox.Value;
                     Settings.numMultiplayerBots = (int)MultiplayerBotsBox.Value;
                 }
-                else if (Settings.gamemode.Equals(Settings.gamemodes[2]))
+                else if (Settings.gamemode == 2)
                 {
                     Settings.numSpectatorBots = (int)SpectatorBotsBox.Value;
                 }
