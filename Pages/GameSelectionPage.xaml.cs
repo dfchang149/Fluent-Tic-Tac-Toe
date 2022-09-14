@@ -133,7 +133,6 @@ public sealed partial class GameSelectionPage : Page
             {
                 if (Settings.gamemode == 1)
                 {
-                    Debug.WriteLine("YES");
                     Settings.numPlayers = (int)MultiplayerPlayersBox.Value;
                     Settings.numMultiplayerBots = (int)MultiplayerBotsBox.Value;
                 }
