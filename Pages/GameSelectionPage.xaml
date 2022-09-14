@@ -92,7 +92,7 @@
                                             <SymbolIcon Symbol="People" Margin="0,0,16,0" />
                                             <TextBlock  Text="Number of Players"/>
                                         </StackPanel>
-                                        <NumberBox x:Name="MultiplayerPlayersBox" ValueChanged="PlayerBoxChanged" HorizontalAlignment="Right" Width="{x:Bind Path=ActualWidth}"
+                                        <NumberBox x:Name="MultiplayerPlayersBox" ValueChanged="PlayerBoxChanged" HorizontalAlignment="Right"
                                             Value="2" SpinButtonPlacementMode="Compact" SmallChange="1"
                                             Minimum="2" Maximum="10" PlaceholderText="2" />
                                     </Grid>
@@ -101,7 +101,7 @@
                                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe99a;" Margin="0,0,16,0" />
                                             <TextBlock  Text="Number of Bots"/>
                                         </StackPanel>
-                                        <NumberBox x:Name="MultiplayerBotsBox" ValueChanged="BotsBoxChanged" HorizontalAlignment="Right" Width="{x:Bind Path=ActualWidth}"
+                                        <NumberBox x:Name="MultiplayerBotsBox" ValueChanged="BotsBoxChanged" HorizontalAlignment="Right"
                                             Value="0" SpinButtonPlacementMode="Compact" SmallChange="1"
                                             Minimum="0" Maximum="10" PlaceholderText="0" />
                                     </Grid>
@@ -130,7 +130,7 @@
                                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe99a;" Margin="0,0,16,0" />
                                             <TextBlock  Text="Number of Bots"/>
                                         </StackPanel>
-                                        <NumberBox x:Name="SpectatorBotsBox" ValueChanged="BotsBoxChanged" HorizontalAlignment="Right" Width="{x:Bind Path=ActualWidth}"
+                                        <NumberBox x:Name="SpectatorBotsBox" ValueChanged="BotsBoxChanged" HorizontalAlignment="Right"
                                         Value="2" SpinButtonPlacementMode="Compact" SmallChange="1"
                                         Minimum="2" Maximum="10" PlaceholderText="2" />
                                     </Grid>
