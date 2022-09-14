@@ -20,9 +20,7 @@ public sealed partial class MainWindow : WinUIEx.WindowEx
         SetTitleBar(AppTitleBar);
         Navigate();
         MainGrid.Children.Remove(BackButton);
-        Settings.windowContent = this.WindowContent;
-
-        FrameworkElement windowContent = (FrameworkElement)Settings.windowContent;
+        Settings.window = this;
     }
 
     private void BackButtonClick(object sender, RoutedEventArgs e)

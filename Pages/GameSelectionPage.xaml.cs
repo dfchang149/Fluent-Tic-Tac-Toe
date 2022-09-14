@@ -25,18 +25,16 @@ namespace Fluent_Tic_tac_toe.Pages;
 /// </summary>
 public sealed partial class GameSelectionPage : Page
 {
-    readonly FrameworkElement windowContent;
-
     public GameSelectionPage()
     {
         this.InitializeComponent();
         LoadSettings();
         GamemodeExpander.Content = null;
-        windowContent = (FrameworkElement)Settings.windowContent;
     }
 
     private void ThemeSelected(object sender, RoutedEventArgs e)
     {
+        FrameworkElement windowContent = (FrameworkElement)Settings.window.WindowContent;
         if (!this.IsLoaded)
         {
             return;
@@ -207,6 +205,15 @@ public sealed partial class GameSelectionPage : Page
         UpdatePlayerBoxes();
     }
 
+    private void OnTopToggled(object sender, RoutedEventArgs e)
+    {
+        if (this.IsLoaded)
+        {
+            Settings.alwaysOnTop = TimerToggleSwitch.IsOn;
+            Settings.window.SetIsAlwaysOnTop(OnTopToggleSwitch.IsOn);
+        }
+    }
+
     private void TimerToggled(object sender, RoutedEventArgs e)
     {
         if (this.IsLoaded)
@@ -236,6 +243,7 @@ public sealed partial class GameSelectionPage : Page
         try
         {
             ThemeSelectionBox.SelectedIndex = Settings.theme;
+            OnTopToggleSwitch.IsOn = Settings.alwaysOnTop;
 
             GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
             BoardSelectionBox.SelectedIndex = Settings.boardMode;
@@ -262,20 +270,6 @@ public sealed partial class GameSelectionPage : Page
     {
         ResetGameSettingsButton.Flyout.Hide();
         Settings.Reset();
-
-        ThemeSelectionBox.SelectedIndex = Settings.theme;
-
-        GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
-        BoardSelectionBox.SelectedIndex = Settings.boardMode;
-        MultiplayerPlayersBox.Value = Settings.numPlayers;
-        MultiplayerBotsBox.Value = Settings.numMultiplayerBots;
-        SpectatorBotsBox.Value = Settings.numSpectatorBots;
-        DifficultySelectionBox.SelectedIndex = Settings.difficulty;
-        BoardRowSelection.Value = Settings.boardSize.Y;
-        BoardColumnSelection.Value = Settings.boardSize.X;
-        WinPatternSelectionBox.SelectedIndex = Settings.winPattern;
-        TimerToggleSwitch.IsOn = Settings.matchTimerEnabled;
-        SquaresInfoToggleSwitch.IsOn = Settings.boardInfoEnabled;
-        PlayerCounterToggleSwitch.IsOn = Settings.playerCounterEnabled;
+        LoadSettings();
     }
 }

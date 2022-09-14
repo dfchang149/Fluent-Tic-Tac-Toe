@@ -37,12 +37,15 @@ internal class Settings
     public static string[] themes = {"Light","Dark","System default" };
     public static int theme = 2;
 
-    public static object windowContent;
+    public static bool alwaysOnTop = false;
+
+    public static MainWindow window;
 
     public static void Reset()
     {
         theme = 2;
-        
+        alwaysOnTop = false;
+
         gamemode = 0;
         boardMode = 0;
         numPlayers = 2;

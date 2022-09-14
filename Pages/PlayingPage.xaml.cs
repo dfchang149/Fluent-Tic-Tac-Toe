@@ -55,6 +55,13 @@ public sealed partial class PlayingPage : Page
                         square.Width = buttonLength;
                         square.CenterPoint = new Vector3((float)(buttonLength / 2));
                         square.CornerRadius = new CornerRadius(buttonLength / 16);
+
+                        Piece piece = game.board[r, c];
+
+                        if (piece != null)
+                        {
+                            SetSquareText(square,piece.player.symbol);
+                        }
                     }
                 }
             }

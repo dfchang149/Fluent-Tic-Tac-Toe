@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Background="Transparent">
 
-    <Grid Padding="8,16,8,0" x:Name="PageGrid">
+    <Grid Padding="8,32,8,0" x:Name="PageGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -39,6 +39,19 @@
                         <x:String>Dark</x:String>
                         <x:String>System default</x:String>
                     </ComboBox>
+                </Grid>
+                <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="4" Height="72"
+                          BorderBrush="{ThemeResource CardStrokeColorDefault}" BorderThickness="1" HorizontalAlignment="Stretch" Padding="20,16,-60,16" >
+                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" VerticalAlignment="Center">
+                        <!--e78b e718  e8a7-->
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe718;" Margin="0,0,16,0" />
+                        <StackPanel VerticalAlignment="Center" Spacing="1">
+                            <TextBlock Text="Always On Top"/>
+                            <TextBlock Foreground="Gray" Style="{ThemeResource CaptionTextBlockStyle}"
+                                           Text="Keeps app window above other applications"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <ToggleSwitch x:Name="OnTopToggleSwitch" Toggled="OnTopToggled" HorizontalAlignment="Right" IsOn="False" />
                 </Grid>
                
 
