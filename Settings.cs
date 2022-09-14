@@ -34,12 +34,14 @@ internal class Settings
 
     public static bool informedMaxPlayers = false;
 
-    //public static string[] themes = {"Light","Dark","Use System Settings" };
-    //public static int theme = 2;
+    public static string[] themes = {"Light","Dark","Use System Settings" };
+    public static int theme = 2;
+
+    public static object windowContent;
 
     public static void Reset()
     {
-        //theme = 2;
+        theme = 2;
         
         gamemode = 0;
         boardMode = 0;

@@ -32,32 +32,33 @@ public sealed partial class GameSelectionPage : Page
         GamemodeExpander.Content = null;
     }
 
-    /*
+    
     private void ThemeSelected(object sender, RoutedEventArgs e)
     {
         if (!this.IsLoaded)
         {
             return;
         }
+        FrameworkElement window = (FrameworkElement) Settings.windowContent;
         switch (ThemeSelectionBox.SelectedIndex)
         {
             case 0:
-                this.RequestedTheme = ElementTheme.Light;
+                window.RequestedTheme = ElementTheme.Light;
                 break;
             case 1:
-                this.RequestedTheme = ElementTheme.Dark;
+                window.RequestedTheme = ElementTheme.Dark;
                 break;
             case 2:
-                this.RequestedTheme = ElementTheme.Default;
+                window.RequestedTheme = ElementTheme.Default;
                 break;
             default:
                 ThemeSelectionBox.SelectedIndex = 2;
-                this.RequestedTheme = ElementTheme.Default;
+                window.RequestedTheme = ElementTheme.Default;
                 break;
         }
         Settings.theme = ThemeSelectionBox.SelectedIndex;
     }
-    */
+    
 
     private void UpdateGamemodeExanderContent()
     {
@@ -231,7 +232,7 @@ public sealed partial class GameSelectionPage : Page
     {
         try
         {
-            //ThemeSelectionBox.SelectedIndex = Settings.theme;
+            ThemeSelectionBox.SelectedIndex = Settings.theme;
 
             GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
             BoardSelectionBox.SelectedIndex = Settings.boardMode;
@@ -259,7 +260,7 @@ public sealed partial class GameSelectionPage : Page
         ResetGameSettingsButton.Flyout.Hide();
         Settings.Reset();
 
-        //ThemeSelectionBox.SelectedIndex = Settings.theme;
+        ThemeSelectionBox.SelectedIndex = Settings.theme;
 
         GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
         BoardSelectionBox.SelectedIndex = Settings.boardMode;

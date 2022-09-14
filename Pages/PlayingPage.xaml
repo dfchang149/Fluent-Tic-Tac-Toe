@@ -10,8 +10,12 @@
     mc:Ignorable="d"
     Background="Transparent">
 
-    <Grid >
-        <StackPanel x:Name="PageStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" x:Name="PageStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel.ChildrenTransitions>
                 <TransitionCollection>
                     <EntranceThemeTransition FromHorizontalOffset="0" FromVerticalOffset="48" />
@@ -53,5 +57,10 @@
                 </StackPanel>
             </Button>
         </StackPanel>
+        <!--
+        <Grid Grid.Row="1" Margin="64,0,64,24" Background="AliceBlue"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        </Grid>
+        -->
     </Grid>
 </Page>
