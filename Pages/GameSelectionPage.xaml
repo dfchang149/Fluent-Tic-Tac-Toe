@@ -51,7 +51,7 @@
                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7fc;" Margin="0,1,16,0" />
                                 <TextBlock  Text="Gamemode"/>
                             </StackPanel>
-                            <ComboBox x:Name="GamemodeSelectionBox" SelectionChanged="GamemodeSelected" Width="{Binding ElementName=GamemodeSelectionBox, Path=ActualWidth}" FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="0">
+                            <ComboBox x:Name="GamemodeSelectionBox" SelectionChanged="GamemodeSelected" Width="128" FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="0">
                                 <x:String>Singleplayer</x:String>
                                 <x:String>Multiplayer</x:String>
                                 <x:String>Spectator</x:String>
@@ -73,7 +73,7 @@
                                     <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe8f0;" Margin="0,0,16,0" />
                                     <TextBlock Text="Difficulty"/>
                                 </StackPanel>
-                                <ComboBox x:Name="DifficultySelectionBox" SelectionChanged="DifficultySelected" Width="{Binding ElementName=DifficultySelectionBox, Path=ActualWidth}"
+                                <ComboBox x:Name="DifficultySelectionBox" SelectionChanged="DifficultySelected" Width="128"
                                         FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="1">
                                     <x:String>Easy</x:String>
                                     <x:String>Medium</x:String>
@@ -92,7 +92,7 @@
                                             <SymbolIcon Symbol="People" Margin="0,0,16,0" />
                                             <TextBlock  Text="Number of Players"/>
                                         </StackPanel>
-                                        <NumberBox x:Name="MultiplayerPlayersBox" ValueChanged="PlayerBoxChanged" HorizontalAlignment="Right" Width="{Binding Path=ActualWidth}"
+                                        <NumberBox x:Name="MultiplayerPlayersBox" ValueChanged="PlayerBoxChanged" HorizontalAlignment="Right" Width="{x:Bind Path=ActualWidth}"
                                             Value="2" SpinButtonPlacementMode="Compact" SmallChange="1"
                                             Minimum="2" Maximum="10" PlaceholderText="2" />
                                     </Grid>
@@ -101,7 +101,7 @@
                                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe99a;" Margin="0,0,16,0" />
                                             <TextBlock  Text="Number of Bots"/>
                                         </StackPanel>
-                                        <NumberBox x:Name="MultiplayerBotsBox" ValueChanged="BotsBoxChanged" HorizontalAlignment="Right" Width="{Binding Path=ActualWidth}"
+                                        <NumberBox x:Name="MultiplayerBotsBox" ValueChanged="BotsBoxChanged" HorizontalAlignment="Right" Width="{x:Bind Path=ActualWidth}"
                                             Value="0" SpinButtonPlacementMode="Compact" SmallChange="1"
                                             Minimum="0" Maximum="10" PlaceholderText="0" />
                                     </Grid>
@@ -130,7 +130,7 @@
                                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe99a;" Margin="0,0,16,0" />
                                             <TextBlock  Text="Number of Bots"/>
                                         </StackPanel>
-                                        <NumberBox x:Name="SpectatorBotsBox" ValueChanged="BotsBoxChanged" HorizontalAlignment="Right" Width="{Binding Path=ActualWidth}"
+                                        <NumberBox x:Name="SpectatorBotsBox" ValueChanged="BotsBoxChanged" HorizontalAlignment="Right" Width="{x:Bind Path=ActualWidth}"
                                         Value="2" SpinButtonPlacementMode="Compact" SmallChange="1"
                                         Minimum="2" Maximum="10" PlaceholderText="2" />
                                     </Grid>
@@ -158,7 +158,7 @@
                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe80a;" Margin="0,0,16,0" />
                                 <TextBlock  Text="Board"/>
                             </StackPanel>
-                            <ComboBox x:Name="BoardSelectionBox" SelectionChanged="BoardSelected" Width="{Binding ElementName=GamemodeSelectionBox, Path=ActualWidth}" FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="0">
+                            <ComboBox x:Name="BoardSelectionBox" SelectionChanged="BoardSelected" Width="128" FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="0">
                                 <x:String>Default</x:String>
                                 <x:String>Custom</x:String>
                             </ComboBox>
@@ -180,8 +180,8 @@
                                     </StackPanel.ChildrenTransitions>
                                     <Grid>
                                         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
-                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xf5a9;" Margin="0,0,16,0" />
-                                            <TextBlock  Text="Columns"/>
+                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xf5a0;" Margin="0,0,16,0" />
+                                            <TextBlock  Text="Rows"/>
                                         </StackPanel>
                                         <NumberBox x:Name="BoardRowSelection" ValueChanged="BoardRowsChanged" HorizontalAlignment="Right" PlaceholderText="3"
                                             Value="3" SpinButtonPlacementMode="Compact" SmallChange="1"
@@ -189,8 +189,8 @@
                                     </Grid>
                                     <Grid>
                                         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
-                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xf5a0;" Margin="0,0,16,0" />
-                                            <TextBlock  Text="Rows"/>
+                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xf5a9;" Margin="0,0,16,0" />
+                                            <TextBlock  Text="Columns"/>
                                         </StackPanel>
                                         <NumberBox x:Name="BoardColumnSelection" ValueChanged="BoardColumnsChanged" HorizontalAlignment="Right" PlaceholderText="3"
                                             Value="3" SpinButtonPlacementMode="Compact" SmallChange="1"
@@ -201,7 +201,7 @@
                                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe734;" Margin="0,0,16,0" />
                                             <TextBlock  Text="Win Pattern"/>
                                         </StackPanel>
-                                        <ComboBox x:Name="WinPatternSelectionBox" SelectionChanged="WinPatternChanged" Width="{Binding ElementName=GamemodeSelectionBox, Path=ActualWidth}" FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="0">
+                                        <ComboBox x:Name="WinPatternSelectionBox" SelectionChanged="WinPatternChanged" Width="128" FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="0">
                                             <x:String>3 in a row</x:String>
                                             <x:String>Full row</x:String>
                                         </ComboBox>

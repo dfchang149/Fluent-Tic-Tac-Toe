@@ -39,16 +39,16 @@ public sealed partial class PlayingPage : Page
         // Update Board
         for (var r = 0; r < Settings.boardSize.Y; r++)
         {
-            ColumnDefinition columnDef = new ColumnDefinition();
-            columnDef.Width = new GridLength(1,GridUnitType.Star);
-            Board.ColumnDefinitions.Add(columnDef);
-        }
-
-        for (var r = 0; r < Settings.boardSize.Y; r++)
-        {
             RowDefinition rowDef = new RowDefinition();
             rowDef.Height = new GridLength(1, GridUnitType.Star);
             Board.RowDefinitions.Add(rowDef);
+        }
+
+        for (var c = 0; c < Settings.boardSize.X; c++)
+        {
+            ColumnDefinition columnDef = new ColumnDefinition();
+            columnDef.Width = new GridLength(1, GridUnitType.Star);
+            Board.ColumnDefinitions.Add(columnDef);
         }
 
         // Add buttons
@@ -57,8 +57,11 @@ public sealed partial class PlayingPage : Page
             for (var c = 0; c < Settings.boardSize.X; c++)
             {
                 var index = (r * Settings.boardSize.X) + c;
-                var sizeRatio = Settings.boardSize.X / Settings.boardSize.Y;
                 int buttonLength = (int)((Board.Height/Settings.boardSize.Y)-(Board.RowSpacing));
+                if (Settings.boardSize.X > Settings.boardSize.Y)
+                {
+
+                }
 
                 Vector3Transition vector3Transition = new Vector3Transition();
                 vector3Transition.Duration = System.TimeSpan.FromMilliseconds(100);
