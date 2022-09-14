@@ -29,13 +29,42 @@ public sealed partial class PlayingPage : Page
     {
         this.InitializeComponent();
         this.SetUpGame();
-        this.CreateBoard();
         this.InitializeTimer();
-        PageStackPanel.Children.Remove(AgainButton);
+        PageGrid.Children.Remove(AgainButton);
     }
 
-    private void CreateBoard()
+    private void BoardGridSizeChanged(object sender, RoutedEventArgs e)
     {
+        var minLength = Math.Min(BoardGrid.ActualHeight, BoardGrid.ActualWidth);
+        Board.Height = minLength;
+        Board.Width = minLength;
+        if (game != null)
+        {
+            var spacing = 8 - (Math.Max(Settings.boardSize.X, Settings.boardSize.Y) / 2);
+            int buttonLength = (int)((minLength / Settings.boardSize.Y) - (spacing));
+            for (var r = 0; r < Settings.boardSize.Y; r++)
+            {
+                for (var c = 0; c < Settings.boardSize.X; c++)
+                {
+                    var index = (r * Settings.boardSize.X) + c;
+                    Button square = (Button)Board.FindName("square" + index);
+
+                    if (square != null)
+                    {
+                        square.Height = buttonLength;
+                        square.Width = buttonLength;
+                        square.CenterPoint = new Vector3((float)(buttonLength / 2));
+                        square.CornerRadius = new CornerRadius(buttonLength / 16);
+                    }
+                }
+            }
+        }
+    }
+
+    private void BoardLoaded(object sender, RoutedEventArgs e)
+    {
+        BoardGridSizeChanged(null,null);
+
         // Update Board
         var spacing = 8 - (Math.Max(Settings.boardSize.X, Settings.boardSize.Y) / 2);
         Board.RowSpacing = spacing;
@@ -61,7 +90,7 @@ public sealed partial class PlayingPage : Page
             for (var c = 0; c < Settings.boardSize.X; c++)
             {
                 var index = (r * Settings.boardSize.X) + c;
-                int buttonLength = (int)((Board.Height/Settings.boardSize.Y)-(spacing));
+                int buttonLength = (int)((Board.ActualHeight / Settings.boardSize.Y) - (spacing));
 
                 Vector3Transition vector3Transition = new Vector3Transition();
                 vector3Transition.Duration = System.TimeSpan.FromMilliseconds(100);
@@ -77,10 +106,10 @@ public sealed partial class PlayingPage : Page
                     HorizontalAlignment = HorizontalAlignment.Center,
                     CenterPoint = new Vector3((float)(buttonLength / 2)),
                     Padding = new Thickness(0),
-                    CornerRadius = new CornerRadius(Math.Min(spacing/2,8)),
+                    CornerRadius = new CornerRadius(buttonLength / 16),
 
-                    // Add transitions
-                    ScaleTransition = vector3Transition,
+                // Add transitions
+                ScaleTransition = vector3Transition,
                     TranslationTransition = vector3Transition
                 };
 
@@ -389,9 +418,9 @@ public sealed partial class PlayingPage : Page
 
                         if (piece.Equals(game.winningPieces.Last()))
                         {
-                            if (AgainButton.Parent != PageStackPanel)
+                            if (AgainButton.Parent != PageGrid)
                             {
-                                PageStackPanel.Children.Add(AgainButton);
+                                PageGrid.Children.Add(AgainButton);
                             }
                         }
                     });
@@ -426,16 +455,17 @@ public sealed partial class PlayingPage : Page
         }
         else
         {
-            if (AgainButton.Parent != PageStackPanel)
+            if (AgainButton.Parent != PageGrid)
             {
-                PageStackPanel.Children.Add(AgainButton);
+                PageGrid.Children.Add(AgainButton);
+                Grid.SetRow(AgainButton, 2);
             }
         }
     }
 
     private void PlayAgainButtonPressed(object sender, RoutedEventArgs e)
     {
-        PageStackPanel.Children.Remove(AgainButton);
+        PageGrid.Children.Remove(AgainButton);
         SetMatchTimerActive(false);
 
         foreach (Piece piece in game.pieces)
