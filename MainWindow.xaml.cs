@@ -1,6 +1,8 @@
-﻿using Microsoft.UI.Xaml;
+﻿using System.Diagnostics;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
+using WinRT;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -19,6 +21,8 @@ public sealed partial class MainWindow : WinUIEx.WindowEx
         Navigate();
         MainGrid.Children.Remove(BackButton);
         Settings.windowContent = this.WindowContent;
+
+        FrameworkElement windowContent = (FrameworkElement)Settings.windowContent;
     }
 
     private void BackButtonClick(object sender, RoutedEventArgs e)

@@ -10,7 +10,17 @@
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->
-
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <x:Boolean x:Key="IsDarkTheme">false</x:Boolean>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <x:Boolean x:Key="IsDarkTheme">true</x:Boolean>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Default">
+                    <x:Boolean x:Key="IsDarkTheme">false</x:Boolean>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
             <!-- transparent title bar -->
             <SolidColorBrush x:Key="WindowCaptionBackground" Color="Transparent"/>
             <SolidColorBrush x:Key="WindowCaptionBackgroundDisabled" Color="Transparent"/>

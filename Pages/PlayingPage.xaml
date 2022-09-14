@@ -11,10 +11,12 @@
     Background="Transparent">
 
     <Grid>
+        <!--
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        -->
         <StackPanel Grid.Row="0" x:Name="PageStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel.ChildrenTransitions>
                 <TransitionCollection>

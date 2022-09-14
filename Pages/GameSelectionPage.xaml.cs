@@ -25,35 +25,38 @@ namespace Fluent_Tic_tac_toe.Pages;
 /// </summary>
 public sealed partial class GameSelectionPage : Page
 {
+    readonly FrameworkElement windowContent;
+
     public GameSelectionPage()
     {
         this.InitializeComponent();
         LoadSettings();
         GamemodeExpander.Content = null;
+        windowContent = (FrameworkElement)Settings.windowContent;
     }
 
-    
     private void ThemeSelected(object sender, RoutedEventArgs e)
     {
         if (!this.IsLoaded)
         {
             return;
         }
-        FrameworkElement window = (FrameworkElement) Settings.windowContent;
         switch (ThemeSelectionBox.SelectedIndex)
         {
             case 0:
-                window.RequestedTheme = ElementTheme.Light;
+                windowContent.RequestedTheme = ElementTheme.Light;
                 break;
             case 1:
-                window.RequestedTheme = ElementTheme.Dark;
+                windowContent.RequestedTheme = ElementTheme.Dark;
                 break;
             case 2:
-                window.RequestedTheme = ElementTheme.Default;
+                bool IsDarkTheme = (bool)Application.Current.Resources["IsDarkTheme"];
+                windowContent.RequestedTheme = IsDarkTheme ? ElementTheme.Dark : ElementTheme.Light;
+                windowContent.RequestedTheme = ElementTheme.Default;
                 break;
             default:
                 ThemeSelectionBox.SelectedIndex = 2;
-                window.RequestedTheme = ElementTheme.Default;
+                windowContent.RequestedTheme = ElementTheme.Default;
                 break;
         }
         Settings.theme = ThemeSelectionBox.SelectedIndex;

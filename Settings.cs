@@ -34,7 +34,7 @@ internal class Settings
 
     public static bool informedMaxPlayers = false;
 
-    public static string[] themes = {"Light","Dark","Use System Settings" };
+    public static string[] themes = {"Light","Dark","System default" };
     public static int theme = 2;
 
     public static object windowContent;
@@ -59,6 +59,7 @@ internal class Settings
 
     public static int GetMaxPlayers() // returns max amount of players for current board size
     {
-        return (int) Math.Round((boardSize.X * boardSize.Y)/4.5f);
+        int maxPlayers = (int)Math.Round((boardSize.X * boardSize.Y) / 4.5f);
+        return maxPlayers;
     }
 }

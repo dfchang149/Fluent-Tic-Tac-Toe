@@ -34,10 +34,10 @@
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe771;" Margin="0,0,16,0" />
                         <TextBlock  Text="App Theme"/>
                     </StackPanel>
-                    <ComboBox x:Name="ThemeSelectionBox" SelectionChanged="ThemeSelected" SelectedIndex="2" Width="{Binding ElementName=ThemeSelectionBox, Path=ActualWidth}" FlowDirection="LeftToRight" HorizontalAlignment="Right">
+                    <ComboBox x:Name="ThemeSelectionBox" SelectionChanged="ThemeSelected" SelectedIndex="2" Width="144" FlowDirection="LeftToRight" HorizontalAlignment="Right">
                         <x:String>Light</x:String>
                         <x:String>Dark</x:String>
-                        <x:String>Use System Settings</x:String>
+                        <x:String>System default</x:String>
                     </ComboBox>
                 </Grid>
                
