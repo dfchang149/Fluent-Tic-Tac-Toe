@@ -37,6 +37,10 @@ public sealed partial class PlayingPage : Page
     private void CreateBoard()
     {
         // Update Board
+        var spacing = 8 - (Math.Max(Settings.boardSize.X, Settings.boardSize.Y) / 2);
+        Board.RowSpacing = spacing;
+        Board.ColumnSpacing = spacing;
+
         for (var r = 0; r < Settings.boardSize.Y; r++)
         {
             RowDefinition rowDef = new RowDefinition();
@@ -57,11 +61,7 @@ public sealed partial class PlayingPage : Page
             for (var c = 0; c < Settings.boardSize.X; c++)
             {
                 var index = (r * Settings.boardSize.X) + c;
-                int buttonLength = (int)((Board.Height/Settings.boardSize.Y)-(Board.RowSpacing));
-                if (Settings.boardSize.X > Settings.boardSize.Y)
-                {
-
-                }
+                int buttonLength = (int)((Board.Height/Settings.boardSize.Y)-(spacing));
 
                 Vector3Transition vector3Transition = new Vector3Transition();
                 vector3Transition.Duration = System.TimeSpan.FromMilliseconds(100);
@@ -77,6 +77,7 @@ public sealed partial class PlayingPage : Page
                     HorizontalAlignment = HorizontalAlignment.Center,
                     CenterPoint = new Vector3((float)(buttonLength / 2)),
                     Padding = new Thickness(0),
+                    CornerRadius = new CornerRadius(Math.Min(spacing/2,8)),
 
                     // Add transitions
                     ScaleTransition = vector3Transition,

@@ -42,8 +42,7 @@
                 </StackPanel>
             </StackPanel>
             <Grid x:Name="Board" Margin="64,0,64,24"
-                HorizontalAlignment="Center" VerticalAlignment="Top" Height="280"
-                ColumnSpacing="8" RowSpacing="8">
+                HorizontalAlignment="Center" VerticalAlignment="Top" Height="280">
             </Grid>
             <!--="{ThemeResource AccentButtonStyle}"-->
             <Button Name="AgainButton" 
