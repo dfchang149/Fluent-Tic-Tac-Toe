@@ -264,13 +264,17 @@ public sealed partial class PlayingPage : Page
 
     private void OnSquareEntered(object sender, RoutedEventArgs e)
     {
-        if (game.winner == null)
+        if (game.winner == null && !game.GetCurrentPlayerTurn().isComputer)
         {
-            Button button = sender as Button;
-            if (button.Content.Equals(""))
-            {
-                button.Scale = new Vector3(0.9f);
-            }
+            ShrinkSquare(sender as Button);
+        }
+    }
+
+    private void ShrinkSquare(Button square)
+    {
+        if (square.IsEnabled)
+        {
+            square.Scale = new Vector3(0.9f);
         }
     }
 
@@ -384,7 +388,7 @@ public sealed partial class PlayingPage : Page
                     // Simulate button pressing
                     canPress = false;
                     Button buttonPressed = GetSquareFromPiece(game.pieces.Last());
-                    OnSquareEntered(buttonPressed, null);
+                    ShrinkSquare(buttonPressed);
                     buttonPressed.BorderThickness = new Microsoft.UI.Xaml.Thickness(1.5,1.5,1.5,1.5);
 
                     DispatcherTimer timer = new DispatcherTimer();
