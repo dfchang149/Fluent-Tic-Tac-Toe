@@ -90,7 +90,7 @@ public sealed partial class GameSelectionPage : Page
             {
                 GamemodeExpander.Content = SpectatorContent;
             }
-        } 
+        }
     }
 
     private void GamemodeExanderExpanded(Expander sender, ExpanderExpandingEventArgs e)
@@ -101,6 +101,7 @@ public sealed partial class GameSelectionPage : Page
     private void GamemodeSelected(object sender, RoutedEventArgs e)
     {
         UpdateGamemodeExanderContent(true);
+        UpdatePlayerBoxes(true);
     }
 
     private void UpdateBoardExanderContent()
@@ -114,9 +115,9 @@ public sealed partial class GameSelectionPage : Page
                 BoardColumnSelection.IsEnabled = false;
                 WinPatternSelectionBox.IsEnabled = false;
 
-                BoardRowSelection.Value = Double.Parse(BoardRowSelection.PlaceholderText);
-                BoardColumnSelection.Value = Double.Parse(BoardColumnSelection.PlaceholderText);
-                WinPatternSelectionBox.SelectedIndex = 0;
+                BoardRowSelection.Value = (int)Settings.GetValue("boardRows",true);
+                BoardColumnSelection.Value = (int)Settings.GetValue("boardCols", true);
+                WinPatternSelectionBox.SelectedIndex = (int)Settings.GetValue("winPattern", true);
             }
             else
             {
@@ -127,7 +128,7 @@ public sealed partial class GameSelectionPage : Page
         }
     }
 
-    private void UpdatePlayerBoxes()
+    private void UpdatePlayerBoxes(bool bypass = false)
     {
         if (MultiplayerPlayersBox != null && MultiplayerBotsBox != null && SpectatorBotsBox != null && MaxPlayersMultiplayerText != null && MaxPlayersSpectatorText != null)
         {
@@ -139,7 +140,7 @@ public sealed partial class GameSelectionPage : Page
             MultiplayerPlayersBox.Maximum = MaxPlayers - MultiplayerBotsBox.Value;
             SpectatorBotsBox.Maximum = MaxPlayers;
 
-            if (this.IsLoaded)
+            if (this.IsLoaded || bypass)
             {
                 if (Settings.gamemode == 1)
                 {
@@ -148,6 +149,7 @@ public sealed partial class GameSelectionPage : Page
                 }
                 else if (Settings.gamemode == 2)
                 {
+                    Settings.SaveValue("numPlayers", (int)SpectatorBotsBox.Value);
                     Settings.SaveValue("numSpectatorBots", (int)SpectatorBotsBox.Value);
                 }
             }
@@ -200,6 +202,7 @@ public sealed partial class GameSelectionPage : Page
         {
             Settings.SaveValue("boardMode", BoardSelectionBox.SelectedIndex);
         }
+        BoardExpander.IsExpanded = BoardSelectionBox.SelectedIndex != 0;
         UpdateBoardExanderContent();
     }
 
@@ -258,14 +261,25 @@ public sealed partial class GameSelectionPage : Page
             MultiplayerBotsBox.Value = Settings.numMultiplayerBots;
             SpectatorBotsBox.Value = Settings.numSpectatorBots;
             DifficultySelectionBox.SelectedIndex = Settings.difficulty;
-            BoardRowSelection.Value = Settings.boardSize.Y;
-            BoardColumnSelection.Value = Settings.boardSize.X;
-            WinPatternSelectionBox.SelectedIndex = Settings.winPattern;
+
+            if (Settings.boardMode == 0)
+            {
+                BoardRowSelection.Value = (int)Settings.GetValue("boardRows", true);
+                BoardColumnSelection.Value = (int)Settings.GetValue("boardCols", true);
+                WinPatternSelectionBox.SelectedIndex = (int)Settings.GetValue("winPattern", true);
+            }
+            else
+            {
+                BoardRowSelection.Value = Settings.boardSize.Y;
+                BoardColumnSelection.Value = Settings.boardSize.X;
+                WinPatternSelectionBox.SelectedIndex = Settings.winPattern;
+            }
+
             TimerToggleSwitch.IsOn = Settings.matchTimerEnabled;
             SquaresInfoToggleSwitch.IsOn = Settings.boardInfoEnabled;
             PlayerCounterToggleSwitch.IsOn = Settings.playerCounterEnabled;
 
-            UpdatePlayerBoxes();
+            UpdatePlayerBoxes(true);
         }
         catch (Exception e)
         {

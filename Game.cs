@@ -281,9 +281,78 @@ internal class Game
         List<Vector2> spaces = GetEmptySpaces();
         if (spaces.Count > 0)
         {
-            Vector2 selectedSpace = spaces[new Random().Next(spaces.Count)];
-            return PlacePiece((int)selectedSpace.Y, (int)selectedSpace.X);
+            if (Settings.difficulty == 0) // easy
+            {
+                Vector2 selectedSpace = spaces[new Random().Next(spaces.Count)]; // pick random spot
+                return PlacePiece((int)selectedSpace.Y, (int)selectedSpace.X);
+            }
+            else if (Settings.difficulty == 1) // medium
+            {
+                List<Vector2> directions = new(){
+                    new Vector2() {X=-1,Y=0},
+                    new Vector2() {X=-1,Y=-1},
+                    new Vector2() {X=0,Y=-1},
+                    new Vector2() {X=1,Y=-1},
+                };
+
+                Vector2 selectedSpace = spaces.First();
+                int selectedSpotPriority = 0;
+                int enemyPriority = 4;
+                int allyPriority = 2;
+
+                int evaluatePriority(Vector2 location)
+                {
+                    if (isWithinBoard(location))
+                    {
+                        Piece piece = board[(int)location.Y, (int)location.X];
+                        if (piece != null)
+                        {
+                            if (piece.player == GetCurrentPlayerTurn())
+                            {
+                                return allyPriority;
+                            }
+                            else
+                            {
+                                return enemyPriority;
+                            }
+                        } else {
+
+                        }
+                    }
+                    return 0;
+                }
+
+                bool isWithinBoard(Vector2 location)
+                {
+                    int clampedX = (int)Math.Clamp(location.X, 0, Settings.boardSize.X - 1);
+                    int clampedY = (int)Math.Clamp(location.Y, 0, Settings.boardSize.Y - 1);
+
+                    return (clampedX == location.X && clampedY == location.Y);
+                }
+
+                foreach (Vector2 space in spaces)
+                {
+                    int priority = new Random().Next((int)(spaces.Count+Settings.boardSize.X+Settings.boardSize.Y));
+                    foreach (Vector2 dir in directions)
+                    {
+                        Vector2 spot = space + dir;
+                        Vector2 oppositeSpot = space - dir;
+                        priority += evaluatePriority(spot) + evaluatePriority(oppositeSpot);
+                    }
+                    if (priority > selectedSpotPriority)
+                    {
+                        selectedSpace = space;
+                        selectedSpotPriority = priority;
+                    }
+                }
+
+                return PlacePiece((int)selectedSpace.Y, (int)selectedSpace.X);
+            }
+
+            Vector2 randomSpace = spaces[new Random().Next(spaces.Count)]; // pick random spot
+            return PlacePiece((int)randomSpace.Y, (int)randomSpace.X);
         }
+
         return false;
     }
 
