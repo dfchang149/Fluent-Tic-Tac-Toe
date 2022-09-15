@@ -36,12 +36,24 @@ public sealed partial class PlayingPage : Page
     private void BoardGridSizeChanged(object sender, RoutedEventArgs e)
     {
         var minLength = Math.Min(BoardGrid.ActualHeight, BoardGrid.ActualWidth);
-        Board.Height = minLength;
-        Board.Width = minLength;
+        var aspectRatio = Settings.boardSize.X / Settings.boardSize.Y;
+
+        if (aspectRatio > 1)
+        {
+            Board.Height = minLength / aspectRatio;
+            Board.Width = minLength;
+        } else if (aspectRatio < 1)
+        {
+            Board.Height = minLength;
+            Board.Width = minLength * aspectRatio;
+        } else {
+            Board.Height = minLength;
+            Board.Width = minLength;
+        }
         if (game != null)
         {
             var spacing = 8 - (Math.Max(Settings.boardSize.X, Settings.boardSize.Y) / 2);
-            int buttonLength = (int)((minLength / Settings.boardSize.Y) - (spacing));
+            int buttonLength = (int)((Board.Height / Settings.boardSize.Y) - (spacing));
             for (var r = 0; r < Settings.boardSize.Y; r++)
             {
                 for (var c = 0; c < Settings.boardSize.X; c++)
