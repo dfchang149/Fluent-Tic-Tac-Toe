@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,10 +76,11 @@ internal class Settings
         return maxPlayers;
     }
 
-    public static bool SaveValue(string key, Object value)
+    public static bool SaveValue(string key, Object value = null)
     {
         try
         {
+            value ??= GetValue(key,true);
             localSettings.Values[key] = value;
             switch (key)
             {

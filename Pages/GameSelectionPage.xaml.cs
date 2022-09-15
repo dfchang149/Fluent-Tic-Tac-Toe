@@ -114,10 +114,6 @@ public sealed partial class GameSelectionPage : Page
                 BoardRowSelection.IsEnabled = false;
                 BoardColumnSelection.IsEnabled = false;
                 WinPatternSelectionBox.IsEnabled = false;
-
-                BoardRowSelection.Value = (int)Settings.GetValue("boardRows",true);
-                BoardColumnSelection.Value = (int)Settings.GetValue("boardCols", true);
-                WinPatternSelectionBox.SelectedIndex = (int)Settings.GetValue("winPattern", true);
             }
             else
             {
@@ -125,6 +121,10 @@ public sealed partial class GameSelectionPage : Page
                 BoardColumnSelection.IsEnabled = true;
                 WinPatternSelectionBox.IsEnabled = true;
             }
+
+            BoardRowSelection.Value = Settings.boardSize.Y;
+            BoardColumnSelection.Value = Settings.boardSize.X;
+            WinPatternSelectionBox.SelectedIndex = Settings.winPattern;
         }
     }
 
@@ -201,6 +201,18 @@ public sealed partial class GameSelectionPage : Page
         if (this.IsLoaded)
         {
             Settings.SaveValue("boardMode", BoardSelectionBox.SelectedIndex);
+
+            if (BoardSelectionBox.SelectedIndex == 0)
+            {
+                Settings.boardSize.Y = Convert.ToInt32(Settings.GetValue("boardRows", true));
+                Settings.boardSize.X = Convert.ToInt32(Settings.GetValue("boardCols", true));
+                Settings.winPattern = (int)Settings.GetValue("winPattern", true);
+            } else
+            {
+                Settings.boardSize.Y = Convert.ToInt32(Settings.GetValue("boardRows"));
+                Settings.boardSize.X = Convert.ToInt32(Settings.GetValue("boardCols"));
+                Settings.winPattern = (int)Settings.GetValue("winPattern");
+            }
         }
         BoardExpander.IsExpanded = BoardSelectionBox.SelectedIndex != 0;
         UpdateBoardExanderContent();
