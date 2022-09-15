@@ -113,6 +113,7 @@ public sealed partial class SettingsPage : Page
                 BoardRowSelection.IsEnabled = false;
                 BoardColumnSelection.IsEnabled = false;
                 WinPatternSelectionBox.IsEnabled = false;
+                
             }
             else
             {
@@ -309,16 +310,14 @@ public sealed partial class SettingsPage : Page
 
             if (Settings.boardMode == 0)
             {
-                BoardRowSelection.Value = (int)Settings.GetValue("boardRows", true);
-                BoardColumnSelection.Value = (int)Settings.GetValue("boardCols", true);
-                WinPatternSelectionBox.SelectedIndex = (int)Settings.GetValue("winPattern", true);
+                Settings.boardSize.Y = Convert.ToInt32(Settings.GetValue("boardRows", true));
+                Settings.boardSize.X = Convert.ToInt32(Settings.GetValue("boardCols", true));
+                Settings.winPattern  = (int)Settings.GetValue("winPattern", true);
             }
-            else
-            {
-                BoardRowSelection.Value = Settings.boardSize.Y;
-                BoardColumnSelection.Value = Settings.boardSize.X;
-                WinPatternSelectionBox.SelectedIndex = Settings.winPattern;
-            }
+
+            BoardRowSelection.Value = Settings.boardSize.Y;
+            BoardColumnSelection.Value = Settings.boardSize.X;
+            WinPatternSelectionBox.SelectedIndex = Settings.winPattern;
 
             TimerToggleSwitch.IsOn = Settings.matchTimerEnabled;
             SquaresInfoToggleSwitch.IsOn = Settings.boardInfoEnabled;

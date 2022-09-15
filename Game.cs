@@ -281,6 +281,21 @@ internal class Game
         List<Vector2> spaces = GetEmptySpaces();
         if (spaces.Count > 0)
         {
+            bool isWithinBoard(Vector2 location)
+            {
+                int clampedX = (int)Math.Clamp(location.X, 0, Settings.boardSize.X - 1);
+                int clampedY = (int)Math.Clamp(location.Y, 0, Settings.boardSize.Y - 1);
+
+                return (clampedX == location.X && clampedY == location.Y);
+            }
+
+            List<Vector2> directions = new(){
+                new Vector2() {X=-1,Y=0},
+                new Vector2() {X=-1,Y=-1},
+                new Vector2() {X=0,Y=-1},
+                new Vector2() {X=1,Y=-1},
+            };
+
             if (Settings.difficulty == 0) // easy
             {
                 Vector2 selectedSpace = spaces[new Random().Next(spaces.Count)]; // pick random spot
@@ -288,13 +303,6 @@ internal class Game
             }
             else if (Settings.difficulty == 1) // medium
             {
-                List<Vector2> directions = new(){
-                    new Vector2() {X=-1,Y=0},
-                    new Vector2() {X=-1,Y=-1},
-                    new Vector2() {X=0,Y=-1},
-                    new Vector2() {X=1,Y=-1},
-                };
-
                 Vector2 selectedSpace = spaces.First();
                 int selectedSpotPriority = 0;
                 int enemyPriority = 4;
@@ -315,24 +323,14 @@ internal class Game
                             {
                                 return enemyPriority;
                             }
-                        } else {
-
                         }
                     }
                     return 0;
                 }
 
-                bool isWithinBoard(Vector2 location)
-                {
-                    int clampedX = (int)Math.Clamp(location.X, 0, Settings.boardSize.X - 1);
-                    int clampedY = (int)Math.Clamp(location.Y, 0, Settings.boardSize.Y - 1);
-
-                    return (clampedX == location.X && clampedY == location.Y);
-                }
-
                 foreach (Vector2 space in spaces)
                 {
-                    int priority = new Random().Next((int)(spaces.Count+Settings.boardSize.X+Settings.boardSize.Y));
+                    int priority = new Random().Next((int)(spaces.Count + Settings.boardSize.X + Settings.boardSize.Y));
                     foreach (Vector2 dir in directions)
                     {
                         Vector2 spot = space + dir;
@@ -347,10 +345,105 @@ internal class Game
                 }
 
                 return PlacePiece((int)selectedSpace.Y, (int)selectedSpace.X);
-            }
+            } else { // hard
+                Vector2 selectedSpace = spaces[new Random().Next((int)spaces.Count)];
+                int selectedSpotPriority = 0;
+                int enemyPriority = 2;
+                int allyPriority = 3;
 
-            Vector2 randomSpace = spaces[new Random().Next(spaces.Count)]; // pick random spot
-            return PlacePiece((int)randomSpace.Y, (int)randomSpace.X);
+                int evaluatePriority(Vector2 location)
+                {
+                    if (isWithinBoard(location))
+                    {
+                        Piece piece = board[(int)location.Y, (int)location.X];
+                        if (piece != null)
+                        {
+                            if (piece.player == GetCurrentPlayerTurn())
+                            {
+                                return allyPriority;
+                            }
+                            else
+                            {
+                                return enemyPriority;
+                            }
+                        }
+                    }
+                    return 0;
+                }
+
+                foreach (Vector2 space in spaces)
+                {
+                    foreach (Vector2 dir in directions)
+                    {
+                        Vector2 spot = space + dir;
+                        Vector2 oppositeSpot = space - dir;
+                        int priority = 0;
+
+                        void evaluateInDirection(Piece pieceToMatch)
+                        {
+                            while (evaluatePriority(spot) > 0 && board[(int)spot.Y, (int)spot.X] != null && board[(int)spot.Y, (int)spot.X].Matches(pieceToMatch))
+                            {
+                                priority += evaluatePriority(spot);
+                                spot += dir;
+                            }
+                        }
+
+                        void evaluateInOppositeDirection(Piece pieceToMatch)
+                        {
+                            while (evaluatePriority(oppositeSpot) > 0 && board[(int)oppositeSpot.Y, (int)oppositeSpot.X] != null && board[(int)oppositeSpot.Y, (int)oppositeSpot.X].Matches(pieceToMatch))
+                            {
+                                priority += evaluatePriority(oppositeSpot);
+                                oppositeSpot -= dir;
+                            }
+                        }
+
+                        if (isWithinBoard(spot) && isWithinBoard(oppositeSpot))
+                        {
+                            Piece spotPiece = board[(int)spot.Y, (int)spot.X];
+                            Piece oppositeSpotPiece = board[(int)oppositeSpot.Y, (int)oppositeSpot.X];
+
+                            if (spotPiece != null && oppositeSpotPiece != null && !spotPiece.Matches(oppositeSpotPiece))
+                            {
+                                continue;
+                            }
+                            else if (spotPiece == null && oppositeSpotPiece == null)
+                            {
+                                continue;
+                            }
+
+                            Piece mainPiece = spotPiece != null ? spotPiece : oppositeSpotPiece;
+
+                            evaluateInDirection(mainPiece);
+                            evaluateInOppositeDirection(mainPiece);
+                        }
+                        else if (isWithinBoard(spot))
+                        {
+                            Piece spotPiece = board[(int)spot.Y, (int)spot.X];
+                            if (spotPiece != null)
+                            {
+                                evaluateInDirection(spotPiece);
+                            }
+                            
+                        }
+                        else if (isWithinBoard(oppositeSpot))
+                        {
+                            Piece oppositeSpotPiece = board[(int)oppositeSpot.Y, (int)oppositeSpot.X];
+                            if (oppositeSpotPiece != null)
+                            {
+                                evaluateInOppositeDirection(oppositeSpotPiece);
+                            }
+                        }
+
+                        if (priority > selectedSpotPriority)
+                        {
+                            selectedSpace = space;
+                            selectedSpotPriority = priority;
+                        }
+                    }
+                }
+
+                return PlacePiece((int)selectedSpace.Y, (int)selectedSpace.X);
+            }
         }
 
         return false;
