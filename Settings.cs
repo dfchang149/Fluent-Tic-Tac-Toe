@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Storage;
 
 namespace Fluent_Tic_tac_toe;
@@ -56,7 +57,9 @@ internal class Settings
         numSpectatorBots = (int)GetValue("numSpectatorBots", useDefault);
 
         difficulty = (int)GetValue("difficulty", useDefault);
-        boardSize = new Vector2((float)GetValue("boardCols", useDefault), (float)GetValue("boardRows", useDefault)) ;
+        var cols = Convert.ToInt32(GetValue("boardCols", useDefault));
+        var rows = Convert.ToInt32(GetValue("boardRows", useDefault));
+        boardSize = new Vector2(cols,rows);
         winPattern = (int)GetValue("winPattern", useDefault);
         matchTimerEnabled = (bool)GetValue("matchTimerEnabled", useDefault);
         boardInfoEnabled = (bool)GetValue("boardInfoEnabled", useDefault);
