@@ -86,9 +86,9 @@
     <None Remove="Assets\StoreLogo.scale-150.png" />
     <None Remove="Assets\StoreLogo.scale-200.png" />
     <None Remove="Assets\StoreLogo.scale-400.png" />
-    <None Remove="Pages\GameSelectionPage.xaml" />
     <None Remove="Pages\MainPage.xaml" />
     <None Remove="Pages\PlayingPage.xaml" />
+    <None Remove="Pages\SettingsPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -116,7 +116,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\GameSelectionPage.xaml">
+    <Page Update="Pages\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

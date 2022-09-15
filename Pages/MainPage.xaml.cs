@@ -34,7 +34,7 @@ public sealed partial class MainPage : Page
         if (buttonsEnabled)
         {
             buttonsEnabled = false;
-            this.Frame.Navigate(typeof(Pages.GameSelectionPage), null, new DrillInNavigationTransitionInfo());
+            this.Frame.Navigate(typeof(Pages.SettingsPage), null, new DrillInNavigationTransitionInfo());
         }
     }
 }

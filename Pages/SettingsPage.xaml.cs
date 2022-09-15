@@ -23,9 +23,9 @@ namespace Fluent_Tic_tac_toe.Pages;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class GameSelectionPage : Page
+public sealed partial class SettingsPage : Page
 {
-    public GameSelectionPage()
+    public SettingsPage()
     {
         this.InitializeComponent();
         LoadSettings();
