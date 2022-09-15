@@ -369,7 +369,7 @@ public class Player
     public static int playerNumber = 1;
     public static int botNum = 1;
 
-    public Player(string name, bool isComputer)
+    public Player(string name, bool isComputer = false)
     {
         new Player(isComputer);
         this.name = name;
@@ -391,12 +391,6 @@ public class Player
         }
         this.isComputer = isComputer;
         this.wins = 0;
-    }
-
-    public Player(string name)
-    {
-        new Player(false);
-        this.name = name;
     }
 
     public void SetSymbol(int num)

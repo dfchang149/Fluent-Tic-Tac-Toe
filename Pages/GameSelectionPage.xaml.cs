@@ -32,13 +32,9 @@ public sealed partial class GameSelectionPage : Page
         GamemodeExpander.Content = null;
     }
 
-    private void ThemeSelected(object sender, RoutedEventArgs e)
+    private void UpdateTheme()
     {
         FrameworkElement windowContent = (FrameworkElement)Settings.window.WindowContent;
-        if (!this.IsLoaded)
-        {
-            return;
-        }
         switch (ThemeSelectionBox.SelectedIndex)
         {
             case 0:
@@ -57,17 +53,29 @@ public sealed partial class GameSelectionPage : Page
                 windowContent.RequestedTheme = ElementTheme.Default;
                 break;
         }
-        Settings.theme = ThemeSelectionBox.SelectedIndex;
     }
-    
 
-    private void UpdateGamemodeExanderContent()
+    private void ThemeSelected(object sender, RoutedEventArgs e)
     {
         if (!this.IsLoaded)
         {
             return;
         }
-        Settings.gamemode = GamemodeSelectionBox.SelectedIndex;
+        UpdateTheme();
+        Settings.SaveValue("theme", ThemeSelectionBox.SelectedIndex);
+    }
+    
+
+    private void UpdateGamemodeExanderContent(bool wasSelected = false)
+    {
+        if (!this.IsLoaded)
+        {
+            return;
+        }
+        if (wasSelected)
+        {
+            Settings.SaveValue("gamemode", GamemodeSelectionBox.SelectedIndex);
+        }
         if (GamemodeExpander.IsExpanded)
         {
             if (GamemodeSelectionBox.SelectedIndex == 0)
@@ -92,7 +100,7 @@ public sealed partial class GameSelectionPage : Page
 
     private void GamemodeSelected(object sender, RoutedEventArgs e)
     {
-        UpdateGamemodeExanderContent();
+        UpdateGamemodeExanderContent(true);
     }
 
     private void UpdateBoardExanderContent()
@@ -135,12 +143,12 @@ public sealed partial class GameSelectionPage : Page
             {
                 if (Settings.gamemode == 1)
                 {
-                    Settings.numPlayers = (int)MultiplayerPlayersBox.Value;
-                    Settings.numMultiplayerBots = (int)MultiplayerBotsBox.Value;
+                    Settings.SaveValue("numPlayers", (int)MultiplayerPlayersBox.Value);
+                    Settings.SaveValue("numMultiplayerBots", (int)MultiplayerBotsBox.Value);
                 }
                 else if (Settings.gamemode == 2)
                 {
-                    Settings.numSpectatorBots = (int)SpectatorBotsBox.Value;
+                    Settings.SaveValue("numSpectatorBots", (int)SpectatorBotsBox.Value);
                 }
             }
             
@@ -151,7 +159,7 @@ public sealed partial class GameSelectionPage : Page
     {
         if (this.IsLoaded)
         {
-            Settings.difficulty = DifficultySelectionBox.SelectedIndex;
+            Settings.SaveValue("difficulty", DifficultySelectionBox.SelectedIndex);
         }
     }
 
@@ -159,7 +167,7 @@ public sealed partial class GameSelectionPage : Page
     {
         if (this.IsLoaded)
         {
-            Settings.boardSize.Y = (float)e.NewValue;
+            Settings.SaveValue("boardRows", (float)e.NewValue);
             UpdatePlayerBoxes();
         }
     }
@@ -168,7 +176,7 @@ public sealed partial class GameSelectionPage : Page
     {
         if (this.IsLoaded)
         {
-            Settings.boardSize.X = (float)e.NewValue;
+            Settings.SaveValue("boardCols", (float)e.NewValue);
             UpdatePlayerBoxes();
         }
     }
@@ -177,7 +185,7 @@ public sealed partial class GameSelectionPage : Page
     {
         if (this.IsLoaded)
         {
-            Settings.winPattern = WinPatternSelectionBox.SelectedIndex;
+            Settings.SaveValue("winPattern", WinPatternSelectionBox.SelectedIndex);
         }
     }
 
@@ -190,7 +198,7 @@ public sealed partial class GameSelectionPage : Page
     {
         if (this.IsLoaded)
         {
-            Settings.boardMode = BoardSelectionBox.SelectedIndex;
+            Settings.SaveValue("boardMode", BoardSelectionBox.SelectedIndex);
         }
         UpdateBoardExanderContent();
     }
@@ -209,8 +217,7 @@ public sealed partial class GameSelectionPage : Page
     {
         if (this.IsLoaded)
         {
-            Settings.alwaysOnTop = TimerToggleSwitch.IsOn;
-            Settings.window.SetIsAlwaysOnTop(OnTopToggleSwitch.IsOn);
+            Settings.SaveValue("alwaysOnTop", OnTopToggleSwitch.IsOn);
         }
     }
 
@@ -218,7 +225,7 @@ public sealed partial class GameSelectionPage : Page
     {
         if (this.IsLoaded)
         {
-            Settings.matchTimerEnabled = TimerToggleSwitch.IsOn;
+            Settings.SaveValue("matchTimerEnabled", TimerToggleSwitch.IsOn);
         }
     }
 
@@ -226,7 +233,7 @@ public sealed partial class GameSelectionPage : Page
     {
         if (this.IsLoaded)
         {
-            Settings.boardInfoEnabled = SquaresInfoToggleSwitch.IsOn;
+            Settings.SaveValue("boardInfoEnabled", SquaresInfoToggleSwitch.IsOn);
         }
     }
 
@@ -234,7 +241,7 @@ public sealed partial class GameSelectionPage : Page
     {
         if (this.IsLoaded)
         {
-            Settings.playerCounterEnabled = PlayerCounterToggleSwitch.IsOn;
+            Settings.SaveValue("playerCounterEnabled", PlayerCounterToggleSwitch.IsOn);
         }
     }
 
@@ -269,7 +276,9 @@ public sealed partial class GameSelectionPage : Page
     private void ResetGameSettingsClick(object sender, RoutedEventArgs e)
     {
         ResetGameSettingsButton.Flyout.Hide();
-        Settings.Reset();
+        GamemodeExpander.IsExpanded = false;
+        BoardExpander.IsExpanded = false;
+        Settings.Load(true);
         LoadSettings();
     }
 }

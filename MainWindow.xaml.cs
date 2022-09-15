@@ -21,6 +21,7 @@ public sealed partial class MainWindow : WinUIEx.WindowEx
         Navigate();
         MainGrid.Children.Remove(BackButton);
         Settings.window = this;
+        Settings.Load();
     }
 
     private void BackButtonClick(object sender, RoutedEventArgs e)
