@@ -31,6 +31,9 @@ internal class Settings
     public static string[] winPatterns = { "3 in a row", "Full row" };
     public static int winPattern;
 
+    public static string[] botsSpeeds = { "Short", "Default","Long" };
+    public static int botsSpeed;
+
     public static bool matchTimerEnabled;
     public static bool boardInfoEnabled;
     public static bool playerCounterEnabled;
@@ -60,6 +63,8 @@ internal class Settings
         numSpectatorBots = (int)GetValue("numSpectatorBots", useDefault);
 
         difficulty = (int)GetValue("difficulty", useDefault);
+        botsSpeed = (int)GetValue("botsSpeed", useDefault);
+
         var cols = Convert.ToInt32(GetValue("boardCols", useDefault));
         var rows = Convert.ToInt32(GetValue("boardRows", useDefault));
         boardSize = new Vector2(cols,rows);
@@ -117,6 +122,9 @@ internal class Settings
                     break;
                 case "difficulty":
                     difficulty = (int)value;
+                    break;
+                case "botsSpeed":
+                    botsSpeed = (int)value;
                     break;
                 case "boardRows":
                     boardSize.Y = (float)value;
@@ -176,6 +184,8 @@ internal class Settings
                 case "numSpectatorBots":
                     return 2;
                 case "difficulty":
+                    return 1;
+                case "botsSpeed":
                     return 1;
                 case "boardRows":
                     return 3;

@@ -403,7 +403,7 @@ public sealed partial class PlayingPage : Page
                     buttonPressed.BorderThickness = new Microsoft.UI.Xaml.Thickness(1.5,1.5,1.5,1.5);
 
                     DispatcherTimer timer = new DispatcherTimer();
-                    timer.Interval = TimeSpan.FromSeconds(0.25);
+                    timer.Interval = TimeSpan.FromSeconds(0.25*(1+Settings.botsSpeed));
                     EventHandler<Object> timerHandler = new EventHandler<object>((s2, e2) =>
                     {
                         timer.Stop();

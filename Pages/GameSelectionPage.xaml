@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Game Settings" HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,16" />
+        <TextBlock Grid.Row="0" Text="Settings" HorizontalAlignment="Center" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,16" />
         <ScrollViewer MaxWidth="720" IsVerticalScrollChainingEnabled="True" VerticalScrollMode="Enabled" Grid.Row="1"
                       HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" ZoomMode="Disabled"
                       x:Name="Scroller" Padding="16,0,16,0" HorizontalAlignment="Stretch">
@@ -91,19 +91,22 @@
                                         <EntranceThemeTransition />
                                     </TransitionCollection>
                                 </Grid.ChildrenTransitions>
-                                <Grid.ColumnDefinitions>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <!-- e730 -->
-                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe8f0;" Margin="0,0,16,0" />
-                                    <TextBlock Text="Difficulty"/>
+                                <StackPanel Spacing="24" >
+                                    <Grid>
+                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <SymbolIcon Symbol="Contact" Margin="0,0,16,0" />
+                                            <TextBlock Text="Players"/>
+                                        </StackPanel>
+                                        <TextBlock Text="1" Opacity="0.5" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" />
+                                    </Grid>
+                                    <Grid>
+                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe99a;" Margin="0,0,16,0" />
+                                            <TextBlock Text="Bots"/>
+                                        </StackPanel>
+                                        <TextBlock Text="1" Opacity="0.5" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" />
+                                    </Grid>
                                 </StackPanel>
-                                <ComboBox x:Name="DifficultySelectionBox" SelectionChanged="DifficultySelected" Width="128"
-                                        FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="1">
-                                    <x:String>Easy</x:String>
-                                    <x:String>Medium</x:String>
-                                    <x:String>Hard</x:String>
-                                </ComboBox>
                             </Grid>
                             <Grid x:Name="MultiplayerContent" Padding="4,0,32,0">
                                 <StackPanel Spacing="16">
@@ -139,7 +142,7 @@
                                                     Text="Adjusts according to board size"/>
                                             </StackPanel>
                                         </StackPanel>
-                                        <TextBlock x:Name="MaxPlayersMultiplayerText" Text="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" />
+                                        <TextBlock x:Name="MaxPlayersMultiplayerText" Opacity="0.5" Text="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" />
                                     </Grid>
                                 </StackPanel>
                             </Grid>
@@ -168,7 +171,7 @@
                                                     Text="Adjusts according to board size"/>
                                             </StackPanel>
                                         </StackPanel>
-                                        <TextBlock x:Name="MaxPlayersSpectatorText" Text="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" />
+                                        <TextBlock x:Name="MaxPlayersSpectatorText" Opacity="0.5" Text="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" />
                                     </Grid>
                                 </StackPanel>
                             </Grid>
@@ -229,6 +232,61 @@
                                         <ComboBox x:Name="WinPatternSelectionBox" SelectionChanged="WinPatternChanged" Width="128" FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="0">
                                             <x:String>3 in a row</x:String>
                                             <x:String>Full row</x:String>
+                                        </ComboBox>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Expander.Content>
+                </Expander>
+                <Expander x:Name="BotsExpander" Expanding="BotsExanderExpanded" IsExpanded="True" HorizontalAlignment="Stretch" MinHeight="72"
+                              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" HorizontalContentAlignment="Stretch">
+                    <Expander.Header>
+                        <StackPanel Margin="4,16,-12,16" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe99a;" Margin="0,0,16,0" />
+                            <TextBlock  Text="Bot Settings"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <Grid x:Name="BotsExpanderContent" Padding="4,0,32,0">
+                            <Grid.ChildrenTransitions>
+                                <TransitionCollection>
+                                    <EntranceThemeTransition IsStaggeringEnabled="True" FromHorizontalOffset="0"/>
+                                </TransitionCollection>
+                            </Grid.ChildrenTransitions>
+                            <Grid>
+                                <StackPanel Spacing="16">
+                                    <StackPanel.ChildrenTransitions >
+                                        <TransitionCollection>
+                                            <EntranceThemeTransition IsStaggeringEnabled="True"/>
+                                        </TransitionCollection>
+                                    </StackPanel.ChildrenTransitions>
+                                    <Grid>
+                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe8f0;" Margin="0,0,16,0" />
+                                            <TextBlock Text="Difficulty"/>
+                                        </StackPanel>
+                                        <ComboBox x:Name="DifficultySelectionBox" SelectionChanged="DifficultySelected" Width="128"
+                                        FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="1">
+                                            <x:String>Easy</x:String>
+                                            <x:String>Medium</x:String>
+                                            <x:String>Hard</x:String>
+                                        </ComboBox>
+                                    </Grid>
+                                    <Grid>
+                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe916;" Margin="0,0,16,0" />
+                                            <StackPanel VerticalAlignment="Center" Spacing="1">
+                                                <TextBlock Text="Turn Duration"/>
+                                                <TextBlock Foreground="Gray" Style="{ThemeResource CaptionTextBlockStyle}"
+                                                    Text="How long their turn takes"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <ComboBox x:Name="BotsSpeedSelectionBox" SelectionChanged="BotsSpeedSelected" Width="128"
+                                        FlowDirection="LeftToRight" HorizontalAlignment="Right" SelectedIndex="1">
+                                            <x:String>Short</x:String>
+                                            <x:String>Default</x:String>
+                                            <x:String>Long</x:String>
                                         </ComboBox>
                                     </Grid>
                                 </StackPanel>

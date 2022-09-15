@@ -64,7 +64,6 @@ public sealed partial class GameSelectionPage : Page
         UpdateTheme();
         Settings.SaveValue("theme", ThemeSelectionBox.SelectedIndex);
     }
-    
 
     private void UpdateGamemodeExanderContent(bool wasSelected = false)
     {
@@ -126,6 +125,30 @@ public sealed partial class GameSelectionPage : Page
             BoardColumnSelection.Value = Settings.boardSize.X;
             WinPatternSelectionBox.SelectedIndex = Settings.winPattern;
         }
+    }
+
+
+
+    private void UpdateBotsExanderContent(bool wasSelected = false)
+    {
+        if (!this.IsLoaded)
+        {
+            return;
+        }
+        if (wasSelected)
+        {
+            Settings.SaveValue("botsSpeed", BotsSpeedSelectionBox.SelectedIndex);
+        }
+    }
+
+    private void BotsExanderExpanded(Expander sender, ExpanderExpandingEventArgs e)
+    {
+        UpdateBotsExanderContent();
+    }
+
+    private void BotsSpeedSelected(object sender, RoutedEventArgs e)
+    {
+        UpdateBotsExanderContent(true);
     }
 
     private void UpdatePlayerBoxes(bool bypass = false)
@@ -282,6 +305,7 @@ public sealed partial class GameSelectionPage : Page
             MultiplayerBotsBox.Value = Settings.numMultiplayerBots;
             SpectatorBotsBox.Value = Settings.numSpectatorBots;
             DifficultySelectionBox.SelectedIndex = Settings.difficulty;
+            BotsSpeedSelectionBox.SelectedIndex = Settings.botsSpeed;
 
             if (Settings.boardMode == 0)
             {
