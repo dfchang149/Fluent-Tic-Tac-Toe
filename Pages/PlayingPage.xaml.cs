@@ -35,18 +35,21 @@ public sealed partial class PlayingPage : Page
 
     private void BoardGridSizeChanged(object sender, RoutedEventArgs e)
     {
-        var minLength = Math.Min(BoardGrid.ActualHeight, BoardGrid.ActualWidth);
         var aspectRatio = Settings.boardSize.X / Settings.boardSize.Y;
 
         if (aspectRatio > 1)
         {
+            var minLength = Math.Min(BoardGrid.ActualHeight * aspectRatio, BoardGrid.ActualWidth);
             Board.Height = minLength / aspectRatio;
             Board.Width = minLength;
         } else if (aspectRatio < 1)
         {
+            var minLength = Math.Min(BoardGrid.ActualHeight, BoardGrid.ActualWidth);
             Board.Height = minLength;
             Board.Width = minLength * aspectRatio;
-        } else {
+        } else
+        {
+            var minLength = Math.Min(BoardGrid.ActualHeight, BoardGrid.ActualWidth);
             Board.Height = minLength;
             Board.Width = minLength;
         }
