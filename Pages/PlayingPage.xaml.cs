@@ -282,9 +282,13 @@ public sealed partial class PlayingPage : Page
     {
         if (game.winner == null)
         {
-            Button button = sender as Button;
-            button.Scale = new Vector3(1);
+            ResizeSquare(sender as Button);
         }
+    }
+
+    private void ResizeSquare(Button square)
+    {
+        square.Scale = new Vector3(1);
     }
 
     private void OnSquarePressed(object sender, RoutedEventArgs e)
@@ -343,6 +347,13 @@ public sealed partial class PlayingPage : Page
             Button square = GetSquareFromPiece(recentPiece);
             TurnsTextBlock.Text = game.turns.ToString();
             square.IsEnabled = false;
+
+            if (Settings.clearlyPressedSquares)
+            { // ButtonRevealStyle could work too
+                square.Style = Application.Current.Resources["AccentButtonStyle"] as Style;
+                ResizeSquare(square);
+            }
+
             SetSquareText(square, recentPiece.player.symbol);
         }
 

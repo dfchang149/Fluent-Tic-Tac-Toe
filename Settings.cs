@@ -39,6 +39,7 @@ internal class Settings
     public static int theme;
 
     public static bool alwaysOnTop;
+    public static bool clearlyPressedSquares;
 
     public static MainWindow window;
 
@@ -49,6 +50,7 @@ internal class Settings
     {
         theme = (int) GetValue("theme",useDefault);
         alwaysOnTop = (bool)GetValue("alwaysOnTop", useDefault);
+        clearlyPressedSquares = (bool)GetValue("clearlyPressedSquares", useDefault);
 
         gamemode = (int)GetValue("gamemode", useDefault);
         boardMode = (int)GetValue("boardMode", useDefault);
@@ -91,6 +93,9 @@ internal class Settings
                 case "alwaysOnTop":
                     alwaysOnTop = (bool)value;
                     Settings.window.SetIsAlwaysOnTop(alwaysOnTop);
+                    break;
+                case "clearlyPressedSquares":
+                    clearlyPressedSquares = (bool)value;
                     break;
                 case "gamemode":
                     gamemode = (int)value;
@@ -156,6 +161,8 @@ internal class Settings
                     return 2;
                 case "alwaysOnTop":
                     return false;
+                case "clearlyPressedSquares":
+                    return false;
                 case "gamemode":
                     return 0;
                 case "boardMode":
@@ -191,21 +198,28 @@ internal class Settings
     private static void UpdateTheme()
     {
         FrameworkElement windowContent = (FrameworkElement)Settings.window.WindowContent;
+        void RequestTheme(ElementTheme elementTheme)
+        {
+            if (windowContent.ActualTheme != elementTheme)
+            {
+                windowContent.RequestedTheme = elementTheme;
+            }
+        }
         switch (theme)
         {
             case 0:
-                windowContent.RequestedTheme = ElementTheme.Light;
+                RequestTheme(ElementTheme.Light);
                 break;
             case 1:
-                windowContent.RequestedTheme = ElementTheme.Dark;
+                RequestTheme(ElementTheme.Dark);
                 break;
             case 2:
                 bool IsDarkTheme = (bool)Application.Current.Resources["IsDarkTheme"];
-                windowContent.RequestedTheme = IsDarkTheme ? ElementTheme.Dark : ElementTheme.Light;
-                windowContent.RequestedTheme = ElementTheme.Default;
+                RequestTheme(IsDarkTheme ? ElementTheme.Dark : ElementTheme.Light);
+                RequestTheme(ElementTheme.Default);
                 break;
             default:
-                windowContent.RequestedTheme = ElementTheme.Default;
+                RequestTheme(ElementTheme.Default);
                 break;
         }
     }

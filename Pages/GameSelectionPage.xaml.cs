@@ -236,6 +236,14 @@ public sealed partial class GameSelectionPage : Page
         }
     }
 
+    private void OnClearSquaresToggled(object sender, RoutedEventArgs e)
+    {
+        if (this.IsLoaded)
+        {
+            Settings.SaveValue("clearlyPressedSquares", ClearlyUsedSquaresToggleSwitch.IsOn);
+        }
+    }
+
     private void TimerToggled(object sender, RoutedEventArgs e)
     {
         if (this.IsLoaded)
@@ -266,6 +274,7 @@ public sealed partial class GameSelectionPage : Page
         {
             ThemeSelectionBox.SelectedIndex = Settings.theme;
             OnTopToggleSwitch.IsOn = Settings.alwaysOnTop;
+            ClearlyUsedSquaresToggleSwitch.IsOn = Settings.clearlyPressedSquares;
 
             GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
             BoardSelectionBox.SelectedIndex = Settings.boardMode;
