@@ -379,20 +379,36 @@ internal class Game
 
                         void evaluateInDirection(Piece pieceToMatch)
                         {
+                            int matches = 0;
+                            int addedPriority = 0;
                             while (evaluatePriority(spot) > 0 && board[(int)spot.Y, (int)spot.X] != null && board[(int)spot.Y, (int)spot.X].Matches(pieceToMatch))
                             {
-                                priority += evaluatePriority(spot);
+                                matches++;
+                                addedPriority += evaluatePriority(spot);
                                 spot += dir;
                             }
+                            if(matches < 2 && addedPriority < allyPriority*matches && new Random().Next(9) == 1)
+                            {
+                                addedPriority = 0;
+                            }
+                            priority += addedPriority;
                         }
 
                         void evaluateInOppositeDirection(Piece pieceToMatch)
                         {
+                            int matches = 0;
+                            int addedPriority = 0;
                             while (evaluatePriority(oppositeSpot) > 0 && board[(int)oppositeSpot.Y, (int)oppositeSpot.X] != null && board[(int)oppositeSpot.Y, (int)oppositeSpot.X].Matches(pieceToMatch))
                             {
-                                priority += evaluatePriority(oppositeSpot);
+                                matches++;
+                                addedPriority += evaluatePriority(oppositeSpot);
                                 oppositeSpot -= dir;
                             }
+                            if (matches < 2 && addedPriority < allyPriority * matches && new Random().Next(9) == 1)
+                            {
+                                addedPriority = 0;
+                            }
+                            priority += addedPriority;
                         }
 
                         if (isWithinBoard(spot) && isWithinBoard(oppositeSpot))
