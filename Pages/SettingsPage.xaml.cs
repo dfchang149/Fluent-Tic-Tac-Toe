@@ -1,20 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Printing3D;
-using Windows.Security.Isolation;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -113,7 +99,7 @@ public sealed partial class SettingsPage : Page
                 BoardRowSelection.IsEnabled = false;
                 BoardColumnSelection.IsEnabled = false;
                 WinPatternSelectionBox.IsEnabled = false;
-                
+
             }
             else
             {
@@ -177,7 +163,7 @@ public sealed partial class SettingsPage : Page
                     Settings.SaveValue("numSpectatorBots", (int)SpectatorBotsBox.Value);
                 }
             }
-            
+
         }
     }
 
@@ -231,7 +217,8 @@ public sealed partial class SettingsPage : Page
                 Settings.boardSize.Y = Convert.ToInt32(Settings.GetValue("boardRows", true));
                 Settings.boardSize.X = Convert.ToInt32(Settings.GetValue("boardCols", true));
                 Settings.winPattern = (int)Settings.GetValue("winPattern", true);
-            } else
+            }
+            else
             {
                 Settings.boardSize.Y = Convert.ToInt32(Settings.GetValue("boardRows"));
                 Settings.boardSize.X = Convert.ToInt32(Settings.GetValue("boardCols"));
@@ -312,7 +299,7 @@ public sealed partial class SettingsPage : Page
             {
                 Settings.boardSize.Y = Convert.ToInt32(Settings.GetValue("boardRows", true));
                 Settings.boardSize.X = Convert.ToInt32(Settings.GetValue("boardCols", true));
-                Settings.winPattern  = (int)Settings.GetValue("winPattern", true);
+                Settings.winPattern = (int)Settings.GetValue("winPattern", true);
             }
 
             BoardRowSelection.Value = Settings.boardSize.Y;

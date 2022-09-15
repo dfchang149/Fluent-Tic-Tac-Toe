@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Http.Headers;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Storage;
 
 namespace Fluent_Tic_tac_toe;
@@ -32,14 +26,14 @@ internal class Settings
     public static string[] winPatterns = { "3 in a row", "Full row" };
     public static int winPattern;
 
-    public static string[] botsSpeeds = { "Short", "Default","Long" };
+    public static string[] botsSpeeds = { "Short", "Default", "Long" };
     public static int botsSpeed;
 
     public static bool matchTimerEnabled;
     public static bool boardInfoEnabled;
     public static bool playerCounterEnabled;
 
-    public static string[] themes = {"Light","Dark","System default" };
+    public static string[] themes = { "Light", "Dark", "System default" };
     public static int theme;
 
     public static bool alwaysOnTop;
@@ -52,7 +46,7 @@ internal class Settings
 
     public static void Load(bool useDefault = false)
     {
-        theme = (int) GetValue("theme",useDefault);
+        theme = (int)GetValue("theme", useDefault);
         alwaysOnTop = (bool)GetValue("alwaysOnTop", useDefault);
         clearlyPressedSquares = (bool)GetValue("clearlyPressedSquares", useDefault);
 
@@ -68,7 +62,7 @@ internal class Settings
 
         var cols = Convert.ToInt32(GetValue("boardCols", useDefault));
         var rows = Convert.ToInt32(GetValue("boardRows", useDefault));
-        boardSize = new Vector2(cols,rows);
+        boardSize = new Vector2(cols, rows);
         winPattern = (int)GetValue("winPattern", useDefault);
         matchTimerEnabled = (bool)GetValue("matchTimerEnabled", useDefault);
         boardInfoEnabled = (bool)GetValue("boardInfoEnabled", useDefault);
@@ -88,7 +82,7 @@ internal class Settings
     {
         try
         {
-            value ??= GetValue(key,true);
+            value ??= GetValue(key, true);
             localSettings.Values[key] = value;
             switch (key)
             {
@@ -156,14 +150,16 @@ internal class Settings
         return true;
     }
 
-    public static Object GetValue(string key,bool useDefault = false)
+    public static Object GetValue(string key, bool useDefault = false)
     {
         var value = localSettings.Values[key];
 
         if (value != null && !useDefault) // retrieve saved data
         {
             return localSettings.Values[key];
-        } else {
+        }
+        else
+        {
             switch (key)
             {
                 case "theme":

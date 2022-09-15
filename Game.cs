@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using Microsoft.UI.Composition.Interactions;
-using Microsoft.VisualBasic;
 
 namespace Fluent_Tic_tac_toe;
 internal class Game
@@ -76,13 +72,13 @@ internal class Game
             player.SetSymbol(i);
             this.players.Add(player);
         }
-        
+
         // add in bots
 
         for (var i = 0; i < numBots; i++)
         {
             Player bot = new Player(true);
-            bot.SetSymbol(i+numPlayers);
+            bot.SetSymbol(i + numPlayers);
             this.players.Add(bot);
         }
 
@@ -137,7 +133,7 @@ internal class Game
 
         void CheckSelectedPieces()
         {
-            if(!won && selectedPieces.Count > 2)
+            if (!won && selectedPieces.Count > 2)
             {
                 if (Settings.winPattern == 0)// check for 3 in a row
                 {
@@ -218,7 +214,7 @@ internal class Game
             for (var c = 0; c < Settings.boardSize.X - 2; c++)
             {
                 selectedPieces.Clear();
-                for (var i = 0; i < Math.Min(Settings.boardSize.Y-r, Settings.boardSize.X-c); i++)
+                for (var i = 0; i < Math.Min(Settings.boardSize.Y - r, Settings.boardSize.X - c); i++)
                 {
                     TryAddingSelectedPiece(board[r + i, c + i]);
                 }
@@ -235,7 +231,7 @@ internal class Game
             for (var c = 2; c < Settings.boardSize.X; c++)
             {
                 selectedPieces.Clear();
-                for (var i = 0; i < Math.Min(Settings.boardSize.Y - r, c+1); i++)
+                for (var i = 0; i < Math.Min(Settings.boardSize.Y - r, c + 1); i++)
                 {
                     TryAddingSelectedPiece(board[r + i, c - i]);
                 }
@@ -345,7 +341,9 @@ internal class Game
                 }
 
                 return PlacePiece((int)selectedSpace.Y, (int)selectedSpace.X);
-            } else { // hard
+            }
+            else
+            { // hard
                 Vector2 selectedSpace = spaces[new Random().Next((int)spaces.Count)];
                 int selectedSpotPriority = 0;
                 int enemyPriority = 2;
@@ -423,7 +421,7 @@ internal class Game
                             {
                                 evaluateInDirection(spotPiece);
                             }
-                            
+
                         }
                         else if (isWithinBoard(oppositeSpot))
                         {
@@ -508,8 +506,8 @@ internal class Game
 
 public class Player
 {
-    public static string[] symbols = { "x", "o"};
-    
+    public static string[] symbols = { "x", "o" };
+
     public string name
     {
         get; set;
@@ -557,7 +555,7 @@ public class Player
 
     public void SetSymbol(int num)
     {
-        this.symbol = num < symbols.Length ? symbols[num] : Convert.ToChar(63+num).ToString();
+        this.symbol = num < symbols.Length ? symbols[num] : Convert.ToChar(63 + num).ToString();
     }
 }
 
