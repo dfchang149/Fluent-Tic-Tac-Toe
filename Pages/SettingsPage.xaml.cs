@@ -16,7 +16,6 @@ public sealed partial class SettingsPage : Page
     {
         this.InitializeComponent();
         LoadSettings();
-        //GamemodeExpander.Content = null;
     }
 
     private void UpdateTheme()
@@ -152,7 +151,6 @@ public sealed partial class SettingsPage : Page
 
                 PlayersBox.IsEnabled = false;
                 BotsBox.IsEnabled = false;
-                //GamemodeExpander.Content = SingleplayerContent;
             }
             else if (GamemodeSelectionBox.SelectedIndex == 1)
             {
@@ -173,7 +171,6 @@ public sealed partial class SettingsPage : Page
 
                 PlayersBox.IsEnabled = true;
                 BotsBox.IsEnabled = true;
-                //GamemodeExpander.Content = MultiplayerContent;
             }
             else
             {
@@ -187,7 +184,6 @@ public sealed partial class SettingsPage : Page
                 BotsBox.Maximum = Settings.GetMaxPlayers();
 
                 LoadPlayerBoxes();
-                //GamemodeExpander.Content = SpectatorContent;
             }
         }
     }
@@ -261,37 +257,6 @@ public sealed partial class SettingsPage : Page
     {
         UpdateBotsExanderContent(true);
     }
-
-    /*
-    private void UpdatePlayerBoxes(bool bypass = false)
-    {
-        if (MultiplayerPlayersBox != null && MultiplayerBotsBox != null && SpectatorBotsBox != null && MaxPlayersMultiplayerText != null && MaxPlayersSpectatorText != null)
-        {
-            var MaxPlayers = Settings.GetMaxPlayers();
-            MaxPlayersMultiplayerText.Text = MaxPlayers.ToString();
-            MaxPlayersSpectatorText.Text = MaxPlayers.ToString();
-            MultiplayerPlayersBox.Maximum = MaxPlayers;
-            MultiplayerBotsBox.Maximum = MaxPlayers - MultiplayerPlayersBox.Value;
-            MultiplayerPlayersBox.Maximum = MaxPlayers - MultiplayerBotsBox.Value;
-            SpectatorBotsBox.Maximum = MaxPlayers;
-
-            if (this.IsLoaded || bypass)
-            {
-                if (Settings.gamemode == 1)
-                {
-                    Settings.SaveValue("numPlayers", (int)MultiplayerPlayersBox.Value);
-                    Settings.SaveValue("numMultiplayerBots", (int)MultiplayerBotsBox.Value);
-                }
-                else if (Settings.gamemode == 2)
-                {
-                    Settings.SaveValue("numPlayers", (int)SpectatorBotsBox.Value);
-                    Settings.SaveValue("numSpectatorBots", (int)SpectatorBotsBox.Value);
-                }
-            }
-
-        }
-    }
-    */
 
     private void PlayerBoxChanged(NumberBox sender, NumberBoxValueChangedEventArgs e)
     {
