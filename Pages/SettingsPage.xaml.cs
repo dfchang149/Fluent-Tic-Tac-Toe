@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -15,7 +16,7 @@ public sealed partial class SettingsPage : Page
     {
         this.InitializeComponent();
         LoadSettings();
-        GamemodeExpander.Content = null;
+        //GamemodeExpander.Content = null;
     }
 
     private void UpdateTheme()
@@ -51,7 +52,82 @@ public sealed partial class SettingsPage : Page
         Settings.SaveValue("theme", ThemeSelectionBox.SelectedIndex);
     }
 
-    private void UpdateGamemodeExanderContent(bool wasSelected = false)
+    private void ClearGamemodeExpanderContent()
+    {
+        if (GamemodeExpanderContent.Children.Contains(PlayersCard))
+        {
+            GamemodeExpanderContent.Children.Remove(PlayersCard);
+        }
+        if (GamemodeExpanderContent.Children.Contains(BotsCard))
+        {
+            GamemodeExpanderContent.Children.Remove(BotsCard);
+        }
+        if (GamemodeExpanderContent.Children.Contains(MaxPlayersCard))
+        {
+            GamemodeExpanderContent.Children.Remove(MaxPlayersCard);
+        }
+    }
+
+    private void UpdateMaxPlayersText()
+    {
+        if(MaxPlayersText != null)
+        {
+            int maxPlayers = Settings.GetMaxPlayers();  
+            MaxPlayersText.Text = maxPlayers.ToString();
+            BotsBox.Maximum = maxPlayers;
+            PlayersBox.Maximum = maxPlayers;
+        }
+    }
+
+    private void LoadPlayerBoxes()
+    {
+        if (GamemodeExpander.IsExpanded)
+        {
+            if (Settings.gamemode == 0)
+            {
+                PlayersBox.Value = 1;
+                BotsBox.Value = 1;
+            }
+            else if (Settings.gamemode == 1)
+            {
+                BotsBox.Value = Settings.numMultiplayerBots;
+                PlayersBox.Value = Settings.numPlayers;
+            }
+            else if (Settings.gamemode == 2)
+            {
+                BotsBox.Value = Settings.numSpectatorBots;
+            }
+        }
+            
+    }
+
+    private void UpdatePlayerBoxesV2(bool bypass = false)
+    {
+        if (!this.IsLoaded)
+        {
+            return;
+        }
+        if (GamemodeSelectionBox.SelectedIndex == 1)
+        {
+            int maxPlayers = Settings.GetMaxPlayers();
+            BotsBox.Minimum = 0;
+            PlayersBox.Minimum = 2;
+            PlayersBox.Maximum = maxPlayers;
+            BotsBox.Maximum = maxPlayers - PlayersBox.Value;
+            PlayersBox.Maximum = maxPlayers - BotsBox.Value;
+            
+            Settings.SaveValue("numPlayers", (int)PlayersBox.Value);
+            Settings.SaveValue("numMultiplayerBots", (int)BotsBox.Value);
+        }
+        else if (GamemodeSelectionBox.SelectedIndex == 2)
+        {
+            BotsBox.Minimum = 2;
+            BotsBox.Maximum = Settings.GetMaxPlayers();
+            Settings.SaveValue("numSpectatorBots", (int)BotsBox.Value);
+        }
+    }
+
+    private void UpdateGamemodeExpanderContent(bool wasSelected = false)
     {
         if (!this.IsLoaded)
         {
@@ -63,30 +139,79 @@ public sealed partial class SettingsPage : Page
         }
         if (GamemodeExpander.IsExpanded)
         {
+            ClearGamemodeExpanderContent();
             if (GamemodeSelectionBox.SelectedIndex == 0)
             {
-                GamemodeExpander.Content = SingleplayerContent;
+                PlayersBox.Minimum = 0;
+                BotsBox.Minimum = 0;
+
+                GamemodeExpanderContent.Children.Add(PlayersCard);
+                GamemodeExpanderContent.Children.Add(BotsCard);
+
+                LoadPlayerBoxes();
+
+                PlayersBox.IsEnabled = false;
+                BotsBox.IsEnabled = false;
+                //GamemodeExpander.Content = SingleplayerContent;
             }
             else if (GamemodeSelectionBox.SelectedIndex == 1)
             {
-                GamemodeExpander.Content = MultiplayerContent;
+                GamemodeExpanderContent.Children.Add(PlayersCard);
+                GamemodeExpanderContent.Children.Add(BotsCard);
+                GamemodeExpanderContent.Children.Add(MaxPlayersCard);
+
+                UpdateMaxPlayersText();
+                LoadPlayerBoxes();
+
+                int maxPlayers = Settings.GetMaxPlayers();
+                BotsBox.Minimum = 0;
+                PlayersBox.Minimum = 2;
+                PlayersBox.Maximum = maxPlayers;
+                BotsBox.Maximum = maxPlayers - PlayersBox.Value;
+                PlayersBox.Maximum = maxPlayers - BotsBox.Value;
+
+
+                PlayersBox.IsEnabled = true;
+                BotsBox.IsEnabled = true;
+                //GamemodeExpander.Content = MultiplayerContent;
             }
             else
             {
-                GamemodeExpander.Content = SpectatorContent;
+                GamemodeExpanderContent.Children.Add(BotsCard);
+                GamemodeExpanderContent.Children.Add(MaxPlayersCard);
+
+                UpdateMaxPlayersText();
+
+                BotsBox.IsEnabled = true;
+                BotsBox.Minimum = 2;
+                BotsBox.Maximum = Settings.GetMaxPlayers();
+
+                LoadPlayerBoxes();
+                //GamemodeExpander.Content = SpectatorContent;
             }
         }
     }
 
-    private void GamemodeExanderExpanded(Expander sender, ExpanderExpandingEventArgs e)
+    private void GamemodeExpanderExpanded(Expander sender, ExpanderExpandingEventArgs e)
     {
-        UpdateGamemodeExanderContent();
+        UpdateGamemodeExpanderContent();
+    }
+
+    private void GamemodeExpanderCollapsed(Expander sender, ExpanderCollapsedEventArgs e)
+    {
+        ClearGamemodeExpanderContent();
+    }
+
+    private void GamemodeExpanderLoaded(object sender, RoutedEventArgs e)
+    {
+        ClearGamemodeExpanderContent();
     }
 
     private void GamemodeSelected(object sender, RoutedEventArgs e)
     {
-        UpdateGamemodeExanderContent(true);
-        UpdatePlayerBoxes(true);
+        LoadPlayerBoxes();
+        UpdateGamemodeExpanderContent(true);
+        //UpdatePlayerBoxesV2();
     }
 
     private void UpdateBoardExanderContent()
@@ -99,7 +224,6 @@ public sealed partial class SettingsPage : Page
                 BoardRowSelection.IsEnabled = false;
                 BoardColumnSelection.IsEnabled = false;
                 WinPatternSelectionBox.IsEnabled = false;
-
             }
             else
             {
@@ -138,6 +262,7 @@ public sealed partial class SettingsPage : Page
         UpdateBotsExanderContent(true);
     }
 
+    /*
     private void UpdatePlayerBoxes(bool bypass = false)
     {
         if (MultiplayerPlayersBox != null && MultiplayerBotsBox != null && SpectatorBotsBox != null && MaxPlayersMultiplayerText != null && MaxPlayersSpectatorText != null)
@@ -166,6 +291,17 @@ public sealed partial class SettingsPage : Page
 
         }
     }
+    */
+
+    private void PlayerBoxChanged(NumberBox sender, NumberBoxValueChangedEventArgs e)
+    {
+        UpdatePlayerBoxesV2();
+    }
+
+    private void BotsBoxChanged(NumberBox sender, NumberBoxValueChangedEventArgs e)
+    {
+        UpdatePlayerBoxesV2();
+    }
 
     private void DifficultySelected(object sender, RoutedEventArgs e)
     {
@@ -180,7 +316,7 @@ public sealed partial class SettingsPage : Page
         if (this.IsLoaded)
         {
             Settings.SaveValue("boardRows", (float)e.NewValue);
-            UpdatePlayerBoxes();
+            UpdatePlayerBoxesV2();
         }
     }
 
@@ -189,7 +325,7 @@ public sealed partial class SettingsPage : Page
         if (this.IsLoaded)
         {
             Settings.SaveValue("boardCols", (float)e.NewValue);
-            UpdatePlayerBoxes();
+            UpdatePlayerBoxesV2();
         }
     }
 
@@ -227,16 +363,6 @@ public sealed partial class SettingsPage : Page
         }
         BoardExpander.IsExpanded = BoardSelectionBox.SelectedIndex != 0;
         UpdateBoardExanderContent();
-    }
-
-    private void PlayerBoxChanged(NumberBox sender, NumberBoxValueChangedEventArgs e)
-    {
-        UpdatePlayerBoxes();
-    }
-
-    private void BotsBoxChanged(NumberBox sender, NumberBoxValueChangedEventArgs e)
-    {
-        UpdatePlayerBoxes();
     }
 
     private void OnTopToggled(object sender, RoutedEventArgs e)
@@ -289,9 +415,11 @@ public sealed partial class SettingsPage : Page
 
             GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
             BoardSelectionBox.SelectedIndex = Settings.boardMode;
-            MultiplayerPlayersBox.Value = Settings.numPlayers;
-            MultiplayerBotsBox.Value = Settings.numMultiplayerBots;
-            SpectatorBotsBox.Value = Settings.numSpectatorBots;
+
+            LoadPlayerBoxes();
+            //MultiplayerPlayersBox.Value = Settings.numPlayers;
+            //MultiplayerBotsBox.Value = Settings.numMultiplayerBots;
+            //SpectatorBotsBox.Value = Settings.numSpectatorBots;
             DifficultySelectionBox.SelectedIndex = Settings.difficulty;
             BotsSpeedSelectionBox.SelectedIndex = Settings.botsSpeed;
 
@@ -310,7 +438,7 @@ public sealed partial class SettingsPage : Page
             SquaresInfoToggleSwitch.IsOn = Settings.boardInfoEnabled;
             PlayerCounterToggleSwitch.IsOn = Settings.playerCounterEnabled;
 
-            UpdatePlayerBoxes(true);
+            UpdatePlayerBoxesV2(true);
         }
         catch (Exception e)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Numerics;
 using Microsoft.UI.Xaml;
 using Windows.Storage;
@@ -52,10 +53,10 @@ internal class Settings
 
         gamemode = (int)GetValue("gamemode", useDefault);
         boardMode = (int)GetValue("boardMode", useDefault);
-        numPlayers = (int)GetValue("numPlayers", useDefault);
+        numPlayers = Convert.ToInt32(GetValue("numPlayers", useDefault));
         numSingleplayerBots = (int)GetValue("numSingleplayerBots", useDefault);
-        numMultiplayerBots = (int)GetValue("numMultiplayerBots", useDefault);
-        numSpectatorBots = (int)GetValue("numSpectatorBots", useDefault);
+        numMultiplayerBots = Convert.ToInt32(GetValue("numMultiplayerBots", useDefault));
+        numSpectatorBots = Convert.ToInt32(GetValue("numSpectatorBots", useDefault));
 
         difficulty = (int)GetValue("difficulty", useDefault);
         botsSpeed = (int)GetValue("botsSpeed", useDefault);
@@ -84,6 +85,7 @@ internal class Settings
         {
             value ??= GetValue(key, true);
             localSettings.Values[key] = value;
+            //Debug.WriteLine("Saved | " + key + " : " + value.ToString());
             switch (key)
             {
                 case "theme":

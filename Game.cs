@@ -344,6 +344,16 @@ internal class Game
             }
             else
             { // hard
+                if(this.pieces.Count == 0)
+                {
+                    if (new Random().Next(10) < 5){
+                        double randomOffset = (new Random().NextDouble()-0.5)*2;
+                        int row = (int)((Settings.boardSize.Y - 1) / (2 + randomOffset));
+                        int col = (int)((Settings.boardSize.X - 1) / (2 + randomOffset));
+                        return PlacePiece(row,col);
+                    }
+                }
+
                 Vector2 selectedSpace = spaces[new Random().Next((int)spaces.Count)];
                 int selectedSpotPriority = 0;
                 int enemyPriority = 2;
