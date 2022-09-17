@@ -65,6 +65,18 @@
                     </StackPanel>
                     <ToggleSwitch x:Name="ClearlyUsedSquaresToggleSwitch" Toggled="OnClearSquaresToggled" HorizontalAlignment="Right" IsOn="False" />
                 </Grid>
+                <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="4" Height="72"
+                          BorderBrush="{ThemeResource CardStrokeColorDefault}" BorderThickness="1" HorizontalAlignment="Stretch" Padding="20,16,-60,16" >
+                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" VerticalAlignment="Center">
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe73f;" Margin="0,0,16,0" />
+                        <StackPanel VerticalAlignment="Center" Spacing="1">
+                            <TextBlock Text="Limit Board Size"/>
+                            <TextBlock Foreground="Gray" Style="{ThemeResource CaptionTextBlockStyle}"
+                                           Text="Avoid large squares on expanded windows"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <ToggleSwitch x:Name="LimitSizeToggleSwitch" Toggled="OnLimitSizeToggled" HorizontalAlignment="Right" IsOn="True" />
+                </Grid>
 
 
                 <TextBlock Text="General" Margin="4,16,0,2" ></TextBlock>

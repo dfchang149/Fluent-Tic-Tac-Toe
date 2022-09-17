@@ -35,6 +35,7 @@ public sealed partial class PlayingPage : Page
 
     private void BoardGridSizeChanged(object sender, RoutedEventArgs e)
     {
+        TurnTextBlock.FontSize = Math.Max(PageGrid.ActualHeight / 25,24);
         var aspectRatio = Settings.boardSize.X / Settings.boardSize.Y;
 
         if (aspectRatio > 1)
@@ -85,6 +86,10 @@ public sealed partial class PlayingPage : Page
 
     private void BoardLoaded(object sender, RoutedEventArgs e)
     {
+        if (Settings.limitBoardSize)
+        {
+            BoardGrid.MaxHeight = 96 * Settings.boardSize.Y;
+        }
         BoardGridSizeChanged(null,null);
 
         // Update Board

@@ -39,6 +39,7 @@ internal class Settings
 
     public static bool alwaysOnTop;
     public static bool clearlyPressedSquares;
+    public static bool limitBoardSize;
 
     public static MainWindow window;
 
@@ -50,6 +51,7 @@ internal class Settings
         theme = (int)GetValue("theme", useDefault);
         alwaysOnTop = (bool)GetValue("alwaysOnTop", useDefault);
         clearlyPressedSquares = (bool)GetValue("clearlyPressedSquares", useDefault);
+        limitBoardSize = (bool)GetValue("limitBoardSize", useDefault);
 
         gamemode = (int)GetValue("gamemode", useDefault);
         boardMode = (int)GetValue("boardMode", useDefault);
@@ -98,6 +100,9 @@ internal class Settings
                     break;
                 case "clearlyPressedSquares":
                     clearlyPressedSquares = (bool)value;
+                    break;
+                case "limitBoardSize":
+                    limitBoardSize = (bool)value;
                     break;
                 case "gamemode":
                     gamemode = (int)value;
@@ -169,6 +174,8 @@ internal class Settings
                 case "alwaysOnTop":
                     return false;
                 case "clearlyPressedSquares":
+                    return false;
+                case "limitBoardSize":
                     return false;
                 case "gamemode":
                     return 0;

@@ -12,18 +12,23 @@
 
     <Grid x:Name="PageGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="32" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="96" />
+            <RowDefinition Height="24" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="24" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <StackPanel Grid.Row="0" x:Name="PageStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel>
+            
+        </StackPanel>
+        <StackPanel Grid.Row="1" x:Name="PageStackPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel.ChildrenTransitions>
                 <TransitionCollection>
                     <EntranceThemeTransition FromHorizontalOffset="0" FromVerticalOffset="48" />
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
-            <TextBlock x:Name="TurnTextBlock" Text="Player 1's Turn" HorizontalAlignment="Center" Margin="0,32,0,24" Style="{StaticResource TitleTextBlockStyle}"/>
+            <TextBlock x:Name="TurnTextBlock" Text="Player 1's Turn" HorizontalAlignment="Center" Margin="0,32,0,24" Style="{ThemeResource TitleTextBlockStyle}"/>
             <StackPanel x:Name="InfosPanel" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,32" Spacing="24">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
@@ -32,31 +37,31 @@
                 </StackPanel.ChildrenTransitions>
                 <StackPanel x:Name="TimerInfo" Orientation="Horizontal" VerticalAlignment="Center" ToolTipService.ToolTip="Match time" >
                     <SymbolIcon Symbol="Clock" Margin="0,0,6,0" />
-                    <TextBlock x:Name="TimeTextBlock" Text="10" Style="{StaticResource BodyStrongTextBlockStyle}" />
+                    <TextBlock x:Name="TimeTextBlock" Text="10" Style="{ThemeResource BodyStrongTextBlockStyle}" />
                 </StackPanel>
                 <StackPanel x:Name="BoardsInfo" Orientation="Horizontal" VerticalAlignment="Center" ToolTipService.ToolTip="Squares taken" >
                     <!--Glyph: Ea60, Ea48-->
-                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xf5ed;" Margin="0,0,6,0" />
-                    <TextBlock x:Name="TurnsTextBlock" Text="0" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xf5ed;" Margin="0,0,6,0" />
+                    <TextBlock x:Name="TurnsTextBlock" Text="0" Style="{ThemeResource BodyStrongTextBlockStyle}"/>
                 </StackPanel>
                 <StackPanel x:Name="PlayersInfo" Orientation="Horizontal" VerticalAlignment="Center" ToolTipService.ToolTip="Number of real players" >
                     <SymbolIcon x:Name="PlayersIcon" Symbol="People" Margin="0,0,6,0"  />
-                    <TextBlock x:Name="PlayersTextBlock" Text="1" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                    <TextBlock x:Name="PlayersTextBlock" Text="1" Style="{ThemeResource BodyStrongTextBlockStyle}"/>
                 </StackPanel>
                 <StackPanel x:Name="BotsInfo" Orientation="Horizontal" VerticalAlignment="Center" ToolTipService.ToolTip="Number of bots" >
                     <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe99a;" Margin="0,0,6,0" />
-                    <TextBlock x:Name="BotsTextBlock" Text="0" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                    <TextBlock x:Name="BotsTextBlock" Text="0" Style="{ThemeResource BodyStrongTextBlockStyle}"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <Grid Grid.Row="1" x:Name="BoardGrid" Margin="64,0,64,0" SizeChanged="BoardGridSizeChanged"
+        <Grid Grid.Row="3" x:Name="BoardGrid" Margin="64,0,64,0" SizeChanged="BoardGridSizeChanged"
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid x:Name="Board" Loaded="BoardLoaded">
                 
             </Grid>
         </Grid>
-        <Button Name="AgainButton" Grid.Row="2"
-                    Height="48" HorizontalAlignment="Center" VerticalAlignment="Center" Click="PlayAgainButtonPressed" >
+        <Button Name="AgainButton" Grid.Row="5"
+                    Height="48" HorizontalAlignment="Center" VerticalAlignment="Top" Click="PlayAgainButtonPressed" >
             <Button.Transitions>
                 <TransitionCollection>
                     <EntranceThemeTransition FromHorizontalOffset="0" FromVerticalOffset="32" />

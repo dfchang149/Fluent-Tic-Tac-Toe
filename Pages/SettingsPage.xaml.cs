@@ -346,6 +346,14 @@ public sealed partial class SettingsPage : Page
         }
     }
 
+    private void OnLimitSizeToggled(object sender, RoutedEventArgs e)
+    {
+        if (this.IsLoaded)
+        {
+            Settings.SaveValue("limitBoardSize", LimitSizeToggleSwitch.IsOn);
+        }
+    }
+
     private void TimerToggled(object sender, RoutedEventArgs e)
     {
         if (this.IsLoaded)
@@ -377,6 +385,7 @@ public sealed partial class SettingsPage : Page
             ThemeSelectionBox.SelectedIndex = Settings.theme;
             OnTopToggleSwitch.IsOn = Settings.alwaysOnTop;
             ClearlyUsedSquaresToggleSwitch.IsOn = Settings.clearlyPressedSquares;
+            LimitSizeToggleSwitch.IsOn = Settings.limitBoardSize;
 
             GamemodeSelectionBox.SelectedIndex = Settings.gamemode;
             BoardSelectionBox.SelectedIndex = Settings.boardMode;
