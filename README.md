@@ -9,10 +9,15 @@
   A Fluent-styled game of Tic-Tac-Toe for Windows.
 </p>
 <p align="center">
+
   <a title="Platform" target="_blank">
 	<img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform" />
   </a>
+  
+  <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/dfchang149/Fluent-Tic-Tac-Toe?color=orange&label=Total%20lines">
+  <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/dfchang149/Fluent-Tic-Tac-Toe?label=Last%20commit">
 </p>
+
 
 ---
 
