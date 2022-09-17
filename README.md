@@ -18,6 +18,8 @@
 
 ## Installation
 
+> Currently awaiting certification
+
 Get it from the [Microsoft Store](https://www.microsoft.com/store/apps/9NPFG5ZPGXZR)
 
 
