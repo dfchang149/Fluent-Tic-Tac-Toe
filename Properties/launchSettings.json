@@ -1,7 +1,8 @@
 {
   "profiles": {
     "Fluent Tic-tac-toe (Package)": {
-      "commandName": "MsixPackage"
+      "commandName": "MsixPackage",
+      "nativeDebugging": false
     },
     "Fluent Tic-tac-toe (Unpackaged)": {
       "commandName": "Project"

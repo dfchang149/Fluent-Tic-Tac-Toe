@@ -14,13 +14,24 @@
   </a>
 </p>
 
-> Currently WIP
+---
 
-This app is a minor project for me to learn xaml and C# to build Window applications using their WinUI framework. As such, there may be many bugs throughout the software that I've unintentionally created, so bare with me.
+## Installation
+
+Get it from the [Microsoft Store](https://www.microsoft.com/store/apps/9NPFG5ZPGXZR)
+
 
 ## Screenshots
 
-<p align="center">
-	<img height="420" align="center" src="Images/screenshot1.png" />
-	<img height="420" align="center" src="Images/screenshot2.png" />
-<p>
+<div align="center">
+	<img src="Assets/Screenshots/ScreenshotLight.png" />
+	<img src="Assets/Screenshots/ScreenshotDark.png" />
+</div>
+
+## Creator's note
+This app started as a way for me to learn C# and xaml in order to build a desktop application using WinUI 3 and the .NET framework. As such, there are many obvious signs of inexperience when it comes to the app's code and functionality. If there's any feedback or advice on the project, feel free to contribute by reporting an [issue](https://github.com/dfchang149/Fluent-Tic-Tac-Toe/issues) or submitting a [pull request](https://github.com/dfchang149/Fluent-Tic-Tac-Toe/pulls).
+
+## License
+Copyright (c) 2022 Dustin Fu Chang
+
+Licensed under [MIT license](https://github.com/dfchang149/Fluent-Tic-Tac-Toe/blob/master/LICENSE.md)

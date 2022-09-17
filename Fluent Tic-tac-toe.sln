@@ -30,9 +30,9 @@ Global
 		{847F51DA-8568-4136-9919-3335903149CA}.Release|x64.ActiveCfg = Release|x64
 		{847F51DA-8568-4136-9919-3335903149CA}.Release|x64.Build.0 = Release|x64
 		{847F51DA-8568-4136-9919-3335903149CA}.Release|x64.Deploy.0 = Release|x64
-		{847F51DA-8568-4136-9919-3335903149CA}.Release|x86.ActiveCfg = Debug|x86
-		{847F51DA-8568-4136-9919-3335903149CA}.Release|x86.Build.0 = Debug|x86
-		{847F51DA-8568-4136-9919-3335903149CA}.Release|x86.Deploy.0 = Debug|x86
+		{847F51DA-8568-4136-9919-3335903149CA}.Release|x86.ActiveCfg = Release|x86
+		{847F51DA-8568-4136-9919-3335903149CA}.Release|x86.Build.0 = Release|x86
+		{847F51DA-8568-4136-9919-3335903149CA}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
