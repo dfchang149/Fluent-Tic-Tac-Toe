@@ -23,6 +23,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
     <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\LargeTile.scale-125.png" />
