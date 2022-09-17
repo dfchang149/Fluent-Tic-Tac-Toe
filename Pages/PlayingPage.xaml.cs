@@ -500,7 +500,6 @@ public sealed partial class PlayingPage : Page
             if (AgainButton.Parent != PageGrid)
             {
                 PageGrid.Children.Add(AgainButton);
-                Grid.SetRow(AgainButton, 2);
             }
         }
     }
