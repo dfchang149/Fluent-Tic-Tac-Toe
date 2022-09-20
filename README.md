@@ -23,10 +23,9 @@
 
 ## Installation
 
-> Currently awaiting certification
-
-Get it from the [Microsoft Store](https://www.microsoft.com/store/apps/9NPFG5ZPGXZR)
-
+<a title="Microsoft Store" target="_blank" href="www.microsoft.com/store/apps/9NPFG5ZPGXZR">
+  <img width="128" align="center" src="https://getbadgecdn.azureedge.net/images/English_L.png" />
+</a>
 
 ## Screenshots
 
