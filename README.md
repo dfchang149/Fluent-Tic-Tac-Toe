@@ -23,7 +23,7 @@
 
 ## Installation
 
-<a title="Microsoft Store" target="_blank" href="www.microsoft.com/store/apps/9NPFG5ZPGXZR">
+<a title="Microsoft Store" target="_blank" href="https://www.microsoft.com/en-us/p/fluent-tictactoe/9NPFG5ZPGXZR">
   <img width="128" align="center" src="https://getbadgecdn.azureedge.net/images/English_L.png" />
 </a>
 
