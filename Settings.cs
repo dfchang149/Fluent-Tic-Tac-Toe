@@ -63,10 +63,12 @@ internal class Settings
         difficulty = (int)GetValue("difficulty", useDefault);
         botsSpeed = (int)GetValue("botsSpeed", useDefault);
 
-        var cols = Convert.ToInt32(GetValue("boardCols", useDefault));
-        var rows = Convert.ToInt32(GetValue("boardRows", useDefault));
+        var isDefaultBoardMode = boardMode == 0;
+        var cols = Convert.ToInt32(GetValue("boardCols", isDefaultBoardMode));
+        var rows = Convert.ToInt32(GetValue("boardRows", isDefaultBoardMode));
         boardSize = new Vector2(cols, rows);
-        winPattern = (int)GetValue("winPattern", useDefault);
+        winPattern = (int)GetValue("winPattern", isDefaultBoardMode);
+
         matchTimerEnabled = (bool)GetValue("matchTimerEnabled", useDefault);
         boardInfoEnabled = (bool)GetValue("boardInfoEnabled", useDefault);
         playerCounterEnabled = (bool)GetValue("playerCounterEnabled", useDefault);
