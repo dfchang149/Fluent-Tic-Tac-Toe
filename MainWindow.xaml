@@ -6,6 +6,7 @@
     xmlns:local="using:Fluent_Tic_tac_toe"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
     MinWidth="500"     
     MinHeight="550"
     Title="Fluent Tic-Tac-Toe"
@@ -22,20 +23,15 @@
             <TextBlock Text="Fluent Tic-Tac-Toe" Margin="24,16,0,0" FontSize="12" />
         </Grid>
 
-        <CommandBar Margin="0,48,0,0" x:Name="BackButton">
-            <CommandBar.Transitions>
+        <AppBarButton x:Name="BackButton" Icon="Back" Height="48" Width="40" HorizontalAlignment="Left" VerticalAlignment="Top"
+                      Margin="4,44,0,0" Click="BackButtonClick" ToolTipService.ToolTip="Back"
+                      IsEnabled="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}">
+            <AppBarButton.Transitions>
                 <TransitionCollection>
                     <EntranceThemeTransition FromHorizontalOffset="16" FromVerticalOffset="0" />
                 </TransitionCollection>
-            </CommandBar.Transitions>
-            <CommandBar.Content>
-                <Button Click="BackButtonClick"
-                        Style="{StaticResource NavigationBackButtonNormalStyle}"
-                        IsEnabled="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}" 
-                        ToolTipService.ToolTip="Back" 
-                        VerticalAlignment="Top"/>
-            </CommandBar.Content>
-        </CommandBar>
+            </AppBarButton.Transitions>
+        </AppBarButton>
         <Frame x:Name="ContentFrame" Margin="0,48,0,0" Navigated="OnNavigated" />
     </Grid>
 
