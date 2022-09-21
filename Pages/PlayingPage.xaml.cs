@@ -131,6 +131,8 @@ public sealed partial class PlayingPage : Page
                     FontSize = 24,
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Center,
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
                     CenterPoint = new Vector3((float)(buttonLength / 2)),
                     Padding = new Thickness(0),
                     CornerRadius = new CornerRadius(buttonLength / 16),
@@ -536,7 +538,8 @@ public sealed partial class PlayingPage : Page
         textblock.HorizontalAlignment = HorizontalAlignment.Center;
         textblock.VerticalAlignment = VerticalAlignment.Center;
         textblock.TextAlignment = TextAlignment.Center;
-        textblock.FontSize = Math.Min(square.Height / 2.5,28);
+        textblock.FontSize = Math.Min(square.Height / 2.5,32);
+        square.Padding = new Thickness(0,0,0, textblock.FontSize/4);
         square.Content = textblock;
     }
 
