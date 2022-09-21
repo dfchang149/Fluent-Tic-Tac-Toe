@@ -11,7 +11,7 @@
 	<Identity
 	  Name="11250DustinChang.FluentTic-Tac-Toe"
 	  Publisher="CN=BCFF5582-96C0-4AE2-8E6E-C888E6C14018"
-	  Version="1.0.0.0" />
+	  Version="1.0.1.0" />
 
 	<Properties>
 		<DisplayName>Fluent Tic-Tac-Toe</DisplayName>
