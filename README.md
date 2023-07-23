@@ -14,7 +14,6 @@
 	<img src="https://img.shields.io/badge/Platform-Windows-blue" alt="Platform" />
   </a>
   
-  <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/dfchang149/Fluent-Tic-Tac-Toe?color=orange&label=Total%20lines">
   <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/dfchang149/Fluent-Tic-Tac-Toe?label=Last%20commit">
 </p>
 
@@ -23,8 +22,8 @@
 
 ## Installation
 
-<a title="Microsoft Store" target="_blank" href="https://www.microsoft.com/en-us/p/fluent-tictactoe/9NPFG5ZPGXZR">
-  <img width="128" align="center" src="https://getbadgecdn.azureedge.net/images/English_L.png" />
+<a title="Microsoft Store" target="_blank" href="https://www.microsoft.com/en-us/p/fluent-tic-tac-toe/9npfg5zpgxzr?">
+  <img width="164" align="center" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Get_it_from_Microsoft_Badge.svg/512px-Get_it_from_Microsoft_Badge.svg.png?20171029232220" />
 </a>
 
 ## Screenshots
