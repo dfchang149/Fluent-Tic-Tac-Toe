@@ -25,6 +25,30 @@
 <a title="Microsoft Store" target="_blank" href="https://www.microsoft.com/en-us/p/fluent-tic-tac-toe/9npfg5zpgxzr?">
   <img width="164" align="center" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Get_it_from_Microsoft_Badge.svg/512px-Get_it_from_Microsoft_Badge.svg.png?20171029232220" />
 </a>
+<br>
+<br>
+
+
+## Features 
+<p>Like most tic-tac-toe games, it features:</p>
+<ul>
+<b>Single-player:</b>  Play against a bot
+</ul>
+<ul>
+<b>Local Multiplayer:</b>  Play against friends on the same device
+</ul>
+<p>However, it also includes customization settings for:</p>
+<ul>
+<b>Board Sizes:</b>  Play on a 4x4 board instead of a 3x3
+</ul>
+<ul>
+<b>Number of Bots:</b>  Play against 2 or more bots instead of just 1
+</ul>
+<ul>
+<b>Bot Difficulty:</b>  Too easy or hard? Just change the difficulty
+</ul>
+
+<br>
 
 ## Screenshots
 
